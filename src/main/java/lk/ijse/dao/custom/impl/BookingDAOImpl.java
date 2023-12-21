@@ -1,5 +1,6 @@
 package lk.ijse.dao.custom.impl;
 
+import lk.ijse.dao.SQLUtil;
 import lk.ijse.dao.custom.BookingDAO;
 import lk.ijse.db.DbConnection;
 import lk.ijse.dto.BookDTO;
@@ -17,10 +18,7 @@ import java.util.List;
 public class BookingDAOImpl implements BookingDAO {
    @Override
     public String generateNextId() throws SQLException {
-        Connection connection = DbConnection.getInstance().getConnection();
-
-        String sql = "SELECT bId FROM booking ORDER BY bId DESC LIMIT 1";
-        ResultSet resultSet = connection.prepareStatement(sql).executeQuery();
+       ResultSet resultSet = SQLUtil.execute("SELECT bId FROM booking ORDER BY bId DESC LIMIT 1");
 
         String currentBookingId = null;
 
@@ -50,19 +48,14 @@ public class BookingDAOImpl implements BookingDAO {
 
     @Override
     public boolean save(BookDTO bookDTO) throws SQLException {
-        Connection connection = DbConnection.getInstance().getConnection();
-
-        String sql = "INSERT INTO booking VALUES(?, ?, ?, ?, ?, ?)";
-        PreparedStatement pstm = connection.prepareStatement(sql);
-
-        pstm.setString(1, bookDTO.getBId());
-        pstm.setString(2, bookDTO.getPickUpDate());
-        pstm.setInt(3, bookDTO.getDays());
-        pstm.setString(4, bookDTO.getStatus());
-        pstm.setDouble(5, bookDTO.getPayment());
-        pstm.setString(6, bookDTO.getCusId());
-
-        return pstm.executeUpdate() > 0;
+        return SQLUtil.execute( "INSERT INTO booking VALUES(?, ?, ?, ?, ?, ?)",
+                bookDTO.getBId(),
+                bookDTO.getPickUpDate(),
+                bookDTO.getDays(),
+                bookDTO.getStatus(),
+                bookDTO.getPayment(),
+                bookDTO.getCusId()
+        );
     }
 
     @Override
@@ -81,24 +74,27 @@ public class BookingDAOImpl implements BookingDAO {
     }
     @Override
     public boolean UpdateBooking(BookingDetailDTO bookingDetailDTO) throws SQLException {
-        Connection connection = DbConnection.getInstance().getConnection();
-
-        String sql = "UPDATE booking SET status = 'PAID' WHERE bId = ?";
-        PreparedStatement pstm = connection.prepareStatement(sql);
-        pstm.setString(1, bookingDetailDTO.getBId());
-
-        return pstm.executeUpdate() > 0;
+        return SQLUtil.execute("UPDATE booking SET status = 'PAID' WHERE bId = ?",
+                bookingDetailDTO.getBId()
+        );
     }
     @Override
     public List<PendingDTO> getAllPendings() throws SQLException {
-        Connection connection = DbConnection.getInstance().getConnection();
-
-        String sql = "select b.bId,b.cusId,b.pickUpDate,b.days,b.payment,bd.drId,bd.carNo from bookingDetail bd left join booking b on b.bId = bd.bId where status = 'Pending'";
-        PreparedStatement pstm = connection.prepareStatement(sql);
-
         List<PendingDTO> dtoList = new ArrayList<>();
-
-        ResultSet resultSet = pstm.executeQuery();
+        ResultSet resultSet = SQLUtil.execute("select\n"+
+                        "   b.bId,\n"+
+                        "   b.cusId,\n"+
+                        "   b.pickUpDate,\n"+
+                        "   b.days,\n"+
+                        "   b.payment,\n"+
+                        "   bd.drId,\n"+
+                        "   bd.carNo\n"+
+                        "from\n"+
+                        "   bookingDetail bd\n"+
+                        "       left join\n"+
+                        "   booking b on b.bId = bd.bId\n"+
+                        "where status = 'Pending'"
+                );
 
         while (resultSet.next()){
             String rent_id = resultSet.getString(1);
@@ -117,47 +113,46 @@ public class BookingDAOImpl implements BookingDAO {
 
     @Override
     public boolean delete(String bId) throws SQLException {
-        Connection connection = DbConnection.getInstance().getConnection();
-        PreparedStatement pstm2 = connection.prepareStatement("DELETE FROM booking WHERE bId = ?");
-
-        pstm2.setString(1, bId);
-
-        return pstm2.executeUpdate() > 0;
+        return SQLUtil.execute("DELETE FROM booking WHERE bId = ?",
+                bId
+        );
     }
     @Override
     public boolean updatePendingBooking(PendingDTO dto) throws SQLException {
-        Connection connection = DbConnection.getInstance().getConnection();
+        boolean isUpdate = SQLUtil.execute("UPDATE bookingdetail SET carNo = ?, drId = ? WHERE bId = ?",
+                dto.getCarNo(),
+                dto.getDrId(),
+                dto.getBId()
+        );
 
-        PreparedStatement pstm1 = connection.prepareStatement("UPDATE bookingdetail SET carNo = ?, drId = ? WHERE bId = ?");
-
-        pstm1.setString(1, dto.getCarNo());
-        pstm1.setString(2, dto.getDrId());
-        pstm1.setString(3, dto.getBId());
-
-        if(pstm1.executeUpdate() > 0){
-            PreparedStatement pstm2 = connection.prepareStatement("UPDATE booking SET pickUpDate = ?, days = ?, payment = ?, cusId = ? WHERE bId = ?");
-
-            pstm2.setString(1, dto.getPickUpDate());
-            pstm2.setInt(2, dto.getDays());
-            pstm2.setDouble(3, dto.getPayment());
-            pstm2.setString(4, dto.getCusId());
-            pstm2.setString(5, dto.getBId());
-
-            return pstm2.executeUpdate() > 0;
+        if(isUpdate){
+            return SQLUtil.execute("UPDATE booking SET pickUpDate = ?, days = ?, payment = ?, cusId = ? WHERE bId = ?",
+                    dto.getPickUpDate(),
+                    dto.getDays(),
+                    dto.getPayment(),
+                    dto.getCusId(),
+                    dto.getBId()
+            );
         }
 
         return false;
     }
     @Override
    public List<CompleteDTO> getAllCompletes() throws SQLException {
-        Connection connection = DbConnection.getInstance().getConnection();
-
-        String sql = "select b.bId,b.cusId,b.pickUpDate,b.days,p.totalPayment from booking b join payment p on b.bId = p.bId where b.status = 'PAID'";
-        PreparedStatement pstm = connection.prepareStatement(sql);
-
         List<CompleteDTO> dtoList = new ArrayList<>();
 
-        ResultSet resultSet = pstm.executeQuery();
+        ResultSet resultSet = SQLUtil.execute("select\n"+
+                "   b.bId,\n"+
+                "   b.cusId,\n"+
+                "   b.pickUpDate,\n"+
+                "   b.days,\n"+
+                "   p.totalPayment\n"+
+                "from\n"+
+                "   booking b\n"+
+                "       join\n"+
+                "   payment p on b.bId = p.bId\n"+
+                "where b.status = 'PAID'"
+        );
 
         while (resultSet.next()){
             String rent_id = resultSet.getString(1);
@@ -173,12 +168,7 @@ public class BookingDAOImpl implements BookingDAO {
     }
     @Override
     public int getCountBooking() throws SQLException {
-        Connection connection = DbConnection.getInstance().getConnection();
-
-        String sql = "select count(bId) from booking";
-        PreparedStatement pstm = connection.prepareStatement(sql);
-
-        ResultSet resultSet = pstm.executeQuery();
+        ResultSet resultSet = SQLUtil.execute("select count(bId) from booking");
 
         int count = 0;
 
