@@ -1,20 +1,17 @@
-package lk.ijse.model;
+package lk.ijse.dao.custom.impl;
 
 import lk.ijse.db.DbConnection;
-import lk.ijse.dto.BookDTO;
 import lk.ijse.dto.BookingDetailDTO;
-import lk.ijse.dto.PaymentDetailDTO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-public class BookingDetailModel {
-    public static BookingDetailDTO searchbookingDetail(String bId) throws SQLException {
+public class BookingDetailDAOImpl {
+    /*public static BookingDetailDTO searchbookingDetail(String bId) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
         String sql = "SELECT * FROM bookingdetail WHERE bId = ?";
@@ -36,7 +33,7 @@ public class BookingDetailModel {
         }
 
         return dto;
-    }
+    }*/
     /*public boolean saveBookingDetail(String bId, List<BookTm> bookList) throws SQLException {
         for (BookTm bookTm : bookList) {
             if(!saveBookingDetail(bId, bookTm)) {

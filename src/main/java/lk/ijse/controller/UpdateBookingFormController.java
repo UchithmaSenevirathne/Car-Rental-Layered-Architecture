@@ -11,10 +11,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import lk.ijse.dto.CarDto;
 import lk.ijse.dto.PendingDTO;
-import lk.ijse.model.BookingModel;
-import lk.ijse.model.CarModel;
+import lk.ijse.dao.custom.impl.BookingDAOImpl;
 
 import java.time.LocalDate;
 
@@ -63,7 +61,7 @@ public class UpdateBookingFormController {
 
         var dto = new PendingDTO(bId,cusId,drId,carNo,date,days,payment);
 
-        var model = new BookingModel();
+        var model = new BookingDAOImpl();
 
         try{
             boolean isUpdated = model.updatePendingBooking(dto);

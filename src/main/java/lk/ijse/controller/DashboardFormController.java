@@ -1,6 +1,5 @@
 package lk.ijse.controller;
 
-import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -9,26 +8,20 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.chart.BarChart;
-import javafx.scene.chart.PieChart;
-import javafx.scene.chart.XYChart;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import lk.ijse.dto.CarDto;
 import lk.ijse.dto.CarOutDto;
 import lk.ijse.dto.DriverInTimeDto;
 import lk.ijse.dto.tm.CarOutTM;
-import lk.ijse.dto.tm.CarTm;
 import lk.ijse.dto.tm.DriverInTimeTM;
-import lk.ijse.model.BookingModel;
-import lk.ijse.model.CarModel;
-import lk.ijse.model.CustomerModel;
-import lk.ijse.model.DriverModel;
+import lk.ijse.dao.custom.impl.BookingDAOImpl;
+import lk.ijse.dao.custom.impl.CarDAOImpl;
+import lk.ijse.dao.custom.impl.CustomerDAOImpl;
+import lk.ijse.dao.custom.impl.DriverDAOImpl;
 
 import java.io.IOException;
 import java.net.URL;
@@ -87,12 +80,12 @@ public class DashboardFormController implements Initializable{
     private void loadAllDrIn() {
         obListDrLog.clear();
 
-        var model = new DriverModel();
+        //var model = new DriverDAOImpl();
 
         try {
             String date = String.valueOf(LocalDate.now());
 
-            List<DriverInTimeDto> dtoList = model.gerDrInTime(date);
+            List<DriverInTimeDto> dtoList = DriverDAOImpl.gerDrInTime(date);
 
             for (DriverInTimeDto dto : dtoList){
                 obListDrLog.add(
@@ -114,13 +107,13 @@ public class DashboardFormController implements Initializable{
     }
 
     private void setValuesLables() {
-        var modelBook = new BookingModel();
-        var modelCus = new CustomerModel();
+        var modelBook = new BookingDAOImpl();
+        //var modelCus = new CustomerDAOImpl();
 
         try{
             int countBooking = modelBook.getCountBooking();
 
-            int countCustomers = modelCus.getCountCus();
+            int countCustomers = CustomerDAOImpl.getCountCus();
 
             lblBookings.setText(String.valueOf(countBooking));
             lbltravellers.setText(String.valueOf(countCustomers));
@@ -135,10 +128,10 @@ public class DashboardFormController implements Initializable{
     private void loadAllCars() {
         obListCar.clear();
 
-        var model = new CarModel();
+        //var model = new CarDAOImpl();
 
         try {
-            List<CarOutDto> dtoList = model.getCarOut();
+            List<CarOutDto> dtoList = CarDAOImpl.getCarOut();
 
             for (CarOutDto dto : dtoList){
                 obListCar.add(

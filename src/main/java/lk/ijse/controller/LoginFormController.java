@@ -11,9 +11,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import lk.ijse.dao.custom.UserDAO;
 import lk.ijse.dto.ScheduleDTO;
-import lk.ijse.model.ScheduleModel;
-import lk.ijse.model.UserModel;
+import lk.ijse.dao.custom.impl.ScheduleDAOImpl;
+import lk.ijse.dao.custom.impl.UserDAOImpl;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -32,13 +33,15 @@ public class LoginFormController {
     @FXML
     private TextField txtUserName;
 
+    UserDAO userDAO = new UserDAOImpl();
+
     @FXML
     void btnSignInOnAction(ActionEvent event){
         String userName = txtUserName.getText();
         String password = fieldPassword.getText();
         try {
 
-            boolean isIn = UserModel.searchUser(userName, password);
+            boolean isIn = UserDAOImpl.search(userName, password);
             if (!isIn) {
                 new Alert(Alert.AlertType.WARNING, "Invalid UserName or Password").show();
                 return;
@@ -52,20 +55,20 @@ public class LoginFormController {
     }
 
     private void isAdmin(String userName, String password){
-        var userModel = new UserModel();
+        //var userModel = new UserDAOImpl();
 
         try {
 
-            var schedModel = new ScheduleModel();
+            var schedModel = new ScheduleDAOImpl();
 
-            boolean isAdmin = userModel.checkAdmin(userName,password);
+            boolean isAdmin = UserDAOImpl.checkAdmin(userName,password);
 
             String date = String.valueOf(LocalDate.now());
             LocalTime currentTime = LocalTime.now();
             String time = currentTime.format(DateTimeFormatter.ofPattern("HH:mm"));
             String logId = generateNextLogId();
 
-            UserModel.saveLogin(logId, userName, date, time);
+            UserDAOImpl.saveLogin(logId, userName, date, time);
 
             if(isAdmin){
                 Parent rootNode = FXMLLoader.load(getClass().getResource("/view/DashboardForm.fxml"));
@@ -100,7 +103,7 @@ public class LoginFormController {
 
     private String generateNextLogId() {
         try {
-            String logId = UserModel.generateNextLogId();
+            String logId = userDAO.generateNextId();
             return logId;
         } catch (Exception e) {
             throw new RuntimeException(e);

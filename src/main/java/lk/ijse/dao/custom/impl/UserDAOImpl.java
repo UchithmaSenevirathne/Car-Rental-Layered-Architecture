@@ -1,5 +1,6 @@
-package lk.ijse.model;
+package lk.ijse.dao.custom.impl;
 
+import lk.ijse.dao.custom.UserDAO;
 import lk.ijse.db.DbConnection;
 import lk.ijse.dto.UserDTO;
 
@@ -10,9 +11,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserModel {
+public class UserDAOImpl implements UserDAO {
 
-    public static boolean searchUser(String userName, String password) throws SQLException {
+    public static boolean search(String userName, String password) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
         String sql = "SELECT * FROM user WHERE userName = ? AND password = ?";
@@ -28,7 +29,17 @@ public class UserModel {
         return false;
     }
 
-    public static String generateNextLogId() throws SQLException {
+    @Override
+    public List<UserDTO> getAll() throws SQLException {
+        return null;
+    }
+
+    @Override
+    public UserDTO search(String id) throws SQLException {
+        return null;
+    }
+
+    public String generateNextId() throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
         String sql = "SELECT logId FROM login ORDER BY logId DESC LIMIT 1";
@@ -94,7 +105,7 @@ public class UserModel {
         return dtoList;
     }
 
-    public String getPassword(String userName) throws SQLException {
+    public static String getPassword(String userName) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
         String sql = "SELECT password FROM user WHERE userName = ?";
@@ -112,7 +123,7 @@ public class UserModel {
         return password;
     }
 
-    public boolean checkAdmin(String userName, String password) throws SQLException {
+    public static boolean checkAdmin(String userName, String password) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
         String sql = "SELECT * FROM user where userName = ? and password = ? and role = 'ADM'";
@@ -142,7 +153,7 @@ public class UserModel {
         return false;
     }
 
-    public boolean deleteAdmin(String userName) throws SQLException {
+    public boolean delete(String userName) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
         String sql = "DELETE FROM user WHERE userName = ?";
@@ -153,7 +164,7 @@ public class UserModel {
         return pstm.executeUpdate() > 0;
     }
 
-    public boolean updateAdmin(UserDTO userDto) throws SQLException {
+    public boolean update(UserDTO userDto) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
         String sql = "UPDATE user SET password = ?, email = ?, role = ? WHERE userName = ?";
@@ -167,7 +178,7 @@ public class UserModel {
         return pstm.executeUpdate()>0;
     }
 
-    public boolean saveAdmin(UserDTO userDto) throws SQLException {
+    public boolean save(UserDTO userDto) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
         PreparedStatement pstm = connection.prepareStatement("INSERT INTO user VALUES(?, ?, ?, ?)");
@@ -180,7 +191,7 @@ public class UserModel {
         return pstm.executeUpdate() > 0;
     }
 
-    public boolean isSuperAdm(String password) throws SQLException {
+    public static boolean isSuperAdm(String password) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
         PreparedStatement pstm = connection.prepareStatement("SELECT password FROM user WHERE userName = 'Sadmin'");
@@ -197,7 +208,7 @@ public class UserModel {
         return false;
     }
 
-    public boolean checkUserName(String userName) throws SQLException {
+    public static boolean checkUserName(String userName) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
         String sql = "SELECT * FROM user where userName = ?";
@@ -224,7 +235,7 @@ public class UserModel {
         return true;
     }
 
-    public String getEmail(String userName) throws SQLException {
+    public static String getEmail(String userName) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
         String sql = "SELECT email FROM user WHERE userName = ?";
@@ -242,7 +253,7 @@ public class UserModel {
         return email;
     }
 
-    public boolean changePwd(String confirmPwd, String userName) throws SQLException {
+    public static boolean changePwd(String confirmPwd, String userName) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
         String sql = "UPDATE user SET password = ? WHERE userName = ?";

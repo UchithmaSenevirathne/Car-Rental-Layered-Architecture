@@ -11,8 +11,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import lk.ijse.dto.SalaryDTO;
-import lk.ijse.model.CarModel;
-import lk.ijse.model.SalaryModel;
+import lk.ijse.dao.custom.impl.SalaryDAOImpl;
 
 public class AddSalaryFormController {
     @FXML
@@ -47,7 +46,7 @@ public class AddSalaryFormController {
 
         var dto = new SalaryDTO(drSalId, drId, amount, month);
 
-        var model = new SalaryModel();
+        var model = new SalaryDAOImpl();
 
         try{
             boolean isSaved = model.saveSalary(dto);

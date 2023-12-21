@@ -1,9 +1,8 @@
-package lk.ijse.model;
+package lk.ijse.dao.custom.impl;
 
+import lk.ijse.dao.custom.CustomerDAO;
 import lk.ijse.db.DbConnection;
 import lk.ijse.dto.CustomerDto;
-import lk.ijse.dto.DriverDto;
-import lk.ijse.dto.UserDTO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -12,9 +11,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CustomerModel {
+public class CustomerDAOImpl implements CustomerDAO {
 
-    public boolean saveCustomer(CustomerDto dto) throws SQLException {
+    public boolean save(CustomerDto dto) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
         String sql = "INSERT INTO customer VALUES(?, ?, ?, ?, ?)";
@@ -31,7 +30,7 @@ public class CustomerModel {
         return isSaved;
     }
 
-    public List<CustomerDto> getAllCustomers() throws SQLException {
+    public List<CustomerDto> getAll() throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
         String sql = "SELECT * FROM customer";
@@ -54,7 +53,7 @@ public class CustomerModel {
         return dtoList;
     }
 
-    public CustomerDto searchCustomer(String id) throws SQLException {
+    public CustomerDto search(String id) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
         String sql = "SELECT * FROM customer WHERE cusId = ?";
@@ -78,7 +77,7 @@ public class CustomerModel {
         return dto;
     }
 
-    public boolean updateCustomer(CustomerDto dto) throws SQLException {
+    public boolean update(CustomerDto dto) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
         String sql = "UPDATE customer SET name = ?, address = ?, email = ?, contact = ?  WHERE cusId = ?";
@@ -93,7 +92,7 @@ public class CustomerModel {
         return pstm.executeUpdate() > 0;
     }
 
-    public boolean deleteCustomer(String id) throws SQLException {
+    public boolean delete(String id) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
         String sql = "DELETE FROM customer WHERE cusId = ?";
@@ -104,7 +103,7 @@ public class CustomerModel {
         return pstm.executeUpdate() > 0;
     }
 
-    public String generateNextCusId() throws SQLException {
+    public String generateNextId() throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
         String sql = "SELECT cusId FROM customer ORDER BY cusId DESC LIMIT 1";
@@ -135,7 +134,7 @@ public class CustomerModel {
         return "C001";
     }
 
-    public int getCountCus() throws SQLException {
+    public static int getCountCus() throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
         String sql = "select count(cusId) from customer";

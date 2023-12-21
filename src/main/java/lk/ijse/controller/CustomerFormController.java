@@ -1,7 +1,5 @@
 package lk.ijse.controller;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -14,13 +12,11 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import lk.ijse.Validation.Validate;
+import lk.ijse.dao.custom.CustomerDAO;
 import lk.ijse.dto.CustomerDto;
-import lk.ijse.dto.tm.CustomerTm;
-import lk.ijse.model.CustomerModel;
+import lk.ijse.dao.custom.impl.CustomerDAOImpl;
 
 import java.sql.SQLException;
-import java.util.List;
-import java.util.regex.Pattern;
 
 public class CustomerFormController {
 
@@ -47,6 +43,8 @@ public class CustomerFormController {
 
     Stage stage;
 
+    CustomerDAO customerDAO = new CustomerDAOImpl();
+
     @FXML
     void btnCancelCusOnAction(ActionEvent event) {
         stage = (Stage) rootNode.getScene().getWindow();
@@ -63,12 +61,12 @@ public class CustomerFormController {
 
         var dto = new CustomerDto(id, name, address, email, contact);
 
-        var model = new CustomerModel();
+        //var model = new CustomerDAOImpl();
 
         try {
             if(validateCustomer(id, name, address, email, contact)) {
                 if (btnCusFormBtn.getText().equals("UPDATE")) {
-                    boolean isUpdated = model.updateCustomer(dto);
+                    boolean isUpdated = customerDAO.update(dto);
                     if (isUpdated) {
                         FXMLLoader loader = new FXMLLoader(getClass().getResource("/Alert/Confirmation.fxml"));
 
@@ -89,7 +87,7 @@ public class CustomerFormController {
                         btnCancelCusOnAction(event);
                     }
                 } else if (btnCusFormBtn.getText().equals("SAVE")) {
-                    boolean isSaved = model.saveCustomer(dto);
+                    boolean isSaved = customerDAO.save(dto);
                     if (isSaved) {
                         FXMLLoader loader = new FXMLLoader(getClass().getResource("/Alert/Confirmation.fxml"));
 

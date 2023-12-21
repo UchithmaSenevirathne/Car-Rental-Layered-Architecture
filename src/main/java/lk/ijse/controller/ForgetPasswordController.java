@@ -7,15 +7,11 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import lk.ijse.dto.ScheduleDTO;
-import lk.ijse.model.UserModel;
+import lk.ijse.dao.custom.impl.UserDAOImpl;
 import lk.ijse.util.SendMail;
 
-import javax.mail.MessagingException;
 import java.io.IOException;
-import java.util.List;
 import java.util.Random;
 
 public class ForgetPasswordController {
@@ -35,12 +31,12 @@ public class ForgetPasswordController {
     void btnSendOTPOnAction(ActionEvent event) {
         String userName = txtUserName.getText();
 
-        var model = new UserModel();
+        //var model = new UserDAOImpl();
         try {
-            boolean isvalidUserName = model.checkUserName(userName);
+            boolean isvalidUserName = UserDAOImpl.checkUserName(userName);
 
             if(isvalidUserName) {
-                String email = model.getEmail(userName);
+                String email = UserDAOImpl.getEmail(userName);
 
                 random = new Random().nextInt(9000);
                 OTP = 1000+random;

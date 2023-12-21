@@ -11,19 +11,16 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import lk.ijse.dao.custom.CustomerDAO;
 import lk.ijse.dto.CustomerDto;
 import lk.ijse.dto.tm.CustomerTm;
-import lk.ijse.model.CustomerModel;
+import lk.ijse.dao.custom.impl.CustomerDAOImpl;
 
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.List;
-import java.util.Locale;
 import java.util.Optional;
 
 public class CustomerManageFormController {
@@ -61,6 +58,8 @@ public class CustomerManageFormController {
 
     private final ObservableList<CustomerTm> obList = FXCollections.observableArrayList();
 
+    CustomerDAO customerDAO = new CustomerDAOImpl();
+
     public void initialize(){
         setCellValueFactory();
         loadAllCustomers();
@@ -79,12 +78,12 @@ public class CustomerManageFormController {
     public void loadAllCustomers(){
         obList.clear();
 
-        var model = new CustomerModel();
+        //var model = new CustomerDAOImpl();
 
         //ObservableList<CustomerTm> obList = FXCollections.observableArrayList();
 
         try{
-            List<CustomerDto> dtoList = model.getAllCustomers();
+            List<CustomerDto> dtoList = customerDAO.getAll();
 
             for(CustomerDto dto : dtoList){
                 Button updateButton = new Button("Update");
@@ -154,10 +153,10 @@ public class CustomerManageFormController {
     }
 
     private void deleteCustomer(String id){
-        var model = new CustomerModel();
+        //var model = new CustomerDAOImpl();
 
         try {
-            boolean b = model.deleteCustomer(id);
+            boolean b = customerDAO.delete(id);
 
             if(b){
                 loadAllCustomers();
@@ -205,10 +204,10 @@ public class CustomerManageFormController {
 
     @FXML
     void btnADDCusOnAction(ActionEvent event) throws IOException {
-        var model = new CustomerModel();
+        //var model = new CustomerDAOImpl();
 
         try {
-            String cusId = model.generateNextCusId();
+            String cusId = customerDAO.generateNextId();
 
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/CustomerForm.fxml"));
 

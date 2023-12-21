@@ -1,4 +1,4 @@
-package lk.ijse.model;
+package lk.ijse.dao.custom.impl;
 
 import lk.ijse.db.DbConnection;
 import lk.ijse.dto.BookDTO;
@@ -7,11 +7,11 @@ import lk.ijse.dto.BookingDetailDTO;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-public class MakeBookingModel {
-    private final BookingModel bookingModel = new BookingModel();
-    private final CarModel carModel = new CarModel();
-    private final DriverModel driverModel = new DriverModel();
-    private final BookingDetailModel bookingDetailModel = new BookingDetailModel();
+public class MakeBookingDAOImpl {
+    private final BookingDAOImpl bookingModel = new BookingDAOImpl();
+    private final CarDAOImpl carModel = new CarDAOImpl();
+    private final DriverDAOImpl driverModel = new DriverDAOImpl();
+    private final BookingDetailDAOImpl bookingDetailModel = new BookingDetailDAOImpl();
 
     public boolean makeBooking(BookDTO bookDto) throws SQLException {
         boolean result = false;
@@ -20,7 +20,7 @@ public class MakeBookingModel {
             connection = DbConnection.getInstance().getConnection();
             connection.setAutoCommit(false);
 
-            boolean isBookingSaved = BookingModel.saveBooking(bookDto.getBId(), bookDto.getPickUpDate(), bookDto.getDays(), bookDto.getStatus(), bookDto.getPayment(), bookDto.getCusId());
+            boolean isBookingSaved = BookingDAOImpl.saveBooking(bookDto.getBId(), bookDto.getPickUpDate(), bookDto.getDays(), bookDto.getStatus(), bookDto.getPayment(), bookDto.getCusId());
             System.out.println("booking "+ isBookingSaved);
             if (isBookingSaved) {
                 for(BookingDetailDTO bookingDetail : bookDto.getBookingList()){

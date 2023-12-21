@@ -1,4 +1,4 @@
-package lk.ijse.model;
+package lk.ijse.dao.custom.impl;
 
 import lk.ijse.db.DbConnection;
 import lk.ijse.dto.*;
@@ -8,14 +8,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-public class PaymentModel {
+public class PaymentDAOImpl {
 
-    private static final CarModel carModel = new CarModel();
-    private static final DriverModel driverModel = new DriverModel();
-    private static final BookingModel bookingModel = new BookingModel();
+    private static final CarDAOImpl carModel = new CarDAOImpl();
+    private static final DriverDAOImpl driverModel = new DriverDAOImpl();
+    private static final BookingDAOImpl bookingModel = new BookingDAOImpl();
 
     public static List<PaymentDetailDTO> searchPaymentDetail(String bId) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();

@@ -11,10 +11,9 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import lk.ijse.Validation.Validate;
+import lk.ijse.dao.custom.CarDAO;
 import lk.ijse.dto.CarDto;
-import lk.ijse.model.CarModel;
-
-import java.util.regex.Pattern;
+import lk.ijse.dao.custom.impl.CarDAOImpl;
 
 public class CarFormController {
     @FXML
@@ -46,6 +45,8 @@ public class CarFormController {
 
     Stage stage;
 
+    CarDAO carDAO = new CarDAOImpl();
+
     @FXML
     void btnCancelCarOnAction(ActionEvent event) {
         stage = (Stage) rootNode.getScene().getWindow();
@@ -64,12 +65,12 @@ public class CarFormController {
 
         var dto = new CarDto(carNo, brand, availa, currentMileage, kmOneDay, priceOneDay, priceExtraKm);
 
-        var model = new CarModel();
+        //var model = new CarDAOImpl();
 
         try{
             if(validateCar(carNo)) {
                 if (btnCarForm.getText().equals("UPDATE")) {
-                    boolean isUpdated = model.updateCar(dto);
+                    boolean isUpdated = carDAO.update(dto);
                     if (isUpdated) {
                         FXMLLoader loader = new FXMLLoader(getClass().getResource("/Alert/Confirmation.fxml"));
 
@@ -90,7 +91,7 @@ public class CarFormController {
                         btnCancelCarOnAction(event);
                     }
                 } else if (btnCarForm.getText().equals("SAVE")) {
-                    boolean isSaved = model.saveCar(dto);
+                    boolean isSaved = carDAO.save(dto);
 
                     if (isSaved) {
                         FXMLLoader loader = new FXMLLoader(getClass().getResource("/Alert/Confirmation.fxml"));

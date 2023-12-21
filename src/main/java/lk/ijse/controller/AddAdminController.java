@@ -12,8 +12,9 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import lk.ijse.Validation.Validate;
+import lk.ijse.dao.custom.UserDAO;
 import lk.ijse.dto.UserDTO;
-import lk.ijse.model.UserModel;
+import lk.ijse.dao.custom.impl.UserDAOImpl;
 
 public class AddAdminController {
     @FXML
@@ -31,6 +32,8 @@ public class AddAdminController {
     @FXML
     private TextField txtUName;
 
+    UserDAO userDAO = new UserDAOImpl();
+
     @FXML
     void btnSaveOnAction(ActionEvent event) {
         String userName = txtUName.getText();
@@ -39,12 +42,12 @@ public class AddAdminController {
 
         var userDto = new UserDTO(userName, password, email, "ADM");
 
-        var model = new UserModel();
+        //var model = new UserDAOImpl();
 
         try {
             if(ValidateAdmin(userName,email,password)) {
                 if (btnAdminFormBtn.getText().equals("UPDATE")) {
-                    boolean isUpdate = model.updateAdmin(userDto);
+                    boolean isUpdate = userDAO.update(userDto);
                     if (isUpdate) {
                         FXMLLoader loader = new FXMLLoader(getClass().getResource("/Alert/Confirmation.fxml"));
 
@@ -63,7 +66,7 @@ public class AddAdminController {
                         clearFields();
                     }
                 } else if (btnAdminFormBtn.getText().equals("SAVE")) {
-                    boolean isSaved = model.saveAdmin(userDto);
+                    boolean isSaved = userDAO.save(userDto);
 
                     if (isSaved) {
                         FXMLLoader loader = new FXMLLoader(getClass().getResource("/Alert/Confirmation.fxml"));

@@ -1,7 +1,6 @@
-package lk.ijse.model;
+package lk.ijse.dao.custom.impl;
 
 import lk.ijse.db.DbConnection;
-import lk.ijse.dto.DriverDto;
 import lk.ijse.dto.ScheduleDTO;
 
 import java.sql.Connection;
@@ -11,7 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ScheduleModel {
+public class ScheduleDAOImpl {
 
     public List<ScheduleDTO> getSchedule(String userName) throws SQLException {
         System.out.println("++++++");

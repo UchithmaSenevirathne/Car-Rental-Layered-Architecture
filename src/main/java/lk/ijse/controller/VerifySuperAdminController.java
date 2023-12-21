@@ -9,7 +9,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.PasswordField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import lk.ijse.model.UserModel;
+import lk.ijse.dao.custom.impl.UserDAOImpl;
 
 import java.io.IOException;
 
@@ -27,10 +27,10 @@ public class VerifySuperAdminController {
     void superAdVerifyOnAction(ActionEvent event) {
         String pwd = pwdFieldVerify.getText();
 
-        var model = new UserModel();
+        //var model = new UserDAOImpl();
 
         try{
-            boolean isSuperAdm = model.isSuperAdm(pwd);
+            boolean isSuperAdm = UserDAOImpl.isSuperAdm(pwd);
 
             if(isSuperAdm){
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/AdminManage.fxml"));

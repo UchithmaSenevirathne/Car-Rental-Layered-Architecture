@@ -16,14 +16,11 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import lk.ijse.dto.CompleteDTO;
 import lk.ijse.dto.PendingDTO;
-import lk.ijse.dto.tm.CarTm;
 import lk.ijse.dto.tm.CompleteTm;
 import lk.ijse.dto.tm.PendingTm;
-import lk.ijse.model.BookingModel;
-import lk.ijse.model.CarModel;
+import lk.ijse.dao.custom.impl.BookingDAOImpl;
 
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
@@ -119,7 +116,7 @@ public class ViewBookingController {
     public void loadAllPendingBookings() {
         obListPend.clear();
 
-        var model = new BookingModel();
+        var model = new BookingDAOImpl();
 
         try {
             List<PendingDTO> dtoList = model.getAllPendings();
@@ -163,7 +160,7 @@ public class ViewBookingController {
     }
 
     private void deleteBooking(String bId) {
-        var model = new BookingModel();
+        var model = new BookingDAOImpl();
 
         try {
             boolean b = model.deleteBooking(bId);
@@ -225,7 +222,7 @@ public class ViewBookingController {
    private void loadAllCompletedBookings() {
         obListComp.clear();
 
-        var model = new BookingModel();
+        var model = new BookingDAOImpl();
 
         try {
             List<CompleteDTO> dtoList = model.getAllCompletes();

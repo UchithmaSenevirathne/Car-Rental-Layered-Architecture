@@ -1,9 +1,9 @@
-package lk.ijse.model;
+package lk.ijse.dao.custom.impl;
 
+import lk.ijse.dao.custom.CarDAO;
 import lk.ijse.db.DbConnection;
 import lk.ijse.dto.CarDto;
 import lk.ijse.dto.CarOutDto;
-import lk.ijse.dto.tm.CarTm;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -12,9 +12,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CarModel {
+public class CarDAOImpl implements CarDAO {
 
-    public boolean saveCar(CarDto dto) throws SQLException {
+    public boolean save(CarDto dto) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
         String sql = "INSERT INTO car VALUES(?, ?, ?, ?, ?, ?, ?)";
@@ -33,7 +33,7 @@ public class CarModel {
         return isSaved;
     }
 
-    public List<CarDto> getAllCars() throws SQLException {
+    public List<CarDto> getAll() throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
         String sql = "SELECT * FROM car";
@@ -58,7 +58,7 @@ public class CarModel {
         return dtoList;
     }
 
-    public boolean updateCar(CarDto dto) throws SQLException {
+    public boolean update(CarDto dto) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
         String sql = "UPDATE car SET brand = ?, availability = ?, currentMileage = ?, kmOneDay = ?, priceOneDay = ?, priceExtraKm = ? WHERE carNo = ?";
@@ -75,7 +75,7 @@ public class CarModel {
         return pstm.executeUpdate() > 0;
     }
 
-    public static CarDto searchCar(String carNo) throws SQLException {
+    public CarDto search(String carNo) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
         String sql = "SELECT * FROM car WHERE carNo = ?";
@@ -102,7 +102,7 @@ public class CarModel {
         return dto;
     }
 
-    public boolean deleteCar(String carNo) throws SQLException {
+    public boolean delete(String carNo) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
         String sql = "DELETE FROM car WHERE carNo = ?";
@@ -137,7 +137,7 @@ public class CarModel {
         return isUpdate;
     }
 
-    public String generateNextCarNo() throws SQLException {
+    public String generateNextId() throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
         String sql = "SELECT carNo FROM car ORDER BY carNo DESC LIMIT 1";
@@ -168,7 +168,7 @@ public class CarModel {
         return "CR001";
     }
 
-    public List<CarOutDto> getCarOut() throws SQLException {
+    public static List<CarOutDto> getCarOut() throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
         String sql = "SELECT c.carNo,c.brand,b.pickUpDate FROM car c join bookingdetail bd on c.carNo = bd.carNo join booking b on b.bId = bd.bId where b.status = 'Pending'";

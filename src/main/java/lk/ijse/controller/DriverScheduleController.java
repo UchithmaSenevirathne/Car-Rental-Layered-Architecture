@@ -7,22 +7,17 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import lk.ijse.dto.DriverDto;
 import lk.ijse.dto.ScheduleDTO;
-import lk.ijse.dto.tm.DriverTm;
 import lk.ijse.dto.tm.ScheduleTm;
-import lk.ijse.model.DriverModel;
-import lk.ijse.model.ScheduleModel;
+import lk.ijse.dao.custom.impl.ScheduleDAOImpl;
 
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.List;
 
 public class DriverScheduleController {
@@ -86,7 +81,7 @@ public class DriverScheduleController {
 
     public void setScheduleData(List<ScheduleDTO> dtoList, String userName) {
         obList.clear();
-        var model = new ScheduleModel();
+        var model = new ScheduleDAOImpl();
         try {
             String name = model.getDrName(userName);
 

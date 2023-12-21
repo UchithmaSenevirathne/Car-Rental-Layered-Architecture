@@ -6,18 +6,14 @@ import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
-import lk.ijse.dto.CarDto;
 import lk.ijse.dto.SalaryDTO;
-import lk.ijse.dto.tm.CarTm;
 import lk.ijse.dto.tm.SalaryTm;
-import lk.ijse.model.CarModel;
-import lk.ijse.model.SalaryModel;
+import lk.ijse.dao.custom.impl.SalaryDAOImpl;
 
 import java.util.List;
 
@@ -60,7 +56,7 @@ public class ViewSalaryController {
     private void loadAllSalary() {
         obListSal.clear();
 
-        var model = new SalaryModel();
+        var model = new SalaryDAOImpl();
 
         try {
             List<SalaryDTO> dtoList = model.getAllSalary();

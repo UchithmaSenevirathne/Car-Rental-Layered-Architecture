@@ -1,12 +1,10 @@
-package lk.ijse.model;
+package lk.ijse.dao.custom.impl;
 
-import javafx.fxml.FXMLLoader;
+import lk.ijse.dao.custom.DriverDAO;
 import lk.ijse.db.DbConnection;
 import lk.ijse.dto.DriverDto;
 import lk.ijse.dto.DriverInTimeDto;
 import lk.ijse.dto.UserDTO;
-import lk.ijse.dto.tm.CarTm;
-import lk.ijse.dto.tm.DriverTm;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -15,39 +13,26 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DriverModel {
+public class DriverDAOImpl implements DriverDAO {
 
-    public boolean saveDriver(DriverDto dto, UserDTO userDto) throws SQLException {
+    public boolean save(DriverDto dto) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
+        PreparedStatement pstm = connection.prepareStatement("INSERT INTO driver VALUES(?, ?, ?, ?, ?, ?, ?, ?)");
 
-        PreparedStatement pstm1 = connection.prepareStatement("INSERT INTO user VALUES(?, ?, ?, ?)");
+        pstm.setString(1, dto.getId());
+        pstm.setString(2, dto.getName());
+        pstm.setString(3, dto.getAddress());
+        pstm.setString(4, dto.getEmail());
+        pstm.setString(5, dto.getContact());
+        pstm.setString(6, dto.getLicenseNo());
+        pstm.setString(7, dto.getUserName());
+        pstm.setString(8, dto.getAvailability());
 
-        pstm1.setString(1, userDto.getUserName());
-        pstm1.setString(2, userDto.getPassword());
-        pstm1.setString(3, userDto.getEmail());
-        pstm1.setString(4, userDto.getRole());
+        return pstm.executeUpdate() > 0;
 
-        if(pstm1.executeUpdate()>0) {
-            PreparedStatement pstm = connection.prepareStatement("INSERT INTO driver VALUES(?, ?, ?, ?, ?, ?, ?, ?)");
-
-            pstm.setString(1, dto.getId());
-            pstm.setString(2, dto.getName());
-            pstm.setString(3, dto.getAddress());
-            pstm.setString(4, dto.getEmail());
-            pstm.setString(5, dto.getContact());
-            pstm.setString(6, dto.getLicenseNo());
-            pstm.setString(7, dto.getUserName());
-            pstm.setString(8, dto.getAvailability());
-
-            boolean isSaved = pstm.executeUpdate() > 0;
-
-            return isSaved;
-        }
-
-        return false;
     }
 
-    public List<DriverDto> getAllDrivers() throws SQLException {
+    public List<DriverDto> getAll() throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
         String sql = "SELECT * FROM driver";
@@ -73,37 +58,24 @@ public class DriverModel {
         return dtoList;
     }
 
-    public boolean updateDriver(DriverDto driverDto, UserDTO userDTO) throws SQLException {
+    public boolean update(DriverDto driverDto) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
+        String sql2 = "UPDATE driver SET name = ?, address = ?, email = ?, contact = ?, licenseNo = ?, userName = ?, availability = ? WHERE drId = ?";
+        PreparedStatement pstm2 = connection.prepareStatement(sql2);
 
-        String sql1 = "UPDATE user SET password = ?, email = ?, role = ? WHERE userName = ?";
-        PreparedStatement pstm1 = connection.prepareStatement(sql1);
+        pstm2.setString(1, driverDto.getName());
+        pstm2.setString(2, driverDto.getAddress());
+        pstm2.setString(3, driverDto.getEmail());
+        pstm2.setString(4, driverDto.getContact());
+        pstm2.setString(5, driverDto.getLicenseNo());
+        pstm2.setString(6, driverDto.getUserName());
+        pstm2.setString(7, driverDto.getAvailability());
+        pstm2.setString(8, driverDto.getId());
 
-        pstm1.setString(1, userDTO.getPassword());
-        pstm1.setString(2, userDTO.getEmail());
-        pstm1.setString(3, userDTO.getRole());
-        pstm1.setString(4, userDTO.getUserName());
-
-        if(pstm1.executeUpdate() > 0) {
-            String sql2 = "UPDATE driver SET name = ?, address = ?, email = ?, contact = ?, licenseNo = ?, userName = ?, availability = ? WHERE drId = ?";
-            PreparedStatement pstm2 = connection.prepareStatement(sql2);
-
-            pstm2.setString(1, driverDto.getName());
-            pstm2.setString(2, driverDto.getAddress());
-            pstm2.setString(3, driverDto.getEmail());
-            pstm2.setString(4, driverDto.getContact());
-            pstm2.setString(5, driverDto.getLicenseNo());
-            pstm2.setString(6, driverDto.getUserName());
-            pstm2.setString(7, driverDto.getAvailability());
-            pstm2.setString(8, driverDto.getId());
-
-            return pstm2.executeUpdate() > 0;
-        }
-
-        return false;
+        return pstm2.executeUpdate() > 0;
     }
 
-    public DriverDto searchDriver(String id) throws SQLException {
+    public DriverDto search(String id) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
         String sql = "SELECT * FROM driver WHERE drId = ?";
@@ -130,7 +102,7 @@ public class DriverModel {
         return dto;
     }
 
-    public boolean deleteDriver(String userName) throws SQLException {
+    public boolean delete(String userName) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
         String sql1 = "DELETE FROM driver WHERE userName = ?";
@@ -138,15 +110,7 @@ public class DriverModel {
 
         pstm1.setString(1, userName);
 
-        if(pstm1.executeUpdate() > 0) {
-            String sql2 = "DELETE FROM user WHERE userName = ?";
-            PreparedStatement pstm2 = connection.prepareStatement(sql2);
-
-            pstm2.setString(1, userName);
-
-            return pstm2.executeUpdate() > 0;
-        }
-        return false;
+        return pstm1.executeUpdate() > 0;
     }
 
     /*public boolean updateDriver(List<DriverTm> driverList) throws SQLException {
@@ -178,7 +142,7 @@ public class DriverModel {
         return pstm.executeUpdate() > 0;
     }
 
-    public String generateNextDrId() throws SQLException {
+    public String generateNextId() throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
         String sql = "SELECT drId FROM driver ORDER BY drId DESC LIMIT 1";
@@ -209,7 +173,7 @@ public class DriverModel {
         return "D001";
     }
 
-    public List<DriverInTimeDto> gerDrInTime(String date) throws SQLException {
+    public static List<DriverInTimeDto> gerDrInTime(String date) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
         String sql = "SELECT d.name,l.time FROM user u join login l on u.userName = l.userName join driver d on u.userName = d.userName where l.date = ?";

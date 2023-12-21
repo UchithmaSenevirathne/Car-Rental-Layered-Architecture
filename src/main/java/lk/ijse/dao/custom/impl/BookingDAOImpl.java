@@ -1,4 +1,4 @@
-package lk.ijse.model;
+package lk.ijse.dao.custom.impl;
 
 import lk.ijse.db.DbConnection;
 import lk.ijse.dto.BookingDetailDTO;
@@ -12,7 +12,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BookingModel {
+public class BookingDAOImpl {
     public static String generateNextBookingId() throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 

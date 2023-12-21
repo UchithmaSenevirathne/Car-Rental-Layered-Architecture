@@ -13,26 +13,27 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import lk.ijse.dao.custom.CarDAO;
+import lk.ijse.dao.custom.CustomerDAO;
+import lk.ijse.dao.custom.DriverDAO;
+import lk.ijse.dao.custom.impl.*;
 import lk.ijse.dto.*;
 import lk.ijse.dto.tm.BookTm;
-import lk.ijse.model.*;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class BookingFormController {
 
-    private final CustomerModel customerModel = new CustomerModel();
+    //private final CustomerDAOImpl customerModel = new CustomerDAOImpl();
 
-    private final DriverModel driverModel = new DriverModel();
+    private final DriverDAOImpl driverModel = new DriverDAOImpl();
 
-    private final CarModel carModel = new CarModel();
+    //private final CarDAOImpl carModel = new CarDAOImpl();
 
-    private final BookingModel bookingModel = new BookingModel();
+    private final BookingDAOImpl bookingModel = new BookingDAOImpl();
 
     private final ObservableList<BookTm> obList3 = FXCollections.observableArrayList();
 
@@ -102,7 +103,11 @@ public class BookingFormController {
     @FXML
     private Pane subAnchorPane;
 
-    private final MakeBookingModel makeBookingModel = new MakeBookingModel();
+    private final MakeBookingDAOImpl makeBookingModel = new MakeBookingDAOImpl();
+
+    DriverDAO driverDAO = new DriverDAOImpl();
+    CarDAO carDAO = new CarDAOImpl();
+    CustomerDAO customerDAO = new CustomerDAOImpl();
 
     public void initialize() {
         setCellValueFactory();
@@ -135,7 +140,7 @@ public class BookingFormController {
     private void loadCarNo() {
         ObservableList<String> obList = FXCollections.observableArrayList();
         try {
-            List<CarDto> carList = carModel.getAllCars();
+            List<CarDto> carList = carDAO.getAll();
 
             for (CarDto carDto : carList) {
                 obList.add(carDto.getCarNo());
@@ -150,7 +155,7 @@ public class BookingFormController {
     private void loadCustomerIds() {
         ObservableList<String> obList = FXCollections.observableArrayList();
         try {
-            List<CustomerDto> cusList = customerModel.getAllCustomers();
+            List<CustomerDto> cusList = customerDAO.getAll();
 
             for (CustomerDto dto : cusList) {
                 obList.add(dto.getId());
@@ -167,7 +172,7 @@ public class BookingFormController {
     private void loadDriverIds() {
         ObservableList<String> obList = FXCollections.observableArrayList();
         try {
-            List<DriverDto> drList = driverModel.getAllDrivers();
+            List<DriverDto> drList = driverDAO.getAll();
 
             for (DriverDto dto : drList) {
                 obList.add(dto.getId());
@@ -279,7 +284,7 @@ public class BookingFormController {
         String carNo = comboCarNo.getValue();
 
         try {
-            CarDto dto = CarModel.searchCar(carNo);
+            CarDto dto = carDAO.search(carNo);
 
             txtCarName.setText(dto.getBrand());
 
@@ -291,7 +296,7 @@ public class BookingFormController {
     @FXML
     void cmbCusOnAction(ActionEvent event) throws SQLException {
         String id = comboCusId.getValue();
-        CustomerDto dto = customerModel.searchCustomer(id);
+        CustomerDto dto = customerDAO.search(id);
 
         txtCusName.setText(dto.getName());
         txtCusContact.setText(dto.getContact());
@@ -301,7 +306,7 @@ public class BookingFormController {
     @FXML
     void cmbDrOnAction(ActionEvent event) throws SQLException {
         String drId = comboDrId.getValue();
-        DriverDto dto = driverModel.searchDriver(drId);
+        DriverDto dto = driverDAO.search(drId);
 
         txtDrName.setText(dto.getUserName());
     }

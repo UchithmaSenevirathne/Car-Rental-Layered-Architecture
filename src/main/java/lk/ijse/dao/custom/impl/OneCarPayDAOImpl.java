@@ -1,4 +1,4 @@
-package lk.ijse.model;
+package lk.ijse.dao.custom.impl;
 
 import lk.ijse.db.DbConnection;
 import lk.ijse.dto.OneCarPayDTO;
@@ -7,7 +7,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-public class OneCarPayModel {
+public class OneCarPayDAOImpl {
     public static boolean savePayment(OneCarPayDTO dto) throws SQLException {
         System.out.println("*****");
         Connection connection = DbConnection.getInstance().getConnection();

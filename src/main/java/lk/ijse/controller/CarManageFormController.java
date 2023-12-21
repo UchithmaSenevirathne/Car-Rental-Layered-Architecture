@@ -14,13 +14,12 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import lk.ijse.dao.custom.CarDAO;
 import lk.ijse.dto.CarDto;
 import lk.ijse.dto.tm.CarTm;
-import lk.ijse.model.CarModel;
-import lk.ijse.model.CustomerModel;
+import lk.ijse.dao.custom.impl.CarDAOImpl;
 
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
@@ -66,6 +65,8 @@ public class CarManageFormController {
 
     ObservableList<String> obList = FXCollections.observableArrayList();
 
+    CarDAO carDAO = new CarDAOImpl();
+
 
     public void initialize(){
         setCellValueFactory();
@@ -87,10 +88,10 @@ public class CarManageFormController {
     public void loadAllCars(){
         obListCar.clear();
 
-        var model = new CarModel();
+        //var model = new CarDAOImpl();
 
         try {
-            List<CarDto> dtoList = model.getAllCars();
+            List<CarDto> dtoList = carDAO.getAll();
 
             for (CarDto dto : dtoList){
                 Button updateButton = new Button("Update");
@@ -131,10 +132,10 @@ public class CarManageFormController {
     }
 
     private void deleteCar(String carNo) {
-        var model = new CarModel();
+        //var model = new CarDAOImpl();
 
         try {
-            boolean b = model.deleteCar(carNo);
+            boolean b = carDAO.delete(carNo);
 
             if(b){
                 loadAllCars();
@@ -212,10 +213,10 @@ public class CarManageFormController {
     void btnADDCarOnAction(ActionEvent event) throws IOException {
         obList.clear();
 
-        var model = new CarModel();
+        //var model = new CarDAOImpl();
 
         try {
-            String carNo = model.generateNextCarNo();
+            String carNo = carDAO.generateNextId();
 
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/CarForm.fxml"));
 

@@ -1,7 +1,6 @@
-package lk.ijse.model;
+package lk.ijse.dao.custom.impl;
 
 import lk.ijse.db.DbConnection;
-import lk.ijse.dto.CarDto;
 import lk.ijse.dto.DriverDto;
 import lk.ijse.dto.SalaryDTO;
 
@@ -11,9 +10,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Pattern;
 
-public class SalaryModel {
+public class SalaryDAOImpl {
     //private Connection connection;
 
     public boolean saveSalary(SalaryDTO dto) throws SQLException {

@@ -9,16 +9,12 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import lk.ijse.dto.CarDto;
 import lk.ijse.dto.DriverDto;
-import lk.ijse.dto.tm.DriverTm;
 import lk.ijse.dto.tm.SalDriverTm;
-import lk.ijse.model.DriverModel;
-import lk.ijse.model.SalaryModel;
+import lk.ijse.dao.custom.impl.SalaryDAOImpl;
 
 import java.io.IOException;
 import java.util.List;
@@ -114,7 +110,7 @@ public class SalaryFormController {
     private void searchDrivers(String search) {
         obList.clear();
 
-        var model = new SalaryModel();
+        var model = new SalaryDAOImpl();
 
         try {
             if (model != null) {

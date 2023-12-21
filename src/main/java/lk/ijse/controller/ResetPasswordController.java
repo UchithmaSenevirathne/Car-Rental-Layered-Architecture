@@ -5,13 +5,12 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import lk.ijse.Validation.Validate;
-import lk.ijse.model.UserModel;
+import lk.ijse.dao.custom.impl.UserDAOImpl;
 
 public class ResetPasswordController {
     @FXML
@@ -30,13 +29,13 @@ public class ResetPasswordController {
         String newPwd = txtNewPassword.getText();
         String confirmPwd = txtConfirmNewPwd.getText();
 
-        var model = new UserModel();
+        //var model = new UserDAOImpl();
 
         try{
             if(ValidateAdminPw(newPwd)) {
                 if (newPwd.equals(confirmPwd)) {
                     txtConfirmNewPwd.setStyle("-fx-background-color: white");
-                    boolean isChanged = model.changePwd(confirmPwd, userName);
+                    boolean isChanged = UserDAOImpl.changePwd(confirmPwd, userName);
 
                     if (isChanged) {
                         FXMLLoader loader = new FXMLLoader(getClass().getResource("/Alert/Confirmation.fxml"));

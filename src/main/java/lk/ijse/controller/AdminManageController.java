@@ -10,12 +10,12 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import lk.ijse.dao.custom.UserDAO;
 import lk.ijse.dto.UserDTO;
 import lk.ijse.dto.tm.AdminTm;
-import lk.ijse.model.UserModel;
+import lk.ijse.dao.custom.impl.UserDAOImpl;
 
 import java.io.IOException;
 import java.util.List;
@@ -38,6 +38,8 @@ public class AdminManageController {
 
     private final ObservableList<AdminTm> obList = FXCollections.observableArrayList();
 
+    UserDAO userDAO = new UserDAOImpl();
+
     public void initialize(){
         setCellValueFactory();
         loadAllAdmins();
@@ -51,7 +53,7 @@ public class AdminManageController {
 
     @FXML
     void SetData(MouseEvent event) {
-        var model = new UserModel();
+        var model = new UserDAOImpl();
 
         index = tableView.getSelectionModel().getSelectedIndex();
 
@@ -94,7 +96,7 @@ public class AdminManageController {
     private void loadAllAdmins(){
         obList.clear();
 
-        var model = new UserModel();
+        var model = new UserDAOImpl();
 
         try {
             List<UserDTO> dtoList = model.getAllAdmins();
@@ -130,10 +132,10 @@ public class AdminManageController {
     }
 
     private void deleteAdmin(String userName) {
-        var model = new UserModel();
+        var model = new UserDAOImpl();
 
         try {
-            boolean b = model.deleteAdmin(userName);
+            boolean b = userDAO.delete(userName);
 
             if(b){
                 loadAllAdmins();

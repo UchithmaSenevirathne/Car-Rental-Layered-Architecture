@@ -14,10 +14,13 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import lk.ijse.dao.custom.CarDAO;
+import lk.ijse.dao.custom.CustomerDAO;
+import lk.ijse.dao.custom.DriverDAO;
+import lk.ijse.dao.custom.impl.*;
 import lk.ijse.db.DbConnection;
 import lk.ijse.dto.*;
 import lk.ijse.dto.tm.BookTm;
-import lk.ijse.model.*;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.design.JRDesignQuery;
 import net.sf.jasperreports.engine.design.JasperDesign;
@@ -28,23 +31,19 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 public class PaymentFormController {
     private final ObservableList<BookTm> obList = FXCollections.observableArrayList();
     //ObservableList<BookTm> obList = FXCollections.observableArrayList();
 
-    private final CustomerModel customerModel = new CustomerModel();
+    private final CustomerDAOImpl customerModel = new CustomerDAOImpl();
 
-    private final DriverModel driverModel = new DriverModel();
+    private final DriverDAOImpl driverModel = new DriverDAOImpl();
 
-    private final CarModel carModel = new CarModel();
+    private final CarDAOImpl carModel = new CarDAOImpl();
 
-    private final BookingDetailModel bookingDetailModel = new BookingDetailModel();
+    private final BookingDetailDAOImpl bookingDetailModel = new BookingDetailDAOImpl();
 
     @FXML
     private AnchorPane rootNode;
@@ -119,6 +118,10 @@ public class PaymentFormController {
 
     private double totalPay = 0;
 
+    CarDAO carDAO = new CarDAOImpl();
+    DriverDAO driverDAO = new DriverDAOImpl();
+    CustomerDAO customerDAO = new CustomerDAOImpl();
+
     public void initialize() {
 
         setCellValueFactory();
@@ -147,10 +150,10 @@ public class PaymentFormController {
         txtBrand.setText(colBrand.getCellData(index).toString());
         txtDrId.setText(colDrId.getCellData(index).toString());
 
-        CarDto dto = carModel.searchCar(txtCarId.getText());
+        CarDto dto = carDAO.search(txtCarId.getText());
         txtPriceOneDay.setText(String.valueOf(dto.getPriceOneDay()));
 
-        DriverDto dto1 = driverModel.searchDriver(txtDrId.getText());
+        DriverDto dto1 = driverDAO.search(txtDrId.getText());
         txtDrName.setText(dto1.getName());
     }
 
@@ -185,7 +188,7 @@ public class PaymentFormController {
         double extraKm = Integer.parseInt(txtExtraKm.getText());
 
         //
-        CarDto dto = carModel.searchCar(txtCarId.getText());
+        CarDto dto = carDAO.search(txtCarId.getText());
         double priceExtraKm = dto.getPriceExtraKm();
         //
 
@@ -202,7 +205,7 @@ public class PaymentFormController {
 
         try {
 
-            boolean isSaved = OneCarPayModel.savePayment(dtoOneCarPay);
+            boolean isSaved = OneCarPayDAOImpl.savePayment(dtoOneCarPay);
 
             if (isSaved){
                 totalPayment(total);
@@ -247,7 +250,7 @@ public class PaymentFormController {
         );
 
         try {
-            boolean isSaved = PaymentModel.savePayment(bId, totalPayment, pickUpDate,bookingDetailDto);
+            boolean isSaved = PaymentDAOImpl.savePayment(bId, totalPayment, pickUpDate,bookingDetailDto);
 
             if(isSaved){
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/Alert/Confirmation.fxml"));
@@ -293,7 +296,7 @@ public class PaymentFormController {
 
         try {
 
-            List<PaymentDetailDTO> dto = PaymentModel.searchPaymentDetail(bId);
+            List<PaymentDetailDTO> dto = PaymentDAOImpl.searchPaymentDetail(bId);
 
             for(PaymentDetailDTO dto1 : dto) {
                 txtRentId.setValue(dto1.getBId());
@@ -301,7 +304,7 @@ public class PaymentFormController {
                 txtCusId.setText(dto1.getCusId());
 
                 String cusId = txtCusId.getText();
-                CustomerDto dtoCus = customerModel.searchCustomer(cusId);
+                CustomerDto dtoCus = customerDAO.search(cusId);
 
                 txtName.setText(dtoCus.getName());
                 txtContact.setText(dtoCus.getContact());
@@ -316,7 +319,7 @@ public class PaymentFormController {
 
     private void addToTable(List<PaymentDetailDTO> dto) throws SQLException {
         for (PaymentDetailDTO dto1 : dto){
-            CarDto dtoCar = carModel.searchCar(dto1.getCarNo());
+            CarDto dtoCar = carDAO.search(dto1.getCarNo());
             String brand = dtoCar.getBrand();
             obList.add(new BookTm(
                     dto1.getBId(),
