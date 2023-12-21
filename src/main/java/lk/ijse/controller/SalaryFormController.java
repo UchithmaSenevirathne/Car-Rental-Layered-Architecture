@@ -12,6 +12,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import lk.ijse.dao.custom.DriverDAO;
+import lk.ijse.dao.custom.impl.DriverDAOImpl;
 import lk.ijse.dto.DriverDto;
 import lk.ijse.dto.tm.SalDriverTm;
 import lk.ijse.dao.custom.impl.SalaryDAOImpl;
@@ -56,6 +58,8 @@ public class SalaryFormController {
     private Integer index;
 
     private final ObservableList<SalDriverTm> obList = FXCollections.observableArrayList();
+
+    DriverDAO driverDAO = new DriverDAOImpl();
 
     public void initialize(){
         setCellValueFactory();
@@ -110,11 +114,10 @@ public class SalaryFormController {
     private void searchDrivers(String search) {
         obList.clear();
 
-        var model = new SalaryDAOImpl();
+        //var model = new SalaryDAOImpl();
 
         try {
-            if (model != null) {
-                List<DriverDto> dtoList = model.getAllDrivers(search);
+                List<DriverDto> dtoList = driverDAO.getAllDrivers(search);
 
                 if (dtoList != null) {
                     for (DriverDto dto : dtoList) {
@@ -133,9 +136,6 @@ public class SalaryFormController {
                 } else {
                     new Alert(Alert.AlertType.ERROR, "ERROR : Driver data is null").show();
                 }
-            } else {
-                new Alert(Alert.AlertType.ERROR, "SalaryModel is not initialized").show();
-            }
 
         } catch (Exception e){
             e.printStackTrace();

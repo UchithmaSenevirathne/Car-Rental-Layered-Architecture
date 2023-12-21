@@ -10,6 +10,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import lk.ijse.Validation.Validate;
+import lk.ijse.dao.custom.UserDAO;
 import lk.ijse.dao.custom.impl.UserDAOImpl;
 
 public class ResetPasswordController {
@@ -24,6 +25,8 @@ public class ResetPasswordController {
 
     String userName;
 
+    UserDAO userDAO = new UserDAOImpl();
+
     @FXML
     void btnResetPwdOnAction(ActionEvent event) {
         String newPwd = txtNewPassword.getText();
@@ -35,7 +38,7 @@ public class ResetPasswordController {
             if(ValidateAdminPw(newPwd)) {
                 if (newPwd.equals(confirmPwd)) {
                     txtConfirmNewPwd.setStyle("-fx-background-color: white");
-                    boolean isChanged = UserDAOImpl.changePwd(confirmPwd, userName);
+                    boolean isChanged = userDAO.changePwd(confirmPwd, userName);
 
                     if (isChanged) {
                         FXMLLoader loader = new FXMLLoader(getClass().getResource("/Alert/Confirmation.fxml"));

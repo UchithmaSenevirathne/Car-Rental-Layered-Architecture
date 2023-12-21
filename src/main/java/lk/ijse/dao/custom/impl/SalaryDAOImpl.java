@@ -1,5 +1,6 @@
 package lk.ijse.dao.custom.impl;
 
+import lk.ijse.dao.custom.SalaryDAO;
 import lk.ijse.db.DbConnection;
 import lk.ijse.dto.DriverDto;
 import lk.ijse.dto.SalaryDTO;
@@ -11,10 +12,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SalaryDAOImpl {
+public class SalaryDAOImpl implements SalaryDAO {
     //private Connection connection;
-
-    public boolean saveSalary(SalaryDTO dto) throws SQLException {
+    @Override
+    public boolean save(SalaryDTO dto) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
         String sql = "INSERT INTO driverSalary VALUES(?, ?, ?, ?)";
@@ -27,8 +28,8 @@ public class SalaryDAOImpl {
 
         return pstm.executeUpdate() > 0;
     }
-
-    public List<SalaryDTO> getAllSalary() throws SQLException {
+    @Override
+    public List<SalaryDTO> getAll() throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
         String sql = "SELECT * FROM driverSalary";
@@ -50,42 +51,23 @@ public class SalaryDAOImpl {
         return dtoList;
     }
 
-    public List<DriverDto> getAllDrivers(String search) throws SQLException {
-        Connection connection = DbConnection.getInstance().getConnection();
+    @Override
+    public SalaryDTO search(String id) throws SQLException {
+        return null;
+    }
 
-        List<DriverDto> driverList = new ArrayList<>();
+    @Override
+    public boolean update(SalaryDTO dto) throws SQLException {
+        return false;
+    }
 
-        try {
-            String sql = "SELECT * FROM driver WHERE drId LIKE ? OR name LIKE ?";
-            //PreparedStatement pstm = connection.prepareStatement(sql);
-            PreparedStatement pstm = connection.prepareStatement(sql);
+    @Override
+    public boolean delete(String id) throws SQLException {
+        return false;
+    }
 
-            pstm.setString(1, search);
-            pstm.setString(2, search);
-
-            ResultSet resultSet = pstm.executeQuery();
-
-            while (resultSet.next()) {
-                DriverDto driver = new DriverDto(
-                        resultSet.getString("drId"),
-                        resultSet.getString("name"),
-                        resultSet.getString("address"),
-                        resultSet.getString("email"),
-                        resultSet.getString("contact"),
-                        resultSet.getString("licenseNo"),
-                        resultSet.getString("userName"),
-                        resultSet.getString("availability")
-
-                );
-
-                driverList.add(driver);
-            }
-
-            pstm.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return driverList;
+    @Override
+    public String generateNextId() throws SQLException {
+        return null;
     }
 }

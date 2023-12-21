@@ -174,7 +174,7 @@ public class DriverManageFormController {
         //var model = new UserDAOImpl();
 
         try {
-            String pwd = UserDAOImpl.getPassword(driverDto.getUserName());
+            String pwd = userDAO.getPassword(driverDto.getUserName());
 
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/DriverForm.fxml"));
 
@@ -232,18 +232,6 @@ public class DriverManageFormController {
         }catch (Exception e){
             e.printStackTrace();
         }
-    }
-
-    @FXML
-    void btnBackOnAction(ActionEvent event) throws IOException {
-        Parent rootNode = FXMLLoader.load(getClass().getResource("/view/DashboardForm.fxml"));
-
-        Scene scene = new Scene(rootNode);
-        Stage stage = (Stage) this.rootNode.getScene().getWindow();
-
-        stage.setScene(scene); // stage.setScene(new Scene(rootNode));
-        stage.setTitle("Dashboard Form");
-        stage.centerOnScreen();
     }
 
     @FXML

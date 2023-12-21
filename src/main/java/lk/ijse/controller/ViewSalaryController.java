@@ -11,6 +11,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
+import lk.ijse.dao.custom.SalaryDAO;
 import lk.ijse.dto.SalaryDTO;
 import lk.ijse.dto.tm.SalaryTm;
 import lk.ijse.dao.custom.impl.SalaryDAOImpl;
@@ -40,6 +41,7 @@ public class ViewSalaryController {
 
     @FXML
     private TextField txtSearch;
+    SalaryDAO salaryDAO = new SalaryDAOImpl();
 
     public void initialize(){
         setCellValueFactory();
@@ -56,10 +58,10 @@ public class ViewSalaryController {
     private void loadAllSalary() {
         obListSal.clear();
 
-        var model = new SalaryDAOImpl();
+        //var model = new SalaryDAOImpl();
 
         try {
-            List<SalaryDTO> dtoList = model.getAllSalary();
+            List<SalaryDTO> dtoList = salaryDAO.getAll();
 
             for (SalaryDTO dto : dtoList){
                 obListSal.add(

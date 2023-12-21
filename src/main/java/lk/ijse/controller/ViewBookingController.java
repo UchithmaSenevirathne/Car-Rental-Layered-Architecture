@@ -331,14 +331,6 @@ public class ViewBookingController {
     }
 
     @FXML
-    void btnBackOnAction(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/BookingForm.fxml"));
-        AnchorPane booking = loader.load();
-
-        subAnchorPane.getChildren().setAll(booking);
-    }
-
-    @FXML
     void btnRefreshOnAction(ActionEvent event) {
         loadAllPendingBookings();
     }

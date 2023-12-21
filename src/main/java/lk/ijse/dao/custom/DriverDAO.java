@@ -11,4 +11,5 @@ public interface DriverDAO extends CrudDAO<DriverDto> {
     public boolean updateAvailable(String id) throws SQLException;
     public boolean updateAvailableYes(String bId) throws SQLException;
     public List<DriverInTimeDto> gerDrInTime(String date) throws SQLException;
+    public List<DriverDto> getAllDrivers(String search) throws SQLException;
 }

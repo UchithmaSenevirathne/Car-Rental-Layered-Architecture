@@ -194,4 +194,43 @@ public class DriverDAOImpl implements DriverDAO {
         }
         return dtoList;
     }
+    @Override
+    public List<DriverDto> getAllDrivers(String search) throws SQLException {
+        Connection connection = DbConnection.getInstance().getConnection();
+
+        List<DriverDto> driverList = new ArrayList<>();
+
+        try {
+            String sql = "SELECT * FROM driver WHERE drId LIKE ? OR name LIKE ?";
+            //PreparedStatement pstm = connection.prepareStatement(sql);
+            PreparedStatement pstm = connection.prepareStatement(sql);
+
+            pstm.setString(1, search);
+            pstm.setString(2, search);
+
+            ResultSet resultSet = pstm.executeQuery();
+
+            while (resultSet.next()) {
+                DriverDto driver = new DriverDto(
+                        resultSet.getString("drId"),
+                        resultSet.getString("name"),
+                        resultSet.getString("address"),
+                        resultSet.getString("email"),
+                        resultSet.getString("contact"),
+                        resultSet.getString("licenseNo"),
+                        resultSet.getString("userName"),
+                        resultSet.getString("availability")
+
+                );
+
+                driverList.add(driver);
+            }
+
+            pstm.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return driverList;
+    }
 }

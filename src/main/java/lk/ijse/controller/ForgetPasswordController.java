@@ -8,6 +8,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import lk.ijse.dao.custom.UserDAO;
 import lk.ijse.dao.custom.impl.UserDAOImpl;
 import lk.ijse.util.SendMail;
 
@@ -26,6 +27,7 @@ public class ForgetPasswordController {
 
     int random;
     int OTP;
+    UserDAO userDAO = new UserDAOImpl();
 
     @FXML
     void btnSendOTPOnAction(ActionEvent event) {
@@ -33,10 +35,10 @@ public class ForgetPasswordController {
 
         //var model = new UserDAOImpl();
         try {
-            boolean isvalidUserName = UserDAOImpl.checkUserName(userName);
+            boolean isvalidUserName = userDAO.checkUserName(userName);
 
             if(isvalidUserName) {
-                String email = UserDAOImpl.getEmail(userName);
+                String email = userDAO.getEmail(userName);
 
                 random = new Random().nextInt(9000);
                 OTP = 1000+random;

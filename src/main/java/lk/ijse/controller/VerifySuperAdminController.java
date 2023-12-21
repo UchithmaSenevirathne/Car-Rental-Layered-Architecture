@@ -9,6 +9,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.PasswordField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import lk.ijse.dao.custom.UserDAO;
 import lk.ijse.dao.custom.impl.UserDAOImpl;
 
 import java.io.IOException;
@@ -22,6 +23,7 @@ public class VerifySuperAdminController {
 
     @FXML
     private AnchorPane subAnchorPane;
+    UserDAO userDAO = new UserDAOImpl();
 
     @FXML
     void superAdVerifyOnAction(ActionEvent event) {
@@ -30,7 +32,7 @@ public class VerifySuperAdminController {
         //var model = new UserDAOImpl();
 
         try{
-            boolean isSuperAdm = UserDAOImpl.isSuperAdm(pwd);
+            boolean isSuperAdm = userDAO.isSuperAdm(pwd);
 
             if(isSuperAdm){
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/AdminManage.fxml"));

@@ -12,25 +12,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PaymentDAOImpl implements PaymentDAO{
-
-    //private static final CarDAOImpl carModel = new CarDAOImpl();
     CarDAO carDAO = new CarDAOImpl();
     DriverDAO driverDAO = new DriverDAOImpl();
     BookingDAO bookingDAO = new BookingDAOImpl();
     BookingDetailDAO bookingDetailDAO = new BookingDetailDAOImpl();
-    //private static final DriverDAOImpl driverModel = new DriverDAOImpl();
-    //private static final BookingDAOImpl bookingModel = new BookingDAOImpl();
     @Override
     public List<PaymentDetailDTO> searchPaymentDetail(String bId) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
-/*private String bId;
-    private Date pickUpDate;
-    private int days;
-    private String status;
-    private double payment;
-    private String cusId;
-    private String carNo;
-    private String drId;*/
 
         String sql = "SELECT b.bId, b.pickUpDate, b.days, b.status, b.payment, b.cusId, bd.carNo, bd.drId FROM booking b LEFT JOIN bookingdetail bd ON b.bId = bd.bId WHERE bd.bId = ?";
 
@@ -41,12 +29,6 @@ public class PaymentDAOImpl implements PaymentDAO{
         List<PaymentDetailDTO> dtoList = new ArrayList<>();
 
         ResultSet resultSet = pstm.executeQuery();
-
-
-        /*
-    private String cusId;
-    private String carNo;
-    private String drId;*/
 
         while (resultSet.next()) {
             String b_Id = resultSet.getString(1);

@@ -113,6 +113,7 @@ public class PaymentFormController {
     CustomerDAO customerDAO = new CustomerDAOImpl();
     BookingDetailDAO bookingDetailDAO = new BookingDetailDAOImpl();
     PaymentDAO paymentDAO = new PaymentDAOImpl();
+    OneCarPayDAO oneCarPayDAO = new OneCarPayDAOImpl();
 
     public void initialize() {
 
@@ -197,7 +198,7 @@ public class PaymentFormController {
 
         try {
 
-            boolean isSaved = OneCarPayDAOImpl.savePayment(dtoOneCarPay);
+            boolean isSaved = oneCarPayDAO.save(dtoOneCarPay);
 
             if (isSaved){
                 totalPayment(total);

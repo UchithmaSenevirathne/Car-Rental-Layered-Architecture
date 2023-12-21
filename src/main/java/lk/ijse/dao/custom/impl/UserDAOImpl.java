@@ -12,8 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserDAOImpl implements UserDAO {
-
-    public static boolean search(String userName, String password) throws SQLException {
+    @Override
+    public boolean search(String userName, String password) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
         String sql = "SELECT * FROM user WHERE userName = ? AND password = ?";
@@ -38,7 +38,7 @@ public class UserDAOImpl implements UserDAO {
     public UserDTO search(String id) throws SQLException {
         return null;
     }
-
+    @Override
     public String generateNextId() throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
@@ -68,8 +68,8 @@ public class UserDAOImpl implements UserDAO {
         }
         return "L001";
     }
-
-    public static boolean saveLogin(String logId, String userName, String date, String time) throws SQLException {
+    @Override
+    public boolean saveLogin(String logId, String userName, String date, String time) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
         String sql = "INSERT INTO login VALUES(?, ?, ?, ?)";
@@ -82,7 +82,7 @@ public class UserDAOImpl implements UserDAO {
 
         return pstm.executeUpdate() > 0;
     }
-
+    @Override
     public List<UserDTO> getAllAdmins() throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
@@ -104,8 +104,8 @@ public class UserDAOImpl implements UserDAO {
         }
         return dtoList;
     }
-
-    public static String getPassword(String userName) throws SQLException {
+    @Override
+    public String getPassword(String userName) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
         String sql = "SELECT password FROM user WHERE userName = ?";
@@ -122,8 +122,8 @@ public class UserDAOImpl implements UserDAO {
         }
         return password;
     }
-
-    public static boolean checkAdmin(String userName, String password) throws SQLException {
+    @Override
+    public boolean checkAdmin(String userName, String password) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
         String sql = "SELECT * FROM user where userName = ? and password = ? and role = 'ADM'";
@@ -152,7 +152,7 @@ public class UserDAOImpl implements UserDAO {
         }
         return false;
     }
-
+    @Override
     public boolean delete(String userName) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
@@ -163,7 +163,7 @@ public class UserDAOImpl implements UserDAO {
 
         return pstm.executeUpdate() > 0;
     }
-
+    @Override
     public boolean update(UserDTO userDto) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
@@ -177,7 +177,7 @@ public class UserDAOImpl implements UserDAO {
 
         return pstm.executeUpdate()>0;
     }
-
+    @Override
     public boolean save(UserDTO userDto) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
@@ -190,8 +190,8 @@ public class UserDAOImpl implements UserDAO {
 
         return pstm.executeUpdate() > 0;
     }
-
-    public static boolean isSuperAdm(String password) throws SQLException {
+    @Override
+    public boolean isSuperAdm(String password) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
         PreparedStatement pstm = connection.prepareStatement("SELECT password FROM user WHERE userName = 'Sadmin'");
@@ -207,8 +207,8 @@ public class UserDAOImpl implements UserDAO {
         }
         return false;
     }
-
-    public static boolean checkUserName(String userName) throws SQLException {
+    @Override
+    public boolean checkUserName(String userName) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
         String sql = "SELECT * FROM user where userName = ?";
@@ -234,8 +234,8 @@ public class UserDAOImpl implements UserDAO {
         }
         return true;
     }
-
-    public static String getEmail(String userName) throws SQLException {
+    @Override
+    public String getEmail(String userName) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
         String sql = "SELECT email FROM user WHERE userName = ?";
@@ -252,8 +252,8 @@ public class UserDAOImpl implements UserDAO {
         }
         return email;
     }
-
-    public static boolean changePwd(String confirmPwd, String userName) throws SQLException {
+    @Override
+    public boolean changePwd(String confirmPwd, String userName) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
         String sql = "UPDATE user SET password = ? WHERE userName = ?";

@@ -1,5 +1,6 @@
 package lk.ijse.dao.custom.impl;
 
+import lk.ijse.dao.custom.ScheduleDAO;
 import lk.ijse.db.DbConnection;
 import lk.ijse.dto.ScheduleDTO;
 
@@ -10,8 +11,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ScheduleDAOImpl {
-
+public class ScheduleDAOImpl implements ScheduleDAO {
+    @Override
     public List<ScheduleDTO> getSchedule(String userName) throws SQLException {
         System.out.println("++++++");
         Connection connection = DbConnection.getInstance().getConnection();
@@ -57,7 +58,7 @@ public class ScheduleDAOImpl {
         }
         return null;
     }
-
+    @Override
     public String getDrName(String userName) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 

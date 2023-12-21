@@ -9,13 +9,9 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 public class MakeBookingDAOImpl implements MakeBookingDAO {
-   // private final BookingDAOImpl bookingModel = new BookingDAOImpl();
     BookingDAO bookingDAO = new BookingDAOImpl();
-    //private final CarDAOImpl carModel = new CarDAOImpl();
     CarDAO carDAO = new CarDAOImpl();
-    //private final DriverDAOImpl driverModel = new DriverDAOImpl();
     DriverDAO driverDAO = new DriverDAOImpl();
-    //private final BookingDetailDAOImpl bookingDetailModel = new BookingDetailDAOImpl();
     BookingDetailDAO bookingDetailDAO = new BookingDetailDAOImpl();
     @Override
     public boolean makeBooking(BookDTO bookDto) throws SQLException {

@@ -53,7 +53,7 @@ public class AdminManageController {
 
     @FXML
     void SetData(MouseEvent event) {
-        var model = new UserDAOImpl();
+        //var model = new UserDAOImpl();
 
         index = tableView.getSelectionModel().getSelectedIndex();
 
@@ -65,7 +65,7 @@ public class AdminManageController {
         String email = colEmail.getCellData(index).toString();
 
         try {
-            String password = model.getPassword(userName);
+            String password = userDAO.getPassword(userName);
 
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/addAdmin.fxml"));
 
@@ -96,10 +96,10 @@ public class AdminManageController {
     private void loadAllAdmins(){
         obList.clear();
 
-        var model = new UserDAOImpl();
+        //var model = new UserDAOImpl();
 
         try {
-            List<UserDTO> dtoList = model.getAllAdmins();
+            List<UserDTO> dtoList = userDAO.getAllAdmins();
 
             for(UserDTO dto : dtoList){
                 Button deleteButton = new Button("Delete");
@@ -132,7 +132,7 @@ public class AdminManageController {
     }
 
     private void deleteAdmin(String userName) {
-        var model = new UserDAOImpl();
+        //var model = new UserDAOImpl();
 
         try {
             boolean b = userDAO.delete(userName);

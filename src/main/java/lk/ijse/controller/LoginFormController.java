@@ -11,6 +11,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import lk.ijse.dao.custom.ScheduleDAO;
 import lk.ijse.dao.custom.UserDAO;
 import lk.ijse.dto.ScheduleDTO;
 import lk.ijse.dao.custom.impl.ScheduleDAOImpl;
@@ -34,6 +35,7 @@ public class LoginFormController {
     private TextField txtUserName;
 
     UserDAO userDAO = new UserDAOImpl();
+    ScheduleDAO scheduleDAO = new ScheduleDAOImpl();
 
     @FXML
     void btnSignInOnAction(ActionEvent event){
@@ -41,7 +43,7 @@ public class LoginFormController {
         String password = fieldPassword.getText();
         try {
 
-            boolean isIn = UserDAOImpl.search(userName, password);
+            boolean isIn = userDAO.search(userName, password);
             if (!isIn) {
                 new Alert(Alert.AlertType.WARNING, "Invalid UserName or Password").show();
                 return;
@@ -59,16 +61,16 @@ public class LoginFormController {
 
         try {
 
-            var schedModel = new ScheduleDAOImpl();
+            //var schedModel = new ScheduleDAOImpl();
 
-            boolean isAdmin = UserDAOImpl.checkAdmin(userName,password);
+            boolean isAdmin = userDAO.checkAdmin(userName,password);
 
             String date = String.valueOf(LocalDate.now());
             LocalTime currentTime = LocalTime.now();
             String time = currentTime.format(DateTimeFormatter.ofPattern("HH:mm"));
             String logId = generateNextLogId();
 
-            UserDAOImpl.saveLogin(logId, userName, date, time);
+            userDAO.saveLogin(logId, userName, date, time);
 
             if(isAdmin){
                 Parent rootNode = FXMLLoader.load(getClass().getResource("/view/DashboardForm.fxml"));
@@ -85,7 +87,7 @@ public class LoginFormController {
 
                 DriverScheduleController driverScheduleController = loader.getController();
 
-                List<ScheduleDTO> dtoList = schedModel.getSchedule(userName);
+                List<ScheduleDTO> dtoList = scheduleDAO.getSchedule(userName);
                 System.out.println(dtoList);
                 driverScheduleController.setScheduleData(dtoList, userName);
 

@@ -1,4 +1,7 @@
 package lk.ijse.dao.custom;
 
-public interface SalaryDAO {
+import lk.ijse.dao.CrudDAO;
+import lk.ijse.dto.SalaryDTO;
+
+public interface SalaryDAO extends CrudDAO<SalaryDTO> {
 }
