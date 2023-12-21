@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CustomerDAOImpl implements CustomerDAO {
-
+    @Override
     public boolean save(CustomerDto dto) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
@@ -29,7 +29,7 @@ public class CustomerDAOImpl implements CustomerDAO {
 
         return isSaved;
     }
-
+    @Override
     public List<CustomerDto> getAll() throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
@@ -52,7 +52,7 @@ public class CustomerDAOImpl implements CustomerDAO {
         }
         return dtoList;
     }
-
+    @Override
     public CustomerDto search(String id) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
@@ -76,7 +76,7 @@ public class CustomerDAOImpl implements CustomerDAO {
 
         return dto;
     }
-
+    @Override
     public boolean update(CustomerDto dto) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
@@ -91,7 +91,7 @@ public class CustomerDAOImpl implements CustomerDAO {
 
         return pstm.executeUpdate() > 0;
     }
-
+    @Override
     public boolean delete(String id) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
@@ -102,7 +102,7 @@ public class CustomerDAOImpl implements CustomerDAO {
 
         return pstm.executeUpdate() > 0;
     }
-
+    @Override
     public String generateNextId() throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
@@ -133,8 +133,8 @@ public class CustomerDAOImpl implements CustomerDAO {
         }
         return "C001";
     }
-
-    public static int getCountCus() throws SQLException {
+    @Override
+    public int getCountCus() throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
         String sql = "select count(cusId) from customer";

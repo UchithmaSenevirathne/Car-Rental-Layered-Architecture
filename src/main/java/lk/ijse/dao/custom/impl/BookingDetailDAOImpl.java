@@ -1,5 +1,6 @@
 package lk.ijse.dao.custom.impl;
 
+import lk.ijse.dao.custom.BookingDetailDAO;
 import lk.ijse.db.DbConnection;
 import lk.ijse.dto.BookingDetailDTO;
 
@@ -10,7 +11,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BookingDetailDAOImpl {
+public class BookingDetailDAOImpl implements BookingDetailDAO {
     /*public static BookingDetailDTO searchbookingDetail(String bId) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
@@ -42,8 +43,8 @@ public class BookingDetailDAOImpl {
         }
         return true;
     }*/
-
-    public boolean saveBookingDetail(BookingDetailDTO bookingDetail) throws SQLException {
+    @Override
+    public boolean save(BookingDetailDTO bookingDetail) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
         String sql = "INSERT INTO bookingDetail VALUES(?, ?, ?)";
@@ -54,8 +55,8 @@ public class BookingDetailDAOImpl {
 
         return pstm.executeUpdate() > 0;
     }
-
-    public List<BookingDetailDTO> getAllBookings() throws SQLException {
+    @Override
+    public List<BookingDetailDTO> getAll() throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
         String sql = "SELECT * FROM bookingdetail";
@@ -74,5 +75,31 @@ public class BookingDetailDAOImpl {
             dtoList.add(dto);
         }
         return dtoList;
+    }
+
+    @Override
+    public BookingDetailDTO search(String id) throws SQLException {
+        return null;
+    }
+
+    @Override
+    public boolean update(BookingDetailDTO dto) throws SQLException {
+        return false;
+    }
+
+    @Override
+    public boolean delete(String bId) throws SQLException {
+        Connection connection = DbConnection.getInstance().getConnection();
+
+        PreparedStatement pstm1 = connection.prepareStatement("DELETE FROM bookingdetail WHERE bId = ?");
+
+        pstm1.setString(1, bId);
+
+        return pstm1.executeUpdate() > 0;
+    }
+
+    @Override
+    public String generateNextId() throws SQLException {
+        return null;
     }
 }

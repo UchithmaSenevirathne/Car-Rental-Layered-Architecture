@@ -14,6 +14,9 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import lk.ijse.dao.custom.CarDAO;
+import lk.ijse.dao.custom.CustomerDAO;
+import lk.ijse.dao.custom.DriverDAO;
 import lk.ijse.dto.CarOutDto;
 import lk.ijse.dto.DriverInTimeDto;
 import lk.ijse.dto.tm.CarOutTM;
@@ -68,6 +71,10 @@ public class DashboardFormController implements Initializable{
 
     public final ObservableList<DriverInTimeTM> obListDrLog = FXCollections.observableArrayList();
 
+    DriverDAO driverDAO = new DriverDAOImpl();
+    CustomerDAO customerDAO = new CustomerDAOImpl();
+    CarDAO carDAO = new CarDAOImpl();
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         setCellValueFactoryCar();
@@ -85,7 +92,7 @@ public class DashboardFormController implements Initializable{
         try {
             String date = String.valueOf(LocalDate.now());
 
-            List<DriverInTimeDto> dtoList = DriverDAOImpl.gerDrInTime(date);
+            List<DriverInTimeDto> dtoList = driverDAO.gerDrInTime(date);
 
             for (DriverInTimeDto dto : dtoList){
                 obListDrLog.add(
@@ -113,7 +120,7 @@ public class DashboardFormController implements Initializable{
         try{
             int countBooking = modelBook.getCountBooking();
 
-            int countCustomers = CustomerDAOImpl.getCountCus();
+            int countCustomers = customerDAO.getCountCus();
 
             lblBookings.setText(String.valueOf(countBooking));
             lbltravellers.setText(String.valueOf(countCustomers));
@@ -131,7 +138,7 @@ public class DashboardFormController implements Initializable{
         //var model = new CarDAOImpl();
 
         try {
-            List<CarOutDto> dtoList = CarDAOImpl.getCarOut();
+            List<CarOutDto> dtoList = carDAO.getCarOut();
 
             for (CarOutDto dto : dtoList){
                 obListCar.add(

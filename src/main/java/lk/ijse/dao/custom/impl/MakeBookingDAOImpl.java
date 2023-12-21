@@ -1,5 +1,6 @@
 package lk.ijse.dao.custom.impl;
 
+import lk.ijse.dao.custom.*;
 import lk.ijse.db.DbConnection;
 import lk.ijse.dto.BookDTO;
 import lk.ijse.dto.BookingDetailDTO;
@@ -7,12 +8,16 @@ import lk.ijse.dto.BookingDetailDTO;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-public class MakeBookingDAOImpl {
-    private final BookingDAOImpl bookingModel = new BookingDAOImpl();
-    private final CarDAOImpl carModel = new CarDAOImpl();
-    private final DriverDAOImpl driverModel = new DriverDAOImpl();
-    private final BookingDetailDAOImpl bookingDetailModel = new BookingDetailDAOImpl();
-
+public class MakeBookingDAOImpl implements MakeBookingDAO {
+   // private final BookingDAOImpl bookingModel = new BookingDAOImpl();
+    BookingDAO bookingDAO = new BookingDAOImpl();
+    //private final CarDAOImpl carModel = new CarDAOImpl();
+    CarDAO carDAO = new CarDAOImpl();
+    //private final DriverDAOImpl driverModel = new DriverDAOImpl();
+    DriverDAO driverDAO = new DriverDAOImpl();
+    //private final BookingDetailDAOImpl bookingDetailModel = new BookingDetailDAOImpl();
+    BookingDetailDAO bookingDetailDAO = new BookingDetailDAOImpl();
+    @Override
     public boolean makeBooking(BookDTO bookDto) throws SQLException {
         boolean result = false;
         Connection connection = null;
@@ -20,13 +25,13 @@ public class MakeBookingDAOImpl {
             connection = DbConnection.getInstance().getConnection();
             connection.setAutoCommit(false);
 
-            boolean isBookingSaved = BookingDAOImpl.saveBooking(bookDto.getBId(), bookDto.getPickUpDate(), bookDto.getDays(), bookDto.getStatus(), bookDto.getPayment(), bookDto.getCusId());
+            boolean isBookingSaved = bookingDAO.save(bookDto);
             System.out.println("booking "+ isBookingSaved);
             if (isBookingSaved) {
                 for(BookingDetailDTO bookingDetail : bookDto.getBookingList()){
-                    boolean isCarUpdated = carModel.updateAvailable(bookingDetail.getCarNo());
-                    boolean isDriverUpdated = driverModel.updateAvailable(bookingDetail.getDriverId());
-                    boolean isBookingDetailSaved = bookingDetailModel.saveBookingDetail(bookingDetail);
+                    boolean isCarUpdated = carDAO.updateAvailable(bookingDetail.getCarNo());
+                    boolean isDriverUpdated = driverDAO.updateAvailable(bookingDetail.getDriverId());
+                    boolean isBookingDetailSaved = bookingDetailDAO.save(bookingDetail);
                         if (!isCarUpdated || !isDriverUpdated || !isBookingDetailSaved) {
                             connection.rollback();
                         }

@@ -1,6 +1,8 @@
 package lk.ijse.dao.custom.impl;
 
+import lk.ijse.dao.custom.BookingDAO;
 import lk.ijse.db.DbConnection;
+import lk.ijse.dto.BookDTO;
 import lk.ijse.dto.BookingDetailDTO;
 import lk.ijse.dto.CompleteDTO;
 import lk.ijse.dto.PendingDTO;
@@ -12,8 +14,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BookingDAOImpl {
-    public static String generateNextBookingId() throws SQLException {
+public class BookingDAOImpl implements BookingDAO {
+   @Override
+    public String generateNextId() throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
         String sql = "SELECT bId FROM booking ORDER BY bId DESC LIMIT 1";
@@ -45,22 +48,38 @@ public class BookingDAOImpl {
     }
 
 
-    public static boolean saveBooking(String bId, String pickUpDate, int days, String status, double payment, String cusId) throws SQLException {
+    @Override
+    public boolean save(BookDTO bookDTO) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
         String sql = "INSERT INTO booking VALUES(?, ?, ?, ?, ?, ?)";
         PreparedStatement pstm = connection.prepareStatement(sql);
 
-        pstm.setString(1, bId);
-        pstm.setString(2, pickUpDate);
-        pstm.setInt(3, days);
-        pstm.setString(4, status);
-        pstm.setDouble(5, payment);
-        pstm.setString(6, cusId);
+        pstm.setString(1, bookDTO.getBId());
+        pstm.setString(2, bookDTO.getPickUpDate());
+        pstm.setInt(3, bookDTO.getDays());
+        pstm.setString(4, bookDTO.getStatus());
+        pstm.setDouble(5, bookDTO.getPayment());
+        pstm.setString(6, bookDTO.getCusId());
 
         return pstm.executeUpdate() > 0;
     }
 
+    @Override
+    public List<BookDTO> getAll() throws SQLException {
+        return null;
+    }
+
+    @Override
+    public BookDTO search(String id) throws SQLException {
+        return null;
+    }
+
+    @Override
+    public boolean update(BookDTO dto) throws SQLException {
+        return false;
+    }
+    @Override
     public boolean UpdateBooking(BookingDetailDTO bookingDetailDTO) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
@@ -70,7 +89,7 @@ public class BookingDAOImpl {
 
         return pstm.executeUpdate() > 0;
     }
-
+    @Override
     public List<PendingDTO> getAllPendings() throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
@@ -96,24 +115,16 @@ public class BookingDAOImpl {
         return dtoList;
     }
 
-    public boolean deleteBooking(String bId) throws SQLException {
+    @Override
+    public boolean delete(String bId) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
+        PreparedStatement pstm2 = connection.prepareStatement("DELETE FROM booking WHERE bId = ?");
 
-        PreparedStatement pstm1 = connection.prepareStatement("DELETE FROM bookingdetail WHERE bId = ?");
+        pstm2.setString(1, bId);
 
-        pstm1.setString(1, bId);
-
-        if(pstm1.executeUpdate() > 0){
-            PreparedStatement pstm2 = connection.prepareStatement("DELETE FROM booking WHERE bId = ?");
-
-            pstm2.setString(1, bId);
-
-            return pstm2.executeUpdate() > 0;
-        }
-
-        return false;
+        return pstm2.executeUpdate() > 0;
     }
-
+    @Override
     public boolean updatePendingBooking(PendingDTO dto) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
@@ -137,7 +148,7 @@ public class BookingDAOImpl {
 
         return false;
     }
-
+    @Override
    public List<CompleteDTO> getAllCompletes() throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
@@ -160,7 +171,7 @@ public class BookingDAOImpl {
         }
         return dtoList;
     }
-
+    @Override
     public int getCountBooking() throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 

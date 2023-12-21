@@ -14,6 +14,9 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import lk.ijse.dao.custom.BookingDAO;
+import lk.ijse.dao.custom.BookingDetailDAO;
+import lk.ijse.dao.custom.impl.BookingDetailDAOImpl;
 import lk.ijse.dto.CompleteDTO;
 import lk.ijse.dto.PendingDTO;
 import lk.ijse.dto.tm.CompleteTm;
@@ -86,6 +89,9 @@ public class ViewBookingController {
 
     public final ObservableList<CompleteTm> obListComp = FXCollections.observableArrayList();
 
+    BookingDAO bookingDAO = new BookingDAOImpl();
+    BookingDetailDAO bookingDetailDAO = new BookingDetailDAOImpl();
+
     public void initialize(){
         setCellValueFactoryPending();
         setCellValueFactoryCompleted();
@@ -116,10 +122,10 @@ public class ViewBookingController {
     public void loadAllPendingBookings() {
         obListPend.clear();
 
-        var model = new BookingDAOImpl();
+        //var model = new BookingDAOImpl();
 
         try {
-            List<PendingDTO> dtoList = model.getAllPendings();
+            List<PendingDTO> dtoList = bookingDAO.getAllPendings();
 
             for (PendingDTO dto : dtoList){
                 Button updateButton = new Button("Update");
@@ -160,27 +166,29 @@ public class ViewBookingController {
     }
 
     private void deleteBooking(String bId) {
-        var model = new BookingDAOImpl();
+        //var model = new BookingDAOImpl();
 
         try {
-            boolean b = model.deleteBooking(bId);
+            boolean b = bookingDetailDAO.delete(bId);
 
-            if(b){
-                loadAllPendingBookings();
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/Alert/Confirmation.fxml"));
+            if(b) {
+                if (bookingDAO.delete(bId)) {
+                    loadAllPendingBookings();
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/Alert/Confirmation.fxml"));
 
-                Parent rootNode = loader.load();
+                    Parent rootNode = loader.load();
 
-                ConfirmationController confirmationController = loader.getController();
+                    ConfirmationController confirmationController = loader.getController();
 
-                confirmationController.lblConfirm.setText("Booking deleted successfully");
+                    confirmationController.lblConfirm.setText("Booking deleted successfully");
 
-                Scene scene = new Scene(rootNode);
-                Stage stage = new Stage();
-                stage.setScene(scene);
-                stage.initStyle(StageStyle.UNDECORATED);
-                stage.centerOnScreen();
-                stage.show();
+                    Scene scene = new Scene(rootNode);
+                    Stage stage = new Stage();
+                    stage.setScene(scene);
+                    stage.initStyle(StageStyle.UNDECORATED);
+                    stage.centerOnScreen();
+                    stage.show();
+                }
             }
         }catch (Exception e){
             new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
@@ -222,10 +230,10 @@ public class ViewBookingController {
    private void loadAllCompletedBookings() {
         obListComp.clear();
 
-        var model = new BookingDAOImpl();
+        //var model = new BookingDAOImpl();
 
         try {
-            List<CompleteDTO> dtoList = model.getAllCompletes();
+            List<CompleteDTO> dtoList = bookingDAO.getAllCompletes();
 
             for (CompleteDTO dto : dtoList){
                 obListComp.add(

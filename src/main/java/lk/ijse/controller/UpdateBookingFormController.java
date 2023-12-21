@@ -11,6 +11,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import lk.ijse.dao.custom.BookingDAO;
 import lk.ijse.dto.PendingDTO;
 import lk.ijse.dao.custom.impl.BookingDAOImpl;
 
@@ -43,6 +44,8 @@ public class UpdateBookingFormController {
 
     Stage stage;
 
+    BookingDAO bookingDAO = new BookingDAOImpl();
+
     @FXML
     void btnCancelOnAction(ActionEvent event) {
         stage = (Stage) rootNode.getScene().getWindow();
@@ -61,10 +64,10 @@ public class UpdateBookingFormController {
 
         var dto = new PendingDTO(bId,cusId,drId,carNo,date,days,payment);
 
-        var model = new BookingDAOImpl();
+        //var model = new BookingDAOImpl();
 
         try{
-            boolean isUpdated = model.updatePendingBooking(dto);
+            boolean isUpdated = bookingDAO.updatePendingBooking(dto);
             if (isUpdated) {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/Alert/Confirmation.fxml"));
 

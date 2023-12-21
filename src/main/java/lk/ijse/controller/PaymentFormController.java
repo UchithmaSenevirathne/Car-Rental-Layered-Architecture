@@ -14,9 +14,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import lk.ijse.dao.custom.CarDAO;
-import lk.ijse.dao.custom.CustomerDAO;
-import lk.ijse.dao.custom.DriverDAO;
+import lk.ijse.dao.custom.*;
 import lk.ijse.dao.custom.impl.*;
 import lk.ijse.db.DbConnection;
 import lk.ijse.dto.*;
@@ -36,14 +34,6 @@ import java.util.List;
 public class PaymentFormController {
     private final ObservableList<BookTm> obList = FXCollections.observableArrayList();
     //ObservableList<BookTm> obList = FXCollections.observableArrayList();
-
-    private final CustomerDAOImpl customerModel = new CustomerDAOImpl();
-
-    private final DriverDAOImpl driverModel = new DriverDAOImpl();
-
-    private final CarDAOImpl carModel = new CarDAOImpl();
-
-    private final BookingDetailDAOImpl bookingDetailModel = new BookingDetailDAOImpl();
 
     @FXML
     private AnchorPane rootNode;
@@ -121,6 +111,8 @@ public class PaymentFormController {
     CarDAO carDAO = new CarDAOImpl();
     DriverDAO driverDAO = new DriverDAOImpl();
     CustomerDAO customerDAO = new CustomerDAOImpl();
+    BookingDetailDAO bookingDetailDAO = new BookingDetailDAOImpl();
+    PaymentDAO paymentDAO = new PaymentDAOImpl();
 
     public void initialize() {
 
@@ -160,7 +152,7 @@ public class PaymentFormController {
     private void loadAllBookingIds(){
         ObservableList<String> obList = FXCollections.observableArrayList();
         try {
-            List<BookingDetailDTO> bookDTOList = bookingDetailModel.getAllBookings();
+            List<BookingDetailDTO> bookDTOList = bookingDetailDAO.getAll();
 
             for (BookingDetailDTO bookDTO : bookDTOList) {
                 obList.add(bookDTO.getBId());
@@ -250,7 +242,7 @@ public class PaymentFormController {
         );
 
         try {
-            boolean isSaved = PaymentDAOImpl.savePayment(bId, totalPayment, pickUpDate,bookingDetailDto);
+            boolean isSaved = paymentDAO.savePayment(bId, totalPayment, pickUpDate,bookingDetailDto);
 
             if(isSaved){
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/Alert/Confirmation.fxml"));
@@ -296,7 +288,7 @@ public class PaymentFormController {
 
         try {
 
-            List<PaymentDetailDTO> dto = PaymentDAOImpl.searchPaymentDetail(bId);
+            List<PaymentDetailDTO> dto = paymentDAO.searchPaymentDetail(bId);
 
             for(PaymentDetailDTO dto1 : dto) {
                 txtRentId.setValue(dto1.getBId());

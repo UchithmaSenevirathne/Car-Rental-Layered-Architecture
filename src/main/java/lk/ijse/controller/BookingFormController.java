@@ -13,9 +13,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import lk.ijse.dao.custom.CarDAO;
-import lk.ijse.dao.custom.CustomerDAO;
-import lk.ijse.dao.custom.DriverDAO;
+import lk.ijse.dao.custom.*;
 import lk.ijse.dao.custom.impl.*;
 import lk.ijse.dto.*;
 import lk.ijse.dto.tm.BookTm;
@@ -103,11 +101,13 @@ public class BookingFormController {
     @FXML
     private Pane subAnchorPane;
 
-    private final MakeBookingDAOImpl makeBookingModel = new MakeBookingDAOImpl();
+    //private final MakeBookingDAOImpl makeBookingModel = new MakeBookingDAOImpl();
+    MakeBookingDAO makeBookingDAO = new MakeBookingDAOImpl();
 
     DriverDAO driverDAO = new DriverDAOImpl();
     CarDAO carDAO = new CarDAOImpl();
     CustomerDAO customerDAO = new CustomerDAOImpl();
+    BookingDAO bookingDAO = new BookingDAOImpl();
 
     public void initialize() {
         setCellValueFactory();
@@ -130,7 +130,7 @@ public class BookingFormController {
 
     private void generateNextBookingId() {
         try {
-            String rentId = bookingModel.generateNextBookingId();
+            String rentId = bookingDAO.generateNextId();
             lblBookingId.setText(rentId);
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -190,8 +190,6 @@ public class BookingFormController {
         String brand = txtCarName.getText();
         String drId = comboDrId.getValue();
         String cusId = comboCusId.getValue();
-        //LocalDate localDate = datepickerDate.getValue();
-        //Date pickUpDate = java.sql.Date.valueOf(localDate);
         String pickUpDate = String.valueOf(datepickerDate.getValue());
         int days = Integer.parseInt(txtDays.getText());
 
@@ -255,7 +253,7 @@ public class BookingFormController {
         System.out.println(bookDto);
 
         try {
-            boolean isSuccess = makeBookingModel.makeBooking(bookDto);
+            boolean isSuccess = makeBookingDAO.makeBooking(bookDto);
             System.out.println(isSuccess);
             if(isSuccess) {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/Alert/Confirmation.fxml"));

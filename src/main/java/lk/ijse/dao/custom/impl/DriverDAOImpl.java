@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DriverDAOImpl implements DriverDAO {
-
+    @Override
     public boolean save(DriverDto dto) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
         PreparedStatement pstm = connection.prepareStatement("INSERT INTO driver VALUES(?, ?, ?, ?, ?, ?, ?, ?)");
@@ -31,7 +31,7 @@ public class DriverDAOImpl implements DriverDAO {
         return pstm.executeUpdate() > 0;
 
     }
-
+    @Override
     public List<DriverDto> getAll() throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
@@ -57,7 +57,7 @@ public class DriverDAOImpl implements DriverDAO {
         }
         return dtoList;
     }
-
+    @Override
     public boolean update(DriverDto driverDto) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
         String sql2 = "UPDATE driver SET name = ?, address = ?, email = ?, contact = ?, licenseNo = ?, userName = ?, availability = ? WHERE drId = ?";
@@ -74,7 +74,7 @@ public class DriverDAOImpl implements DriverDAO {
 
         return pstm2.executeUpdate() > 0;
     }
-
+    @Override
     public DriverDto search(String id) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
@@ -101,7 +101,7 @@ public class DriverDAOImpl implements DriverDAO {
         }
         return dto;
     }
-
+    @Override
     public boolean delete(String userName) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
@@ -121,7 +121,7 @@ public class DriverDAOImpl implements DriverDAO {
         }
         return true;
     }*/
-
+    @Override
     public boolean updateAvailable(String driverID) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
@@ -131,7 +131,7 @@ public class DriverDAOImpl implements DriverDAO {
 
         return pstm.executeUpdate() > 0;
     }
-
+    @Override
     public boolean updateAvailableYes(String bId) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
@@ -141,7 +141,7 @@ public class DriverDAOImpl implements DriverDAO {
 
         return pstm.executeUpdate() > 0;
     }
-
+    @Override
     public String generateNextId() throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
@@ -172,8 +172,8 @@ public class DriverDAOImpl implements DriverDAO {
         }
         return "D001";
     }
-
-    public static List<DriverInTimeDto> gerDrInTime(String date) throws SQLException {
+    @Override
+    public List<DriverInTimeDto> gerDrInTime(String date) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
         String sql = "SELECT d.name,l.time FROM user u join login l on u.userName = l.userName join driver d on u.userName = d.userName where l.date = ?";

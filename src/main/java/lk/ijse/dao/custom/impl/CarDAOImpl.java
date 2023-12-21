@@ -12,8 +12,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CarDAOImpl implements CarDAO {
+public class CarDAOImpl implements CarDAO{
 
+    @Override
     public boolean save(CarDto dto) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
@@ -33,6 +34,7 @@ public class CarDAOImpl implements CarDAO {
         return isSaved;
     }
 
+    @Override
     public List<CarDto> getAll() throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
@@ -57,7 +59,7 @@ public class CarDAOImpl implements CarDAO {
         }
         return dtoList;
     }
-
+    @Override
     public boolean update(CarDto dto) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
@@ -74,7 +76,7 @@ public class CarDAOImpl implements CarDAO {
 
         return pstm.executeUpdate() > 0;
     }
-
+    @Override
     public CarDto search(String carNo) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
@@ -101,7 +103,7 @@ public class CarDAOImpl implements CarDAO {
 
         return dto;
     }
-
+    @Override
     public boolean delete(String carNo) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
@@ -112,7 +114,7 @@ public class CarDAOImpl implements CarDAO {
 
         return pstm.executeUpdate() > 0;
     }
-
+    @Override
     public boolean updateAvailable(String carID) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
@@ -122,7 +124,7 @@ public class CarDAOImpl implements CarDAO {
 
         return pstm.executeUpdate() > 0;
     }
-
+    @Override
     public boolean updateAvailableYes(String bId) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
@@ -136,7 +138,7 @@ public class CarDAOImpl implements CarDAO {
 
         return isUpdate;
     }
-
+    @Override
     public String generateNextId() throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
@@ -167,8 +169,8 @@ public class CarDAOImpl implements CarDAO {
         }
         return "CR001";
     }
-
-    public static List<CarOutDto> getCarOut() throws SQLException {
+    @Override
+    public List<CarOutDto> getCarOut() throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
         String sql = "SELECT c.carNo,c.brand,b.pickUpDate FROM car c join bookingdetail bd on c.carNo = bd.carNo join booking b on b.bId = bd.bId where b.status = 'Pending'";
