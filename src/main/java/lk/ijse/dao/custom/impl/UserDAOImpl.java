@@ -1,5 +1,6 @@
 package lk.ijse.dao.custom.impl;
 
+import lk.ijse.dao.SQLUtil;
 import lk.ijse.dao.custom.UserDAO;
 import lk.ijse.db.DbConnection;
 import lk.ijse.dto.UserDTO;
@@ -14,14 +15,10 @@ import java.util.List;
 public class UserDAOImpl implements UserDAO {
     @Override
     public boolean search(String userName, String password) throws SQLException {
-        Connection connection = DbConnection.getInstance().getConnection();
-
-        String sql = "SELECT * FROM user WHERE userName = ? AND password = ?";
-        PreparedStatement pstm = connection.prepareStatement(sql);
-        pstm.setString(1, userName);
-        pstm.setString(2, password);
-
-        ResultSet resultSet = pstm.executeQuery();
+        ResultSet resultSet = SQLUtil.execute("SELECT * FROM user WHERE userName = ? AND password = ?",
+                userName,
+                password
+        );
 
         if(resultSet.next()){
             return true;
@@ -40,10 +37,7 @@ public class UserDAOImpl implements UserDAO {
     }
     @Override
     public String generateNextId() throws SQLException {
-        Connection connection = DbConnection.getInstance().getConnection();
-
-        String sql = "SELECT logId FROM login ORDER BY logId DESC LIMIT 1";
-        ResultSet resultSet = connection.prepareStatement(sql).executeQuery();
+        ResultSet resultSet = SQLUtil.execute("SELECT logId FROM login ORDER BY logId DESC LIMIT 1");
 
         String currentLogId = null;
 
@@ -70,28 +64,18 @@ public class UserDAOImpl implements UserDAO {
     }
     @Override
     public boolean saveLogin(String logId, String userName, String date, String time) throws SQLException {
-        Connection connection = DbConnection.getInstance().getConnection();
-
-        String sql = "INSERT INTO login VALUES(?, ?, ?, ?)";
-        PreparedStatement pstm = connection.prepareStatement(sql);
-
-        pstm.setString(1, logId);
-        pstm.setString(2, userName);
-        pstm.setString(3, date);
-        pstm.setString(4, time);
-
-        return pstm.executeUpdate() > 0;
+        return SQLUtil.execute("INSERT INTO login VALUES(?, ?, ?, ?)",
+                logId,
+                userName,
+                date,
+                time
+        );
     }
     @Override
     public List<UserDTO> getAllAdmins() throws SQLException {
-        Connection connection = DbConnection.getInstance().getConnection();
-
-        String sql = "SELECT * FROM user where role = 'ADM'";
-        PreparedStatement pstm = connection.prepareStatement(sql);
-
         List<UserDTO> dtoList = new ArrayList<>();
 
-        ResultSet resultSet = pstm.executeQuery();
+        ResultSet resultSet = SQLUtil.execute("SELECT * FROM user where role = 'ADM'");
 
         while (resultSet.next()){
             String userName = resultSet.getString(1);
@@ -106,14 +90,9 @@ public class UserDAOImpl implements UserDAO {
     }
     @Override
     public String getPassword(String userName) throws SQLException {
-        Connection connection = DbConnection.getInstance().getConnection();
-
-        String sql = "SELECT password FROM user WHERE userName = ?";
-        PreparedStatement pstm = connection.prepareStatement(sql);
-
-        pstm.setString(1, userName);
-
-        ResultSet resultSet = pstm.executeQuery();
+        ResultSet resultSet = SQLUtil.execute("SELECT password FROM user WHERE userName = ?",
+                userName
+        );
 
         String password = null;
 
@@ -124,16 +103,10 @@ public class UserDAOImpl implements UserDAO {
     }
     @Override
     public boolean checkAdmin(String userName, String password) throws SQLException {
-        Connection connection = DbConnection.getInstance().getConnection();
-
-        String sql = "SELECT * FROM user where userName = ? and password = ? and role = 'ADM'";
-        PreparedStatement pstm = connection.prepareStatement(sql);
-
-        //List<UserDTO> dtoList = new ArrayList<>();
-        pstm.setString(1, userName);
-        pstm.setString(2, password);
-
-        ResultSet resultSet = pstm.executeQuery();
+        ResultSet resultSet = SQLUtil.execute("SELECT * FROM user where userName = ? and password = ? and role = 'ADM'",
+                userName,
+                password
+        );
 
         while (resultSet.next()){
             String user_Name = resultSet.getString(1);
@@ -142,8 +115,6 @@ public class UserDAOImpl implements UserDAO {
             String roll = resultSet.getString(4);
 
             var dto = new UserDTO(user_Name, pwd, email, roll);
-            //dtoList.add(dto);
-            System.out.println("dto :  "+dto);
 
             if(dto.equals(null)){
                 return false;
@@ -154,49 +125,31 @@ public class UserDAOImpl implements UserDAO {
     }
     @Override
     public boolean delete(String userName) throws SQLException {
-        Connection connection = DbConnection.getInstance().getConnection();
-
-        String sql = "DELETE FROM user WHERE userName = ?";
-        PreparedStatement pstm = connection.prepareStatement(sql);
-
-        pstm.setString(1, userName);
-
-        return pstm.executeUpdate() > 0;
+        return SQLUtil.execute("DELETE FROM user WHERE userName = ?",
+                userName
+        );
     }
     @Override
     public boolean update(UserDTO userDto) throws SQLException {
-        Connection connection = DbConnection.getInstance().getConnection();
-
-        String sql = "UPDATE user SET password = ?, email = ?, role = ? WHERE userName = ?";
-        PreparedStatement pstm = connection.prepareStatement(sql);
-
-        pstm.setString(1, userDto.getPassword());
-        pstm.setString(2, userDto.getEmail());
-        pstm.setString(3, userDto.getRole());
-        pstm.setString(4, userDto.getUserName());
-
-        return pstm.executeUpdate()>0;
+        return SQLUtil.execute("UPDATE user SET password = ?, email = ?, role = ? WHERE userName = ?",
+                userDto.getPassword(),
+                userDto.getEmail(),
+                userDto.getRole(),
+                userDto.getUserName()
+        );
     }
     @Override
     public boolean save(UserDTO userDto) throws SQLException {
-        Connection connection = DbConnection.getInstance().getConnection();
-
-        PreparedStatement pstm = connection.prepareStatement("INSERT INTO user VALUES(?, ?, ?, ?)");
-
-        pstm.setString(1, userDto.getUserName());
-        pstm.setString(2, userDto.getPassword());
-        pstm.setString(3, userDto.getEmail());
-        pstm.setString(4, userDto.getRole());
-
-        return pstm.executeUpdate() > 0;
+        return SQLUtil.execute("INSERT INTO user VALUES(?, ?, ?, ?)",
+                userDto.getUserName(),
+                userDto.getPassword(),
+                userDto.getEmail(),
+                userDto.getRole()
+        );
     }
     @Override
     public boolean isSuperAdm(String password) throws SQLException {
-        Connection connection = DbConnection.getInstance().getConnection();
-
-        PreparedStatement pstm = connection.prepareStatement("SELECT password FROM user WHERE userName = 'Sadmin'");
-
-        ResultSet resultSet = pstm.executeQuery();
+        ResultSet resultSet = SQLUtil.execute("SELECT password FROM user WHERE userName = 'Sadmin'");
 
         while (resultSet.next()) {
             String pwd = resultSet.getString(1);
@@ -209,14 +162,9 @@ public class UserDAOImpl implements UserDAO {
     }
     @Override
     public boolean checkUserName(String userName) throws SQLException {
-        Connection connection = DbConnection.getInstance().getConnection();
-
-        String sql = "SELECT * FROM user where userName = ?";
-        PreparedStatement pstm = connection.prepareStatement(sql);
-
-        pstm.setString(1, userName);
-
-        ResultSet resultSet = pstm.executeQuery();
+        ResultSet resultSet = SQLUtil.execute("SELECT * FROM user where userName = ?",
+                userName
+        );
 
         while (resultSet.next()){
             String user_Name = resultSet.getString(1);
@@ -236,14 +184,9 @@ public class UserDAOImpl implements UserDAO {
     }
     @Override
     public String getEmail(String userName) throws SQLException {
-        Connection connection = DbConnection.getInstance().getConnection();
-
-        String sql = "SELECT email FROM user WHERE userName = ?";
-        PreparedStatement pstm = connection.prepareStatement(sql);
-
-        pstm.setString(1, userName);
-
-        ResultSet resultSet = pstm.executeQuery();
+        ResultSet resultSet = SQLUtil.execute("SELECT email FROM user WHERE userName = ?",
+                userName
+        );
 
         String email = null;
 
@@ -254,14 +197,9 @@ public class UserDAOImpl implements UserDAO {
     }
     @Override
     public boolean changePwd(String confirmPwd, String userName) throws SQLException {
-        Connection connection = DbConnection.getInstance().getConnection();
-
-        String sql = "UPDATE user SET password = ? WHERE userName = ?";
-        PreparedStatement pstm = connection.prepareStatement(sql);
-
-        pstm.setString(1, confirmPwd);
-        pstm.setString(2, userName);
-
-        return pstm.executeUpdate()>0;
+        return SQLUtil.execute("UPDATE user SET password = ? WHERE userName = ?",
+                confirmPwd,
+                userName
+        );
     }
 }
