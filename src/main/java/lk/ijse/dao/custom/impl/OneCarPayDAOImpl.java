@@ -1,5 +1,6 @@
 package lk.ijse.dao.custom.impl;
 
+import lk.ijse.dao.SQLUtil;
 import lk.ijse.dao.custom.OneCarPayDAO;
 import lk.ijse.db.DbConnection;
 import lk.ijse.dto.OneCarPayDTO;
@@ -12,20 +13,13 @@ import java.util.List;
 public class OneCarPayDAOImpl implements OneCarPayDAO {
     @Override
     public boolean save(OneCarPayDTO dto) throws SQLException {
-        System.out.println("*****");
-        Connection connection = DbConnection.getInstance().getConnection();
-
-        String sql = "INSERT INTO oneCarPayment VALUES(?, ?, ?, ?, ?)";
-        PreparedStatement pstm = connection.prepareStatement(sql);
-
-        pstm.setString(1, dto.getBId());
-        pstm.setString(2, dto.getCarNo());
-        pstm.setDouble(3, dto.getExtraKm());
-        pstm.setDouble(4, dto.getDriverCost());
-        pstm.setDouble(5, dto.getSubTotal());
-
-        System.out.println(pstm.executeUpdate() > 0);
-        return pstm.executeUpdate() > 0;
+        return SQLUtil.execute("INSERT INTO oneCarPayment VALUES(?, ?, ?, ?, ?)",
+                dto.getBId(),
+                dto.getCarNo(),
+                dto.getExtraKm(),
+                dto.getDriverCost(),
+                dto.getSubTotal()
+        );
     }
 
     @Override
