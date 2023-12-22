@@ -8,8 +8,8 @@ import java.sql.SQLException;
 import java.util.List;
 
 public interface DriverDAO extends CrudDAO<DriverDto> {
-    public boolean updateAvailable(String id) throws SQLException;
-    public boolean updateAvailableYes(String bId) throws SQLException;
-    public List<DriverInTimeDto> gerDrInTime(String date) throws SQLException;
-    public List<DriverDto> getAllDrivers(String search) throws SQLException;
+    boolean updateAvailable(String id) throws SQLException;
+    boolean updateAvailableYes(String bId) throws SQLException;
+    List<DriverInTimeDto> gerDrInTime(String date) throws SQLException;
+    List<DriverDto> getAllDrivers(String search) throws SQLException;
 }

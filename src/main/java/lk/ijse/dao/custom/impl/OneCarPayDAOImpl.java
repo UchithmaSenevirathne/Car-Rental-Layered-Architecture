@@ -2,11 +2,8 @@ package lk.ijse.dao.custom.impl;
 
 import lk.ijse.dao.SQLUtil;
 import lk.ijse.dao.custom.OneCarPayDAO;
-import lk.ijse.db.DbConnection;
 import lk.ijse.dto.OneCarPayDTO;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
 

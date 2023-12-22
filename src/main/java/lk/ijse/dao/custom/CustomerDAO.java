@@ -6,5 +6,5 @@ import lk.ijse.dto.CustomerDto;
 import java.sql.SQLException;
 
 public interface CustomerDAO extends CrudDAO<CustomerDto> {
-    public int getCountCus() throws SQLException;
+    int getCountCus() throws SQLException;
 }
