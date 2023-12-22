@@ -134,7 +134,16 @@ public class DriverDAOImpl implements DriverDAO {
     public List<DriverInTimeDto> gerDrInTime(String date) throws SQLException {
         List<DriverInTimeDto> dtoList = new ArrayList<>();
 
-        ResultSet resultSet = SQLUtil.execute("SELECT d.name,l.time FROM user u join login l on u.userName = l.userName join driver d on u.userName = d.userName where l.date = ?",
+        ResultSet resultSet = SQLUtil.execute("SELECT\n"+
+                "   d.name,\n"+
+                "   l.time\n"+
+                "FROM\n"+
+                "   user u\n"+
+                "       join\n"+
+                "   login l on u.userName = l.userName\n"+
+                "       join\n"+
+                "   driver d on u.userName = d.userName\n"+
+                "where l.date = ?",
                 date
         );
 
