@@ -1,5 +1,6 @@
 package lk.ijse.dao.custom.impl;
 
+import lk.ijse.dao.SQLUtil;
 import lk.ijse.dao.custom.CustomerDAO;
 import lk.ijse.db.DbConnection;
 import lk.ijse.dto.CustomerDto;
@@ -14,31 +15,19 @@ import java.util.List;
 public class CustomerDAOImpl implements CustomerDAO {
     @Override
     public boolean save(CustomerDto dto) throws SQLException {
-        Connection connection = DbConnection.getInstance().getConnection();
-
-        String sql = "INSERT INTO customer VALUES(?, ?, ?, ?, ?)";
-        PreparedStatement pstm = connection.prepareStatement(sql);
-
-        pstm.setString(1, dto.getId());
-        pstm.setString(2, dto.getName());
-        pstm.setString(3, dto.getAddress());
-        pstm.setString(4, dto.getEmail());
-        pstm.setString(5, dto.getContact());
-
-        boolean isSaved = pstm.executeUpdate() > 0;
-
-        return isSaved;
+        return SQLUtil.execute("INSERT INTO customer VALUES(?, ?, ?, ?, ?)",
+                dto.getId(),
+                dto.getName(),
+                dto.getAddress(),
+                dto.getEmail(),
+                dto.getContact()
+        );
     }
     @Override
     public List<CustomerDto> getAll() throws SQLException {
-        Connection connection = DbConnection.getInstance().getConnection();
-
-        String sql = "SELECT * FROM customer";
-        PreparedStatement pstm = connection.prepareStatement(sql);
-
         List<CustomerDto> dtoList = new ArrayList<>();
 
-        ResultSet resultSet = pstm.executeQuery();
+        ResultSet resultSet = SQLUtil.execute("SELECT * FROM customer");
 
         while (resultSet.next()){
             String cus_id = resultSet.getString(1);
@@ -54,13 +43,9 @@ public class CustomerDAOImpl implements CustomerDAO {
     }
     @Override
     public CustomerDto search(String id) throws SQLException {
-        Connection connection = DbConnection.getInstance().getConnection();
-
-        String sql = "SELECT * FROM customer WHERE cusId = ?";
-        PreparedStatement pstm = connection.prepareStatement(sql);
-        pstm.setString(1, id);
-
-        ResultSet resultSet = pstm.executeQuery();
+        ResultSet resultSet = SQLUtil.execute("SELECT * FROM customer WHERE cusId = ?",
+                id
+        );
 
         CustomerDto dto = null;
 
@@ -78,36 +63,23 @@ public class CustomerDAOImpl implements CustomerDAO {
     }
     @Override
     public boolean update(CustomerDto dto) throws SQLException {
-        Connection connection = DbConnection.getInstance().getConnection();
-
-        String sql = "UPDATE customer SET name = ?, address = ?, email = ?, contact = ?  WHERE cusId = ?";
-        PreparedStatement pstm = connection.prepareStatement(sql);
-
-        pstm.setString(1, dto.getName());
-        pstm.setString(2, dto.getAddress());
-        pstm.setString(3, dto.getEmail());
-        pstm.setString(4, dto.getContact());
-        pstm.setString(5, dto.getId());
-
-        return pstm.executeUpdate() > 0;
+        return SQLUtil.execute("UPDATE customer SET name = ?, address = ?, email = ?, contact = ?  WHERE cusId = ?",
+                dto.getName(),
+                dto.getAddress(),
+                dto.getEmail(),
+                dto.getContact(),
+                dto.getId()
+        );
     }
     @Override
     public boolean delete(String id) throws SQLException {
-        Connection connection = DbConnection.getInstance().getConnection();
-
-        String sql = "DELETE FROM customer WHERE cusId = ?";
-        PreparedStatement pstm = connection.prepareStatement(sql);
-
-        pstm.setString(1, id);
-
-        return pstm.executeUpdate() > 0;
+        return SQLUtil.execute("DELETE FROM customer WHERE cusId = ?",
+                id
+        );
     }
     @Override
     public String generateNextId() throws SQLException {
-        Connection connection = DbConnection.getInstance().getConnection();
-
-        String sql = "SELECT cusId FROM customer ORDER BY cusId DESC LIMIT 1";
-        ResultSet resultSet = connection.prepareStatement(sql).executeQuery();
+        ResultSet resultSet = SQLUtil.execute("SELECT cusId FROM customer ORDER BY cusId DESC LIMIT 1");
 
         String currentCusId = null;
 
@@ -135,12 +107,7 @@ public class CustomerDAOImpl implements CustomerDAO {
     }
     @Override
     public int getCountCus() throws SQLException {
-        Connection connection = DbConnection.getInstance().getConnection();
-
-        String sql = "select count(cusId) from customer";
-        PreparedStatement pstm = connection.prepareStatement(sql);
-
-        ResultSet resultSet = pstm.executeQuery();
+        ResultSet resultSet = SQLUtil.execute("select count(cusId) from customer");
 
         int count = 0;
 
