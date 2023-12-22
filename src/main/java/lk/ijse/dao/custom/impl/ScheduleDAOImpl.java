@@ -1,5 +1,6 @@
 package lk.ijse.dao.custom.impl;
 
+import lk.ijse.dao.SQLUtil;
 import lk.ijse.dao.custom.ScheduleDAO;
 import lk.ijse.db.DbConnection;
 import lk.ijse.dto.ScheduleDTO;
@@ -14,15 +15,9 @@ import java.util.List;
 public class ScheduleDAOImpl implements ScheduleDAO {
     @Override
     public List<ScheduleDTO> getSchedule(String userName) throws SQLException {
-        System.out.println("++++++");
-        Connection connection = DbConnection.getInstance().getConnection();
-
-        String sql1 = "SELECT drId FROM driver WHERE userName = ?";
-        PreparedStatement pstm1 = connection.prepareStatement(sql1);
-
-        pstm1.setString(1, userName);
-
-        ResultSet resultSet1 = pstm1.executeQuery();
+        ResultSet resultSet1 = SQLUtil.execute("SELECT drId FROM driver WHERE userName = ?",
+                userName
+        );
 
         String drId = null;
 
@@ -32,15 +27,27 @@ public class ScheduleDAOImpl implements ScheduleDAO {
         System.out.println(drId);
 
         if(!drId.equals(null)) {
-
-            String sql2 = "select bd.bId,c.name,cr.brand,c.address,c.contact,b.pickUpDate,b.days from car cr left join bookingdetail bd on cr.carNo = bd.carNo left join booking b on bd.bId = b.bId left join customer c on b.cusId = c.cusId where bd.drId = ?";
-            PreparedStatement pstm2 = connection.prepareStatement(sql2);
-
-            pstm2.setString(1, drId);
-
             List<ScheduleDTO> dtoList = new ArrayList<>();
 
-            ResultSet resultSet2 = pstm2.executeQuery();
+            ResultSet resultSet2 = SQLUtil.execute("select\n"+
+                    "   bd.bId,\n"+
+                    "   c.name,\n"+
+                    "   cr.brand,\n"+
+                    "   c.address,\n"+
+                    "   c.contact,\n"+
+                    "   b.pickUpDate,\n"+
+                    "   b.days\n"+
+                    "from\n"+
+                    "   car cr\n"+
+                    "       left join\n"+
+                    "   bookingdetail bd on cr.carNo = bd.carNo\n"+
+                    "       left join\n"+
+                    "   booking b on bd.bId = b.bId\n"+
+                    "       left join\n"+
+                    "   customer c on b.cusId = c.cusId\n"+
+                    "where bd.drId = ?",
+                    drId
+            );
 
             while (resultSet2.next()) {
                 String b_id = resultSet2.getString(1);
@@ -60,14 +67,9 @@ public class ScheduleDAOImpl implements ScheduleDAO {
     }
     @Override
     public String getDrName(String userName) throws SQLException {
-        Connection connection = DbConnection.getInstance().getConnection();
-
-        String sql = "SELECT name FROM driver WHERE userName = ?";
-        PreparedStatement pstm = connection.prepareStatement(sql);
-
-        pstm.setString(1, userName);
-
-        ResultSet resultSet1 = pstm.executeQuery();
+        ResultSet resultSet1 = SQLUtil.execute("SELECT name FROM driver WHERE userName = ?",
+                userName
+        );
 
         String name = null;
 
