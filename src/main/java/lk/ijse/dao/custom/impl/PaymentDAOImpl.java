@@ -1,5 +1,6 @@
 package lk.ijse.dao.custom.impl;
 
+import lk.ijse.dao.SQLUtil;
 import lk.ijse.dao.custom.*;
 import lk.ijse.db.DbConnection;
 import lk.ijse.dto.*;
@@ -18,17 +19,24 @@ public class PaymentDAOImpl implements PaymentDAO{
     BookingDetailDAO bookingDetailDAO = new BookingDetailDAOImpl();
     @Override
     public List<PaymentDetailDTO> searchPaymentDetail(String bId) throws SQLException {
-        Connection connection = DbConnection.getInstance().getConnection();
-
-        String sql = "SELECT b.bId, b.pickUpDate, b.days, b.status, b.payment, b.cusId, bd.carNo, bd.drId FROM booking b LEFT JOIN bookingdetail bd ON b.bId = bd.bId WHERE bd.bId = ?";
-
-        PreparedStatement pstm = connection.prepareStatement(sql);
-
-        pstm.setString(1, bId);
-
         List<PaymentDetailDTO> dtoList = new ArrayList<>();
 
-        ResultSet resultSet = pstm.executeQuery();
+        ResultSet resultSet = SQLUtil.execute("SELECT\n"+
+                "   b.bId,\n"+
+                "   b.pickUpDate,\n"+
+                "   b.days,\n"+
+                "   b.status,\n"+
+                "   b.payment,\n"+
+                "   b.cusId,\n"+
+                "   bd.carNo,\n"+
+                "   bd.drId\n"+
+                "FROM\n"+
+                "   booking b\n"+
+                "       LEFT JOIN\n"+
+                "   bookingdetail bd ON b.bId = bd.bId\n"+
+                "WHERE bd.bId = ?",
+                bId
+        );
 
         while (resultSet.next()) {
             String b_Id = resultSet.getString(1);
@@ -48,16 +56,11 @@ public class PaymentDAOImpl implements PaymentDAO{
     }
     @Override
     public  boolean savePayment(String bId, double totalPayment, String pickUpDate, BookingDetailDTO bookingDetailDTO) throws SQLException {
-        Connection connection = DbConnection.getInstance().getConnection();
-
-        String sql = "INSERT INTO payment VALUES(?, ?, ?)";
-        PreparedStatement pstm = connection.prepareStatement(sql);
-
-        pstm.setString(1, bId);
-        pstm.setDouble(2, totalPayment);
-        pstm.setString(3, pickUpDate);
-
-        boolean isSaved = pstm.executeUpdate() > 0;
+        boolean isSaved = SQLUtil.execute("INSERT INTO payment VALUES(?, ?, ?)",
+                bId,
+                totalPayment,
+                pickUpDate
+        );
 
         if(isSaved){
             boolean isCarUpdated = carDAO.updateAvailableYes(bookingDetailDTO.getBId());
