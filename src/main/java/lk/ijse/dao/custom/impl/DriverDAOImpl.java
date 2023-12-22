@@ -1,5 +1,6 @@
 package lk.ijse.dao.custom.impl;
 
+import lk.ijse.dao.SQLUtil;
 import lk.ijse.dao.custom.DriverDAO;
 import lk.ijse.db.DbConnection;
 import lk.ijse.dto.DriverDto;
@@ -16,31 +17,22 @@ import java.util.List;
 public class DriverDAOImpl implements DriverDAO {
     @Override
     public boolean save(DriverDto dto) throws SQLException {
-        Connection connection = DbConnection.getInstance().getConnection();
-        PreparedStatement pstm = connection.prepareStatement("INSERT INTO driver VALUES(?, ?, ?, ?, ?, ?, ?, ?)");
-
-        pstm.setString(1, dto.getId());
-        pstm.setString(2, dto.getName());
-        pstm.setString(3, dto.getAddress());
-        pstm.setString(4, dto.getEmail());
-        pstm.setString(5, dto.getContact());
-        pstm.setString(6, dto.getLicenseNo());
-        pstm.setString(7, dto.getUserName());
-        pstm.setString(8, dto.getAvailability());
-
-        return pstm.executeUpdate() > 0;
-
+        return SQLUtil.execute("INSERT INTO driver VALUES(?, ?, ?, ?, ?, ?, ?, ?)",
+                dto.getId(),
+                dto.getName(),
+                dto.getAddress(),
+                dto.getEmail(),
+                dto.getContact(),
+                dto.getLicenseNo(),
+                dto.getUserName(),
+                dto.getAvailability()
+        );
     }
     @Override
     public List<DriverDto> getAll() throws SQLException {
-        Connection connection = DbConnection.getInstance().getConnection();
-
-        String sql = "SELECT * FROM driver";
-        PreparedStatement pstm = connection.prepareStatement(sql);
-
         List<DriverDto> dtoList = new ArrayList<>();
 
-        ResultSet resultSet = pstm.executeQuery();
+        ResultSet resultSet = SQLUtil.execute("SELECT * FROM driver");
 
         while (resultSet.next()){
             String dr_id = resultSet.getString(1);
@@ -59,31 +51,22 @@ public class DriverDAOImpl implements DriverDAO {
     }
     @Override
     public boolean update(DriverDto driverDto) throws SQLException {
-        Connection connection = DbConnection.getInstance().getConnection();
-        String sql2 = "UPDATE driver SET name = ?, address = ?, email = ?, contact = ?, licenseNo = ?, userName = ?, availability = ? WHERE drId = ?";
-        PreparedStatement pstm2 = connection.prepareStatement(sql2);
-
-        pstm2.setString(1, driverDto.getName());
-        pstm2.setString(2, driverDto.getAddress());
-        pstm2.setString(3, driverDto.getEmail());
-        pstm2.setString(4, driverDto.getContact());
-        pstm2.setString(5, driverDto.getLicenseNo());
-        pstm2.setString(6, driverDto.getUserName());
-        pstm2.setString(7, driverDto.getAvailability());
-        pstm2.setString(8, driverDto.getId());
-
-        return pstm2.executeUpdate() > 0;
+        return SQLUtil.execute("UPDATE driver SET name = ?, address = ?, email = ?, contact = ?, licenseNo = ?, userName = ?, availability = ? WHERE drId = ?",
+                driverDto.getName(),
+                driverDto.getAddress(),
+                driverDto.getEmail(),
+                driverDto.getContact(),
+                driverDto.getLicenseNo(),
+                driverDto.getUserName(),
+                driverDto.getAddress(),
+                driverDto.getId()
+        );
     }
     @Override
     public DriverDto search(String id) throws SQLException {
-        Connection connection = DbConnection.getInstance().getConnection();
-
-        String sql = "SELECT * FROM driver WHERE drId = ?";
-        PreparedStatement pstm = connection.prepareStatement(sql);
-
-        pstm.setString(1, id);
-
-        ResultSet resultSet = pstm.executeQuery();
+        ResultSet resultSet = SQLUtil.execute("SELECT * FROM driver WHERE drId = ?",
+                id
+        );
 
         DriverDto dto = null;
 
@@ -103,50 +86,25 @@ public class DriverDAOImpl implements DriverDAO {
     }
     @Override
     public boolean delete(String userName) throws SQLException {
-        Connection connection = DbConnection.getInstance().getConnection();
-
-        String sql1 = "DELETE FROM driver WHERE userName = ?";
-        PreparedStatement pstm1 = connection.prepareStatement(sql1);
-
-        pstm1.setString(1, userName);
-
-        return pstm1.executeUpdate() > 0;
+        return SQLUtil.execute("DELETE FROM driver WHERE userName = ?",
+                userName
+        );
     }
-
-    /*public boolean updateDriver(List<DriverTm> driverList) throws SQLException {
-        for (DriverTm driverTm : driverList) {
-            if(!updateAvailable(driverTm)) {
-                return false;
-            }
-        }
-        return true;
-    }*/
     @Override
     public boolean updateAvailable(String driverID) throws SQLException {
-        Connection connection = DbConnection.getInstance().getConnection();
-
-        String sql = "UPDATE driver SET availability = 'NO' WHERE drId = ?";
-        PreparedStatement pstm = connection.prepareStatement(sql);
-        pstm.setString(1, driverID);
-
-        return pstm.executeUpdate() > 0;
+        return SQLUtil.execute("UPDATE driver SET availability = 'NO' WHERE drId = ?",
+                driverID
+        );
     }
     @Override
     public boolean updateAvailableYes(String bId) throws SQLException {
-        Connection connection = DbConnection.getInstance().getConnection();
-
-        String sql = "UPDATE driver SET availability = 'YES' WHERE drId IN (SELECT drId FROM booking WHERE bId = ?)";
-        PreparedStatement pstm = connection.prepareStatement(sql);
-        pstm.setString(1, bId);
-
-        return pstm.executeUpdate() > 0;
+        return SQLUtil.execute("UPDATE driver SET availability = 'YES' WHERE drId IN (SELECT drId FROM booking WHERE bId = ?)",
+                bId
+        );
     }
     @Override
     public String generateNextId() throws SQLException {
-        Connection connection = DbConnection.getInstance().getConnection();
-
-        String sql = "SELECT drId FROM driver ORDER BY drId DESC LIMIT 1";
-        ResultSet resultSet = connection.prepareStatement(sql).executeQuery();
+        ResultSet resultSet = SQLUtil.execute("SELECT drId FROM driver ORDER BY drId DESC LIMIT 1");
 
         String currentDrId = null;
 
@@ -174,16 +132,11 @@ public class DriverDAOImpl implements DriverDAO {
     }
     @Override
     public List<DriverInTimeDto> gerDrInTime(String date) throws SQLException {
-        Connection connection = DbConnection.getInstance().getConnection();
-
-        String sql = "SELECT d.name,l.time FROM user u join login l on u.userName = l.userName join driver d on u.userName = d.userName where l.date = ?";
-        PreparedStatement pstm = connection.prepareStatement(sql);
-
-        pstm.setString(1, date);
-
         List<DriverInTimeDto> dtoList = new ArrayList<>();
 
-        ResultSet resultSet = pstm.executeQuery();
+        ResultSet resultSet = SQLUtil.execute("SELECT d.name,l.time FROM user u join login l on u.userName = l.userName join driver d on u.userName = d.userName where l.date = ?",
+                date
+        );
 
         while (resultSet.next()){
             String dr_name = resultSet.getString(1);
@@ -196,19 +149,12 @@ public class DriverDAOImpl implements DriverDAO {
     }
     @Override
     public List<DriverDto> getAllDrivers(String search) throws SQLException {
-        Connection connection = DbConnection.getInstance().getConnection();
-
         List<DriverDto> driverList = new ArrayList<>();
 
         try {
-            String sql = "SELECT * FROM driver WHERE drId LIKE ? OR name LIKE ?";
-            //PreparedStatement pstm = connection.prepareStatement(sql);
-            PreparedStatement pstm = connection.prepareStatement(sql);
-
-            pstm.setString(1, search);
-            pstm.setString(2, search);
-
-            ResultSet resultSet = pstm.executeQuery();
+            ResultSet resultSet = SQLUtil.execute("SELECT * FROM driver WHERE drId OR name LIKE ?",
+                    search
+            );
 
             while (resultSet.next()) {
                 DriverDto driver = new DriverDto(
@@ -225,8 +171,6 @@ public class DriverDAOImpl implements DriverDAO {
 
                 driverList.add(driver);
             }
-
-            pstm.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
