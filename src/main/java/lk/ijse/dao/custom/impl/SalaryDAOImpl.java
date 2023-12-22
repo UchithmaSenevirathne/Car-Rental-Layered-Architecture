@@ -1,5 +1,6 @@
 package lk.ijse.dao.custom.impl;
 
+import lk.ijse.dao.SQLUtil;
 import lk.ijse.dao.custom.SalaryDAO;
 import lk.ijse.db.DbConnection;
 import lk.ijse.dto.DriverDto;
@@ -13,31 +14,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SalaryDAOImpl implements SalaryDAO {
-    //private Connection connection;
     @Override
     public boolean save(SalaryDTO dto) throws SQLException {
-        Connection connection = DbConnection.getInstance().getConnection();
 
-        String sql = "INSERT INTO driverSalary VALUES(?, ?, ?, ?)";
-        PreparedStatement pstm = connection.prepareStatement(sql);
-
-        pstm.setString(1, dto.getDrSalId());
-        pstm.setString(2, dto.getDrId());
-        pstm.setDouble(3, dto.getAmount());
-        pstm.setString(4, dto.getMonth());
-
-        return pstm.executeUpdate() > 0;
+        return SQLUtil.execute("INSERT INTO driverSalary VALUES(?, ?, ?, ?)",
+                dto.getDrSalId(),
+                dto.getDrId(),
+                dto.getAmount(),
+                dto.getMonth()
+        );
     }
     @Override
     public List<SalaryDTO> getAll() throws SQLException {
-        Connection connection = DbConnection.getInstance().getConnection();
-
-        String sql = "SELECT * FROM driverSalary";
-        PreparedStatement pstm = connection.prepareStatement(sql);
-
         List<SalaryDTO> dtoList = new ArrayList<>();
 
-        ResultSet resultSet = pstm.executeQuery();
+        ResultSet resultSet = SQLUtil.execute("SELECT * FROM driverSalary");
 
         while (resultSet.next()){
             String sal_Id = resultSet.getString(1);
