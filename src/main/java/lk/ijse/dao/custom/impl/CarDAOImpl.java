@@ -1,5 +1,6 @@
 package lk.ijse.dao.custom.impl;
 
+import lk.ijse.dao.SQLUtil;
 import lk.ijse.dao.custom.CarDAO;
 import lk.ijse.db.DbConnection;
 import lk.ijse.dto.CarDto;
@@ -16,34 +17,22 @@ public class CarDAOImpl implements CarDAO{
 
     @Override
     public boolean save(CarDto dto) throws SQLException {
-        Connection connection = DbConnection.getInstance().getConnection();
-
-        String sql = "INSERT INTO car VALUES(?, ?, ?, ?, ?, ?, ?)";
-        PreparedStatement pstm = connection.prepareStatement(sql);
-
-        pstm.setString(1, dto.getCarNo());
-        pstm.setString(2, dto.getBrand());
-        pstm.setString(3, dto.getAvailability());
-        pstm.setDouble(4, dto.getCurrentMileage());
-        pstm.setDouble(5, dto.getKmOneDay());
-        pstm.setDouble(6, dto.getPriceOneDay());
-        pstm.setDouble(7, dto.getPriceExtraKm());
-
-        boolean isSaved = pstm.executeUpdate() > 0;
-
-        return isSaved;
+        return SQLUtil.execute("INSERT INTO car VALUES(?, ?, ?, ?, ?, ?, ?)",
+                dto.getCarNo(),
+                dto.getBrand(),
+                dto.getAvailability(),
+                dto.getCurrentMileage(),
+                dto.getKmOneDay(),
+                dto.getPriceOneDay(),
+                dto.getPriceExtraKm()
+        );
     }
 
     @Override
     public List<CarDto> getAll() throws SQLException {
-        Connection connection = DbConnection.getInstance().getConnection();
-
-        String sql = "SELECT * FROM car";
-        PreparedStatement pstm = connection.prepareStatement(sql);
-
         List<CarDto> dtoList = new ArrayList<>();
 
-        ResultSet resultSet = pstm.executeQuery();
+        ResultSet resultSet = SQLUtil.execute("SELECT * FROM car");
 
         while (resultSet.next()){
             String car_number = resultSet.getString(1);
@@ -61,31 +50,21 @@ public class CarDAOImpl implements CarDAO{
     }
     @Override
     public boolean update(CarDto dto) throws SQLException {
-        Connection connection = DbConnection.getInstance().getConnection();
-
-        String sql = "UPDATE car SET brand = ?, availability = ?, currentMileage = ?, kmOneDay = ?, priceOneDay = ?, priceExtraKm = ? WHERE carNo = ?";
-        PreparedStatement pstm = connection.prepareStatement(sql);
-
-        pstm.setString(1, dto.getBrand());
-        pstm.setString(2, dto.getAvailability());
-        pstm.setDouble(3, dto.getCurrentMileage());
-        pstm.setDouble(4, dto.getKmOneDay());
-        pstm.setDouble(5, dto.getPriceOneDay());
-        pstm.setDouble(6, dto.getPriceExtraKm());
-        pstm.setString(7, dto.getCarNo());
-
-        return pstm.executeUpdate() > 0;
+        return SQLUtil.execute("UPDATE car SET brand = ?, availability = ?, currentMileage = ?, kmOneDay = ?, priceOneDay = ?, priceExtraKm = ? WHERE carNo = ?",
+                dto.getBrand(),
+                dto.getAvailability(),
+                dto.getCurrentMileage(),
+                dto.getKmOneDay(),
+                dto.getPriceOneDay(),
+                dto.getPriceExtraKm(),
+                dto.getCarNo()
+        );
     }
     @Override
     public CarDto search(String carNo) throws SQLException {
-        Connection connection = DbConnection.getInstance().getConnection();
-
-        String sql = "SELECT * FROM car WHERE carNo = ?";
-        PreparedStatement pstm = connection.prepareStatement(sql);
-
-        pstm.setString(1, carNo);
-
-        ResultSet resultSet = pstm.executeQuery();
+        ResultSet resultSet = SQLUtil.execute("SELECT * FROM car WHERE carNo = ?",
+                carNo
+        );
 
         CarDto dto = null;
 
@@ -105,45 +84,25 @@ public class CarDAOImpl implements CarDAO{
     }
     @Override
     public boolean delete(String carNo) throws SQLException {
-        Connection connection = DbConnection.getInstance().getConnection();
-
-        String sql = "DELETE FROM car WHERE carNo = ?";
-        PreparedStatement pstm = connection.prepareStatement(sql);
-
-        pstm.setString(1, carNo);
-
-        return pstm.executeUpdate() > 0;
+        return SQLUtil.execute("DELETE FROM car WHERE carNo = ?",
+                carNo
+        );
     }
     @Override
     public boolean updateAvailable(String carID) throws SQLException {
-        Connection connection = DbConnection.getInstance().getConnection();
-
-        PreparedStatement pstm = connection.prepareStatement("UPDATE car SET availability = 'NO' WHERE carNo = ?");
-
-        pstm.setString(1, carID);
-
-        return pstm.executeUpdate() > 0;
+        return SQLUtil.execute("UPDATE car SET availability = 'NO' WHERE carNo = ?",
+                carID
+        );
     }
     @Override
     public boolean updateAvailableYes(String bId) throws SQLException {
-        Connection connection = DbConnection.getInstance().getConnection();
-
-        String sql = "UPDATE car SET availability = 'YES' WHERE carNo IN (SELECT carNo FROM booking WHERE bId = ?)";
-        PreparedStatement pstm = connection.prepareStatement(sql);
-        pstm.setString(1, bId);
-
-        boolean isUpdate = pstm.executeUpdate() > 0;
-
-        System.out.println("car update "+ isUpdate);
-
-        return isUpdate;
+        return SQLUtil.execute("UPDATE car SET availability = 'YES' WHERE carNo IN (SELECT carNo FROM booking WHERE bId = ?)",
+                bId
+        );
     }
     @Override
     public String generateNextId() throws SQLException {
-        Connection connection = DbConnection.getInstance().getConnection();
-
-        String sql = "SELECT carNo FROM car ORDER BY carNo DESC LIMIT 1";
-        ResultSet resultSet = connection.prepareStatement(sql).executeQuery();
+        ResultSet resultSet = SQLUtil.execute("SELECT carNo FROM car ORDER BY carNo DESC LIMIT 1");
 
         String currentCarNo = null;
 
@@ -171,14 +130,20 @@ public class CarDAOImpl implements CarDAO{
     }
     @Override
     public List<CarOutDto> getCarOut() throws SQLException {
-        Connection connection = DbConnection.getInstance().getConnection();
-
-        String sql = "SELECT c.carNo,c.brand,b.pickUpDate FROM car c join bookingdetail bd on c.carNo = bd.carNo join booking b on b.bId = bd.bId where b.status = 'Pending'";
-        PreparedStatement pstm = connection.prepareStatement(sql);
-
         List<CarOutDto> dtoList = new ArrayList<>();
 
-        ResultSet resultSet = pstm.executeQuery();
+        ResultSet resultSet = SQLUtil.execute("SELECT\n"+
+                "   c.carNo,\n"+
+                "   c.brand,\n"+
+                "   b.pickUpDate\n"+
+                "FROM\n"+
+                "   car c\n"+
+                "       join\n"+
+                "   bookingdetail bd on c.carNo = bd.carNo\n"+
+                "       join\n"+
+                "   booking b on b.bId = bd.bId\n"+
+                "where b.status = 'Pending'"
+        );
 
         while (resultSet.next()){
             String car_number = resultSet.getString(1);
