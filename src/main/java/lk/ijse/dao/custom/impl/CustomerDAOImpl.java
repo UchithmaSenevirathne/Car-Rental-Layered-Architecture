@@ -3,6 +3,7 @@ package lk.ijse.dao.custom.impl;
 import lk.ijse.dao.SQLUtil;
 import lk.ijse.dao.custom.CustomerDAO;
 import lk.ijse.dto.CustomerDto;
+import lk.ijse.entity.Customer;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,18 +12,18 @@ import java.util.List;
 
 public class CustomerDAOImpl implements CustomerDAO {
     @Override
-    public boolean save(CustomerDto dto) throws SQLException {
+    public boolean save(Customer entity) throws SQLException {
         return SQLUtil.execute("INSERT INTO customer VALUES(?, ?, ?, ?, ?)",
-                dto.getId(),
-                dto.getName(),
-                dto.getAddress(),
-                dto.getEmail(),
-                dto.getContact()
+                entity.getId(),
+                entity.getName(),
+                entity.getAddress(),
+                entity.getEmail(),
+                entity.getContact()
         );
     }
     @Override
-    public List<CustomerDto> getAll() throws SQLException {
-        List<CustomerDto> dtoList = new ArrayList<>();
+    public List<Customer> getAll() throws SQLException {
+        List<Customer> customers = new ArrayList<>();
 
         ResultSet resultSet = SQLUtil.execute("SELECT * FROM customer");
 
@@ -33,18 +34,18 @@ public class CustomerDAOImpl implements CustomerDAO {
             String cus_email = resultSet.getString(4);
             String cus_contact = resultSet.getString(5);
 
-            var dto = new CustomerDto(cus_id, cus_name, cus_address, cus_email, cus_contact);
-            dtoList.add(dto);
+            var entity = new Customer(cus_id, cus_name, cus_address, cus_email, cus_contact);
+            customers.add(entity);
         }
-        return dtoList;
+        return customers;
     }
     @Override
-    public CustomerDto search(String id) throws SQLException {
+    public Customer search(String id) throws SQLException {
         ResultSet resultSet = SQLUtil.execute("SELECT * FROM customer WHERE cusId = ?",
                 id
         );
 
-        CustomerDto dto = null;
+        Customer entity = null;
 
         if(resultSet.next()) {
             String cus_id = resultSet.getString(1);
@@ -53,19 +54,19 @@ public class CustomerDAOImpl implements CustomerDAO {
             String cus_email = resultSet.getString(4);
             String cus_contact = resultSet.getString(5);
 
-            dto = new CustomerDto(cus_id, cus_name, cus_address, cus_email, cus_contact);
+            entity = new Customer(cus_id, cus_name, cus_address, cus_email, cus_contact);
         }
 
-        return dto;
+        return entity;
     }
     @Override
-    public boolean update(CustomerDto dto) throws SQLException {
+    public boolean update(Customer entity) throws SQLException {
         return SQLUtil.execute("UPDATE customer SET name = ?, address = ?, email = ?, contact = ?  WHERE cusId = ?",
-                dto.getName(),
-                dto.getAddress(),
-                dto.getEmail(),
-                dto.getContact(),
-                dto.getId()
+                entity.getName(),
+                entity.getAddress(),
+                entity.getEmail(),
+                entity.getContact(),
+                entity.getId()
         );
     }
     @Override

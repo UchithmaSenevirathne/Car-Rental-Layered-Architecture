@@ -12,6 +12,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import lk.ijse.Validation.Validate;
+import lk.ijse.bo.custom.UserBO;
+import lk.ijse.bo.custom.impl.UserBOImpl;
 import lk.ijse.dao.custom.UserDAO;
 import lk.ijse.dto.UserDTO;
 import lk.ijse.dao.custom.impl.UserDAOImpl;
@@ -32,7 +34,8 @@ public class AddAdminController {
     @FXML
     private TextField txtUName;
 
-    UserDAO userDAO = new UserDAOImpl();
+    //UserDAO userDAO = new UserDAOImpl();
+    UserBO userBO = new UserBOImpl();
 
     @FXML
     void btnSaveOnAction(ActionEvent event) {
@@ -47,7 +50,7 @@ public class AddAdminController {
         try {
             if(ValidateAdmin(userName,email,password)) {
                 if (btnAdminFormBtn.getText().equals("UPDATE")) {
-                    boolean isUpdate = userDAO.update(userDto);
+                    boolean isUpdate = userBO.updateAdmin(userDto);
                     if (isUpdate) {
                         FXMLLoader loader = new FXMLLoader(getClass().getResource("/Alert/Confirmation.fxml"));
 
@@ -66,7 +69,7 @@ public class AddAdminController {
                         clearFields();
                     }
                 } else if (btnAdminFormBtn.getText().equals("SAVE")) {
-                    boolean isSaved = userDAO.save(userDto);
+                    boolean isSaved = userBO.saveAdmin(userDto);
 
                     if (isSaved) {
                         FXMLLoader loader = new FXMLLoader(getClass().getResource("/Alert/Confirmation.fxml"));

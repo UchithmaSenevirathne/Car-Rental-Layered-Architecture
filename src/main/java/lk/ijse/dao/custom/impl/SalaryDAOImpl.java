@@ -3,6 +3,7 @@ package lk.ijse.dao.custom.impl;
 import lk.ijse.dao.SQLUtil;
 import lk.ijse.dao.custom.SalaryDAO;
 import lk.ijse.dto.SalaryDTO;
+import lk.ijse.entity.Salary;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,18 +12,18 @@ import java.util.List;
 
 public class SalaryDAOImpl implements SalaryDAO {
     @Override
-    public boolean save(SalaryDTO dto) throws SQLException {
+    public boolean save(Salary entity) throws SQLException {
 
         return SQLUtil.execute("INSERT INTO driverSalary VALUES(?, ?, ?, ?)",
-                dto.getDrSalId(),
-                dto.getDrId(),
-                dto.getAmount(),
-                dto.getMonth()
+                entity.getDrSalId(),
+                entity.getDrId(),
+                entity.getAmount(),
+                entity.getMonth()
         );
     }
     @Override
-    public List<SalaryDTO> getAll() throws SQLException {
-        List<SalaryDTO> dtoList = new ArrayList<>();
+    public List<Salary> getAll() throws SQLException {
+        List<Salary> salaries = new ArrayList<>();
 
         ResultSet resultSet = SQLUtil.execute("SELECT * FROM driverSalary");
 
@@ -32,19 +33,19 @@ public class SalaryDAOImpl implements SalaryDAO {
             double sal_amount = resultSet.getDouble(3);
             String sal_month = resultSet.getString(4);
 
-            var dto = new SalaryDTO(sal_Id, dr_Id, sal_amount, sal_month);
-            dtoList.add(dto);
+            var entity = new Salary(sal_Id, dr_Id, sal_amount, sal_month);
+            salaries.add(entity);
         }
-        return dtoList;
+        return salaries;
     }
 
     @Override
-    public SalaryDTO search(String id) throws SQLException {
+    public Salary search(String id) throws SQLException {
         return null;
     }
 
     @Override
-    public boolean update(SalaryDTO dto) throws SQLException {
+    public boolean update(Salary entity) throws SQLException {
         return false;
     }
 

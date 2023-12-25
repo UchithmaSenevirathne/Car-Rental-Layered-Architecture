@@ -12,6 +12,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import lk.ijse.Validation.Validate;
+import lk.ijse.bo.custom.CustomerBO;
+import lk.ijse.bo.custom.impl.CustomerBOImpl;
 import lk.ijse.dao.custom.CustomerDAO;
 import lk.ijse.dto.CustomerDto;
 import lk.ijse.dao.custom.impl.CustomerDAOImpl;
@@ -43,7 +45,8 @@ public class CustomerFormController {
 
     Stage stage;
 
-    CustomerDAO customerDAO = new CustomerDAOImpl();
+    //CustomerDAO customerDAO = new CustomerDAOImpl();
+    CustomerBO customerBO = new CustomerBOImpl();
 
     @FXML
     void btnCancelCusOnAction(ActionEvent event) {
@@ -66,7 +69,7 @@ public class CustomerFormController {
         try {
             if(validateCustomer(id, name, address, email, contact)) {
                 if (btnCusFormBtn.getText().equals("UPDATE")) {
-                    boolean isUpdated = customerDAO.update(dto);
+                    boolean isUpdated = customerBO.updateCustomer(dto);
                     if (isUpdated) {
                         FXMLLoader loader = new FXMLLoader(getClass().getResource("/Alert/Confirmation.fxml"));
 
@@ -87,7 +90,7 @@ public class CustomerFormController {
                         btnCancelCusOnAction(event);
                     }
                 } else if (btnCusFormBtn.getText().equals("SAVE")) {
-                    boolean isSaved = customerDAO.save(dto);
+                    boolean isSaved = customerBO.saveCustomer(dto);
                     if (isSaved) {
                         FXMLLoader loader = new FXMLLoader(getClass().getResource("/Alert/Confirmation.fxml"));
 

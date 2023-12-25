@@ -18,4 +18,5 @@ public class Book {
     private double payment;
     private String cusId;
     private List<BookingDetail> bookingList = new ArrayList<>();
+
 }

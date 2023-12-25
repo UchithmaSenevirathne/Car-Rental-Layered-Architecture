@@ -14,6 +14,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import lk.ijse.bo.custom.PaymentBO;
+import lk.ijse.bo.custom.impl.PaymentBOImpl;
 import lk.ijse.dao.custom.*;
 import lk.ijse.dao.custom.impl.*;
 import lk.ijse.db.DbConnection;
@@ -108,12 +110,13 @@ public class PaymentFormController {
 
     private double totalPay = 0;
 
-    CarDAO carDAO = new CarDAOImpl();
-    DriverDAO driverDAO = new DriverDAOImpl();
-    CustomerDAO customerDAO = new CustomerDAOImpl();
-    BookingDetailDAO bookingDetailDAO = new BookingDetailDAOImpl();
-    PaymentDAO paymentDAO = new PaymentDAOImpl();
-    OneCarPayDAO oneCarPayDAO = new OneCarPayDAOImpl();
+    //CarDAO carDAO = new CarDAOImpl();
+    //DriverDAO driverDAO = new DriverDAOImpl();
+    //CustomerDAO customerDAO = new CustomerDAOImpl();
+    //BookingDetailDAO bookingDetailDAO = new BookingDetailDAOImpl();
+    //PaymentDAO paymentDAO = new PaymentDAOImpl();
+    //OneCarPayDAO oneCarPayDAO = new OneCarPayDAOImpl();
+    PaymentBO paymentBO = new PaymentBOImpl();
 
     public void initialize() {
 
@@ -143,17 +146,17 @@ public class PaymentFormController {
         txtBrand.setText(colBrand.getCellData(index).toString());
         txtDrId.setText(colDrId.getCellData(index).toString());
 
-        CarDto dto = carDAO.search(txtCarId.getText());
+        CarDto dto = paymentBO.searchCar(txtCarId.getText());
         txtPriceOneDay.setText(String.valueOf(dto.getPriceOneDay()));
 
-        DriverDto dto1 = driverDAO.search(txtDrId.getText());
+        DriverDto dto1 = paymentBO.searchDriver(txtDrId.getText());
         txtDrName.setText(dto1.getName());
     }
 
     private void loadAllBookingIds(){
         ObservableList<String> obList = FXCollections.observableArrayList();
         try {
-            List<BookingDetailDTO> bookDTOList = bookingDetailDAO.getAll();
+            List<BookingDetailDTO> bookDTOList = paymentBO.getAllBookings();
 
             for (BookingDetailDTO bookDTO : bookDTOList) {
                 obList.add(bookDTO.getBId());
@@ -181,7 +184,7 @@ public class PaymentFormController {
         double extraKm = Integer.parseInt(txtExtraKm.getText());
 
         //
-        CarDto dto = carDAO.search(txtCarId.getText());
+        CarDto dto = paymentBO.searchCar(txtCarId.getText());
         double priceExtraKm = dto.getPriceExtraKm();
         //
 
@@ -198,7 +201,7 @@ public class PaymentFormController {
 
         try {
 
-            boolean isSaved = oneCarPayDAO.save(dtoOneCarPay);
+            boolean isSaved = paymentBO.saveOneCarPay(dtoOneCarPay);
 
             if (isSaved){
                 totalPayment(total);
@@ -243,7 +246,7 @@ public class PaymentFormController {
         );
 
         try {
-            boolean isSaved = paymentDAO.savePayment(bId, totalPayment, pickUpDate,bookingDetailDto);
+            boolean isSaved = paymentBO.savePayment(bId, totalPayment, pickUpDate,bookingDetailDto);
 
             if(isSaved){
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/Alert/Confirmation.fxml"));
@@ -289,7 +292,7 @@ public class PaymentFormController {
 
         try {
 
-            List<PaymentDetailDTO> dto = paymentDAO.searchPaymentDetail(bId);
+            List<PaymentDetailDTO> dto = paymentBO.searchPaymentDetail(bId);
 
             for(PaymentDetailDTO dto1 : dto) {
                 txtRentId.setValue(dto1.getBId());
@@ -297,7 +300,7 @@ public class PaymentFormController {
                 txtCusId.setText(dto1.getCusId());
 
                 String cusId = txtCusId.getText();
-                CustomerDto dtoCus = customerDAO.search(cusId);
+                CustomerDto dtoCus = paymentBO.searchCustomer(cusId);
 
                 txtName.setText(dtoCus.getName());
                 txtContact.setText(dtoCus.getContact());
@@ -312,7 +315,7 @@ public class PaymentFormController {
 
     private void addToTable(List<PaymentDetailDTO> dto) throws SQLException {
         for (PaymentDetailDTO dto1 : dto){
-            CarDto dtoCar = carDAO.search(dto1.getCarNo());
+            CarDto dtoCar = paymentBO.searchCar(dto1.getCarNo());
             String brand = dtoCar.getBrand();
             obList.add(new BookTm(
                     dto1.getBId(),

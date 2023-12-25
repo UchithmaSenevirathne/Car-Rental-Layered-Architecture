@@ -3,6 +3,7 @@ package lk.ijse.dao.custom.impl;
 import lk.ijse.dao.SQLUtil;
 import lk.ijse.dao.custom.BookingDetailDAO;
 import lk.ijse.dto.BookingDetailDTO;
+import lk.ijse.entity.BookingDetail;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,16 +12,16 @@ import java.util.List;
 
 public class BookingDetailDAOImpl implements BookingDetailDAO {
     @Override
-    public boolean save(BookingDetailDTO bookingDetail) throws SQLException {
+    public boolean save(BookingDetail entity) throws SQLException {
         return SQLUtil.execute("INSERT INTO bookingDetail VALUES(?, ?, ?)",
-                bookingDetail.getBId(),
-                bookingDetail.getCarNo(),
-                bookingDetail.getDriverId()
+                entity.getBId(),
+                entity.getCarNo(),
+                entity.getDriverId()
         );
     }
     @Override
-    public List<BookingDetailDTO> getAll() throws SQLException {
-        List<BookingDetailDTO> dtoList = new ArrayList<>();
+    public List<BookingDetail> getAll() throws SQLException {
+        List<BookingDetail> bookingDetails = new ArrayList<>();
 
         ResultSet resultSet = SQLUtil.execute("SELECT * FROM bookingdetail");
 
@@ -29,20 +30,20 @@ public class BookingDetailDAOImpl implements BookingDetailDAO {
             String car_No = resultSet.getString(2);
             String dr_Id = resultSet.getString(3);
 
-            var dto = new BookingDetailDTO(book_Id,car_No,dr_Id);
-            dtoList.add(dto);
+            var entity = new BookingDetail(book_Id,car_No,dr_Id);
+            bookingDetails.add(entity);
         }
-        return dtoList;
+        return bookingDetails;
     }
 
     @Override
-    public BookingDetailDTO search(String id) throws SQLException {
+    public BookingDetail search(String id) throws SQLException {
         return null;
     }
 
     @Override
-    public boolean update(BookingDetailDTO dto) throws SQLException {
-        return false;
+    public boolean update(BookingDetail entity) throws SQLException {
+        return true;
     }
 
     @Override

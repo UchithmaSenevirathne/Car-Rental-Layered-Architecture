@@ -5,18 +5,22 @@ import lk.ijse.dto.BookDTO;
 import lk.ijse.dto.BookingDetailDTO;
 import lk.ijse.dto.CompleteDTO;
 import lk.ijse.dto.PendingDTO;
+import lk.ijse.entity.Book;
+import lk.ijse.entity.BookingDetail;
+import lk.ijse.entity.Complete;
+import lk.ijse.entity.Pending;
 
 import java.sql.SQLException;
 import java.util.List;
 
-public interface BookingDAO extends CrudDAO<BookDTO>{
-    boolean UpdateBooking(BookingDetailDTO bookingDetailDTO) throws SQLException;
+public interface BookingDAO extends CrudDAO<Book>{
+    boolean UpdateBooking(BookingDetail entity) throws SQLException;
 
-    List<PendingDTO> getAllPendings() throws SQLException;
+    List<Pending> getAllPendings() throws SQLException;
 
-    boolean updatePendingBooking(PendingDTO dto) throws SQLException;
+    boolean updatePendingBooking(Pending entity) throws SQLException;
 
-    List<CompleteDTO> getAllCompletes() throws SQLException;
+    List<Complete> getAllCompletes() throws SQLException;
 
     int getCountBooking() throws SQLException ;
 }

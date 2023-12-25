@@ -14,6 +14,12 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import lk.ijse.bo.custom.CarBO;
+import lk.ijse.bo.custom.CustomerBO;
+import lk.ijse.bo.custom.DriverBO;
+import lk.ijse.bo.custom.impl.CarBOImpl;
+import lk.ijse.bo.custom.impl.CustomerBOImpl;
+import lk.ijse.bo.custom.impl.DriverBOImpl;
 import lk.ijse.dao.custom.CarDAO;
 import lk.ijse.dao.custom.CustomerDAO;
 import lk.ijse.dao.custom.DriverDAO;
@@ -71,9 +77,12 @@ public class DashboardFormController implements Initializable{
 
     public final ObservableList<DriverInTimeTM> obListDrLog = FXCollections.observableArrayList();
 
-    DriverDAO driverDAO = new DriverDAOImpl();
-    CustomerDAO customerDAO = new CustomerDAOImpl();
-    CarDAO carDAO = new CarDAOImpl();
+    //DriverDAO driverDAO = new DriverDAOImpl();
+    DriverBO driverBO = new DriverBOImpl();
+    //CustomerDAO customerDAO = new CustomerDAOImpl();
+    CustomerBO customerBO = new CustomerBOImpl();
+    //CarDAO carDAO = new CarDAOImpl();
+    CarBO carBO = new CarBOImpl();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -92,7 +101,7 @@ public class DashboardFormController implements Initializable{
         try {
             String date = String.valueOf(LocalDate.now());
 
-            List<DriverInTimeDto> dtoList = driverDAO.gerDrInTime(date);
+            List<DriverInTimeDto> dtoList = driverBO.gerDrInTime(date);
 
             for (DriverInTimeDto dto : dtoList){
                 obListDrLog.add(
@@ -120,7 +129,7 @@ public class DashboardFormController implements Initializable{
         try{
             int countBooking = modelBook.getCountBooking();
 
-            int countCustomers = customerDAO.getCountCus();
+            int countCustomers = customerBO.getCountCus();
 
             lblBookings.setText(String.valueOf(countBooking));
             lbltravellers.setText(String.valueOf(countCustomers));
@@ -138,7 +147,7 @@ public class DashboardFormController implements Initializable{
         //var model = new CarDAOImpl();
 
         try {
-            List<CarOutDto> dtoList = carDAO.getCarOut();
+            List<CarOutDto> dtoList = carBO.getCarOut();
 
             for (CarOutDto dto : dtoList){
                 obListCar.add(

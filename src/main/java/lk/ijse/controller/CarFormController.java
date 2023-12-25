@@ -11,6 +11,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import lk.ijse.Validation.Validate;
+import lk.ijse.bo.custom.CarBO;
+import lk.ijse.bo.custom.impl.CarBOImpl;
 import lk.ijse.dao.custom.CarDAO;
 import lk.ijse.dto.CarDto;
 import lk.ijse.dao.custom.impl.CarDAOImpl;
@@ -45,7 +47,8 @@ public class CarFormController {
 
     Stage stage;
 
-    CarDAO carDAO = new CarDAOImpl();
+    //CarDAO carDAO = new CarDAOImpl();
+    CarBO carBO = new CarBOImpl();
 
     @FXML
     void btnCancelCarOnAction(ActionEvent event) {
@@ -70,7 +73,7 @@ public class CarFormController {
         try{
             if(validateCar(carNo)) {
                 if (btnCarForm.getText().equals("UPDATE")) {
-                    boolean isUpdated = carDAO.update(dto);
+                    boolean isUpdated = carBO.updateCar(dto);
                     if (isUpdated) {
                         FXMLLoader loader = new FXMLLoader(getClass().getResource("/Alert/Confirmation.fxml"));
 
@@ -91,7 +94,7 @@ public class CarFormController {
                         btnCancelCarOnAction(event);
                     }
                 } else if (btnCarForm.getText().equals("SAVE")) {
-                    boolean isSaved = carDAO.save(dto);
+                    boolean isSaved = carBO.saveCar(dto);
 
                     if (isSaved) {
                         FXMLLoader loader = new FXMLLoader(getClass().getResource("/Alert/Confirmation.fxml"));

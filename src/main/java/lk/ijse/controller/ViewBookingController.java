@@ -14,6 +14,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import lk.ijse.bo.custom.BookingBO;
+import lk.ijse.bo.custom.impl.BookingBOImpl;
 import lk.ijse.dao.custom.BookingDAO;
 import lk.ijse.dao.custom.BookingDetailDAO;
 import lk.ijse.dao.custom.impl.BookingDetailDAOImpl;
@@ -89,8 +91,9 @@ public class ViewBookingController {
 
     public final ObservableList<CompleteTm> obListComp = FXCollections.observableArrayList();
 
-    BookingDAO bookingDAO = new BookingDAOImpl();
-    BookingDetailDAO bookingDetailDAO = new BookingDetailDAOImpl();
+    //BookingDAO bookingDAO = new BookingDAOImpl();
+    //BookingDetailDAO bookingDetailDAO = new BookingDetailDAOImpl();
+    BookingBO bookingBO = new BookingBOImpl();
 
     public void initialize(){
         setCellValueFactoryPending();
@@ -125,7 +128,7 @@ public class ViewBookingController {
         //var model = new BookingDAOImpl();
 
         try {
-            List<PendingDTO> dtoList = bookingDAO.getAllPendings();
+            List<PendingDTO> dtoList = bookingBO.getAllPendings();
 
             for (PendingDTO dto : dtoList){
                 Button updateButton = new Button("Update");
@@ -169,10 +172,10 @@ public class ViewBookingController {
         //var model = new BookingDAOImpl();
 
         try {
-            boolean b = bookingDetailDAO.delete(bId);
+            boolean b = bookingBO.deleteBookingDetail(bId);
 
             if(b) {
-                if (bookingDAO.delete(bId)) {
+                if (bookingBO.deleteBooking(bId)) {
                     loadAllPendingBookings();
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/Alert/Confirmation.fxml"));
 
@@ -233,7 +236,7 @@ public class ViewBookingController {
         //var model = new BookingDAOImpl();
 
         try {
-            List<CompleteDTO> dtoList = bookingDAO.getAllCompletes();
+            List<CompleteDTO> dtoList = bookingBO.getAllCompletes();
 
             for (CompleteDTO dto : dtoList){
                 obListComp.add(

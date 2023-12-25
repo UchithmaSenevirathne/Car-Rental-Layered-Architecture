@@ -13,6 +13,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import lk.ijse.bo.custom.ScheduleBO;
+import lk.ijse.bo.custom.impl.ScheduleBOImpl;
 import lk.ijse.dao.custom.ScheduleDAO;
 import lk.ijse.dto.ScheduleDTO;
 import lk.ijse.dto.tm.ScheduleTm;
@@ -54,7 +56,8 @@ public class DriverScheduleController {
 
     private final ObservableList<ScheduleTm> obList = FXCollections.observableArrayList();
 
-    ScheduleDAO scheduleDAO = new ScheduleDAOImpl();
+    //ScheduleDAO scheduleDAO = new ScheduleDAOImpl();
+    ScheduleBO scheduleBO = new ScheduleBOImpl();
 
     public void initialize(){
         setCellValueFactory();
@@ -86,7 +89,7 @@ public class DriverScheduleController {
         obList.clear();
         //var model = new ScheduleDAOImpl();
         try {
-            String name = scheduleDAO.getDrName(userName);
+            String name = scheduleBO.getDrName(userName);
 
             txtDriverName.setText(name);
 

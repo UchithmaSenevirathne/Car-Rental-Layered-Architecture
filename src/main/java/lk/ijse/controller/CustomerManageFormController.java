@@ -14,6 +14,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import lk.ijse.bo.custom.CustomerBO;
+import lk.ijse.bo.custom.impl.CustomerBOImpl;
 import lk.ijse.dao.custom.CustomerDAO;
 import lk.ijse.dto.CustomerDto;
 import lk.ijse.dto.tm.CustomerTm;
@@ -58,7 +60,8 @@ public class CustomerManageFormController {
 
     private final ObservableList<CustomerTm> obList = FXCollections.observableArrayList();
 
-    CustomerDAO customerDAO = new CustomerDAOImpl();
+    //CustomerDAO customerDAO = new CustomerDAOImpl();
+    CustomerBO customerBO = new CustomerBOImpl();
 
     public void initialize(){
         setCellValueFactory();
@@ -83,7 +86,7 @@ public class CustomerManageFormController {
         //ObservableList<CustomerTm> obList = FXCollections.observableArrayList();
 
         try{
-            List<CustomerDto> dtoList = customerDAO.getAll();
+            List<CustomerDto> dtoList = customerBO.getAllCustomers();
 
             for(CustomerDto dto : dtoList){
                 Button updateButton = new Button("Update");
@@ -156,7 +159,7 @@ public class CustomerManageFormController {
         //var model = new CustomerDAOImpl();
 
         try {
-            boolean b = customerDAO.delete(id);
+            boolean b = customerBO.deleteCustomer(id);
 
             if(b){
                 loadAllCustomers();
@@ -207,7 +210,7 @@ public class CustomerManageFormController {
         //var model = new CustomerDAOImpl();
 
         try {
-            String cusId = customerDAO.generateNextId();
+            String cusId = customerBO.generateNextId();
 
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/CustomerForm.fxml"));
 

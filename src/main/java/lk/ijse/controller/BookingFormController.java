@@ -13,6 +13,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import lk.ijse.bo.custom.BookingBO;
+import lk.ijse.bo.custom.impl.BookingBOImpl;
 import lk.ijse.dao.custom.*;
 import lk.ijse.dao.custom.impl.*;
 import lk.ijse.dto.*;
@@ -27,11 +29,12 @@ public class BookingFormController {
 
     //private final CustomerDAOImpl customerModel = new CustomerDAOImpl();
 
-    private final DriverDAOImpl driverModel = new DriverDAOImpl();
+    //private final DriverDAOImpl driverModel = new DriverDAOImpl();
 
     //private final CarDAOImpl carModel = new CarDAOImpl();
 
-    private final BookingDAOImpl bookingModel = new BookingDAOImpl();
+    //private final BookingDAOImpl bookingModel = new BookingDAOImpl();
+    BookingBO bookingBO = new BookingBOImpl();
 
     private final ObservableList<BookTm> obList3 = FXCollections.observableArrayList();
 
@@ -102,12 +105,12 @@ public class BookingFormController {
     private Pane subAnchorPane;
 
     //private final MakeBookingDAOImpl makeBookingModel = new MakeBookingDAOImpl();
-    MakeBookingDAO makeBookingDAO = new MakeBookingDAOImpl();
+   // MakeBookingDAO makeBookingDAO = new MakeBookingDAOImpl();
 
-    DriverDAO driverDAO = new DriverDAOImpl();
-    CarDAO carDAO = new CarDAOImpl();
-    CustomerDAO customerDAO = new CustomerDAOImpl();
-    BookingDAO bookingDAO = new BookingDAOImpl();
+    //DriverDAO driverDAO = new DriverDAOImpl();
+    //CarDAO carDAO = new CarDAOImpl();
+    //CustomerDAO customerDAO = new CustomerDAOImpl();
+    //BookingDAO bookingDAO = new BookingDAOImpl();
 
     public void initialize() {
         setCellValueFactory();
@@ -130,7 +133,7 @@ public class BookingFormController {
 
     private void generateNextBookingId() {
         try {
-            String rentId = bookingDAO.generateNextId();
+            String rentId = bookingBO.generateNextBookingId();
             lblBookingId.setText(rentId);
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -140,7 +143,7 @@ public class BookingFormController {
     private void loadCarNo() {
         ObservableList<String> obList = FXCollections.observableArrayList();
         try {
-            List<CarDto> carList = carDAO.getAll();
+            List<CarDto> carList = bookingBO.getAllCars();
 
             for (CarDto carDto : carList) {
                 obList.add(carDto.getCarNo());
@@ -155,7 +158,7 @@ public class BookingFormController {
     private void loadCustomerIds() {
         ObservableList<String> obList = FXCollections.observableArrayList();
         try {
-            List<CustomerDto> cusList = customerDAO.getAll();
+            List<CustomerDto> cusList = bookingBO.getAllCustomers();
 
             for (CustomerDto dto : cusList) {
                 obList.add(dto.getId());
@@ -172,7 +175,7 @@ public class BookingFormController {
     private void loadDriverIds() {
         ObservableList<String> obList = FXCollections.observableArrayList();
         try {
-            List<DriverDto> drList = driverDAO.getAll();
+            List<DriverDto> drList = bookingBO.getAllDrivers();
 
             for (DriverDto dto : drList) {
                 obList.add(dto.getId());
@@ -253,7 +256,7 @@ public class BookingFormController {
         System.out.println(bookDto);
 
         try {
-            boolean isSuccess = makeBookingDAO.makeBooking(bookDto);
+            boolean isSuccess = bookingBO.makeBooking(bookDto);
             System.out.println(isSuccess);
             if(isSuccess) {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/Alert/Confirmation.fxml"));
@@ -282,7 +285,7 @@ public class BookingFormController {
         String carNo = comboCarNo.getValue();
 
         try {
-            CarDto dto = carDAO.search(carNo);
+            CarDto dto = bookingBO.searchCars(carNo);
 
             txtCarName.setText(dto.getBrand());
 
@@ -294,7 +297,7 @@ public class BookingFormController {
     @FXML
     void cmbCusOnAction(ActionEvent event) throws SQLException {
         String id = comboCusId.getValue();
-        CustomerDto dto = customerDAO.search(id);
+        CustomerDto dto = bookingBO.searchCustomer(id);
 
         txtCusName.setText(dto.getName());
         txtCusContact.setText(dto.getContact());
@@ -304,7 +307,7 @@ public class BookingFormController {
     @FXML
     void cmbDrOnAction(ActionEvent event) throws SQLException {
         String drId = comboDrId.getValue();
-        DriverDto dto = driverDAO.search(drId);
+        DriverDto dto = bookingBO.searchDriver(drId);
 
         txtDrName.setText(dto.getUserName());
     }

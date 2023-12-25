@@ -12,6 +12,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import lk.ijse.Validation.Validate;
+import lk.ijse.bo.custom.DriverBO;
+import lk.ijse.bo.custom.impl.DriverBOImpl;
 import lk.ijse.dao.custom.DriverDAO;
 import lk.ijse.dao.custom.UserDAO;
 import lk.ijse.dao.custom.impl.UserDAOImpl;
@@ -54,9 +56,10 @@ public class DriverFormController {
 
     Stage stage;
 
-    DriverDAO driverDAO = new DriverDAOImpl();
+    //DriverDAO driverDAO = new DriverDAOImpl();
+    DriverBO driverBO = new DriverBOImpl();
 
-    UserDAO userDAO = new UserDAOImpl();
+    //UserDAO userDAO = new UserDAOImpl();
 
     @FXML
     void btnCancelDrOnAction(ActionEvent event) {
@@ -84,9 +87,9 @@ public class DriverFormController {
         try {
             if(validateDriver(id, name, address, email, contact, licenseNo, userName, pwd)) {
                 if (btnDrFormBtn.getText().equals("UPDATE")) {
-                    boolean isUpdate = userDAO.update(userDto);
+                    boolean isUpdate = driverBO.updateUser(userDto);
                     if (isUpdate) {
-                        if(driverDAO.update(driverDto)) {
+                        if(driverBO.updateDriver(driverDto)) {
                             FXMLLoader loader = new FXMLLoader(getClass().getResource("/Alert/Confirmation.fxml"));
 
                             Parent rootNode = loader.load();
@@ -107,10 +110,10 @@ public class DriverFormController {
                         }
                     }
                 } else if (btnDrFormBtn.getText().equals("SAVE")) {
-                    boolean isSaved = userDAO.save(userDto);
+                    boolean isSaved = driverBO.saveUser(userDto);
 
                     if (isSaved) {
-                        if(driverDAO.save(driverDto)) {
+                        if(driverBO.saveDriver(driverDto)) {
                             FXMLLoader loader = new FXMLLoader(getClass().getResource("/Alert/Confirmation.fxml"));
 
                             Parent rootNode = loader.load();

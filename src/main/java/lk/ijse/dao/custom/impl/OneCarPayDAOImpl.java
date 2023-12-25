@@ -3,34 +3,35 @@ package lk.ijse.dao.custom.impl;
 import lk.ijse.dao.SQLUtil;
 import lk.ijse.dao.custom.OneCarPayDAO;
 import lk.ijse.dto.OneCarPayDTO;
+import lk.ijse.entity.OneCarPay;
 
 import java.sql.SQLException;
 import java.util.List;
 
 public class OneCarPayDAOImpl implements OneCarPayDAO {
     @Override
-    public boolean save(OneCarPayDTO dto) throws SQLException {
+    public boolean save(OneCarPay entity) throws SQLException {
         return SQLUtil.execute("INSERT INTO oneCarPayment VALUES(?, ?, ?, ?, ?)",
-                dto.getBId(),
-                dto.getCarNo(),
-                dto.getExtraKm(),
-                dto.getDriverCost(),
-                dto.getSubTotal()
+                entity.getBId(),
+                entity.getCarNo(),
+                entity.getExtraKm(),
+                entity.getDriverCost(),
+                entity.getSubTotal()
         );
     }
 
     @Override
-    public List<OneCarPayDTO> getAll() throws SQLException {
+    public List<OneCarPay> getAll() throws SQLException {
         return null;
     }
 
     @Override
-    public OneCarPayDTO search(String id) throws SQLException {
+    public OneCarPay search(String id) throws SQLException {
         return null;
     }
 
     @Override
-    public boolean update(OneCarPayDTO dto) throws SQLException {
+    public boolean update(OneCarPay entity) throws SQLException {
         return false;
     }
 

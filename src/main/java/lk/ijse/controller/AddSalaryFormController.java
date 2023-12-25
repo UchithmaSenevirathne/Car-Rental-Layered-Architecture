@@ -10,6 +10,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import lk.ijse.bo.custom.SalaryBO;
+import lk.ijse.bo.custom.impl.SalaryBOImpl;
 import lk.ijse.dao.custom.SalaryDAO;
 import lk.ijse.dto.SalaryDTO;
 import lk.ijse.dao.custom.impl.SalaryDAOImpl;
@@ -30,7 +32,8 @@ public class AddSalaryFormController {
     @FXML
     private TextField txtSalId;
     Stage stage;
-    SalaryDAO salaryDAO = new SalaryDAOImpl();
+    //SalaryDAO salaryDAO = new SalaryDAOImpl();
+    SalaryBO salaryBO = new SalaryBOImpl();
 
     @FXML
     void btnCancelOnAction(ActionEvent event) {
@@ -50,7 +53,7 @@ public class AddSalaryFormController {
         //var model = new SalaryDAOImpl();
 
         try{
-            boolean isSaved = salaryDAO.save(dto);
+            boolean isSaved = salaryBO.saveSalary(dto);
 
             if (isSaved) {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/Alert/Confirmation.fxml"));

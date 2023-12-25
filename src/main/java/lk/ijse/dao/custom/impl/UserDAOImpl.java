@@ -3,6 +3,7 @@ package lk.ijse.dao.custom.impl;
 import lk.ijse.dao.SQLUtil;
 import lk.ijse.dao.custom.UserDAO;
 import lk.ijse.dto.UserDTO;
+import lk.ijse.entity.User;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -24,12 +25,12 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public List<UserDTO> getAll() throws SQLException {
+    public List<User> getAll() throws SQLException {
         return null;
     }
 
     @Override
-    public UserDTO search(String id) throws SQLException {
+    public User search(String id) throws SQLException {
         return null;
     }
     @Override
@@ -69,8 +70,8 @@ public class UserDAOImpl implements UserDAO {
         );
     }
     @Override
-    public List<UserDTO> getAllAdmins() throws SQLException {
-        List<UserDTO> dtoList = new ArrayList<>();
+    public List<User> getAllAdmins() throws SQLException {
+        List<User> users = new ArrayList<>();
 
         ResultSet resultSet = SQLUtil.execute("SELECT * FROM user where role = 'ADM'");
 
@@ -80,10 +81,10 @@ public class UserDAOImpl implements UserDAO {
             String email = resultSet.getString(3);
             String roll = resultSet.getString(4);
 
-            var dto = new UserDTO(userName, pwd, email, roll);
-            dtoList.add(dto);
+            var entity = new User(userName, pwd, email, roll);
+            users.add(entity);
         }
-        return dtoList;
+        return users;
     }
     @Override
     public String getPassword(String userName) throws SQLException {
@@ -111,9 +112,9 @@ public class UserDAOImpl implements UserDAO {
             String email = resultSet.getString(3);
             String roll = resultSet.getString(4);
 
-            var dto = new UserDTO(user_Name, pwd, email, roll);
+            var entity = new User(user_Name, pwd, email, roll);
 
-            if(dto.equals(null)){
+            if(entity.equals(null)){
                 return false;
             }
             return true;
@@ -127,21 +128,21 @@ public class UserDAOImpl implements UserDAO {
         );
     }
     @Override
-    public boolean update(UserDTO userDto) throws SQLException {
+    public boolean update(User entity) throws SQLException {
         return SQLUtil.execute("UPDATE user SET password = ?, email = ?, role = ? WHERE userName = ?",
-                userDto.getPassword(),
-                userDto.getEmail(),
-                userDto.getRole(),
-                userDto.getUserName()
+                entity.getPassword(),
+                entity.getEmail(),
+                entity.getRole(),
+                entity.getUserName()
         );
     }
     @Override
-    public boolean save(UserDTO userDto) throws SQLException {
+    public boolean save(User entity) throws SQLException {
         return SQLUtil.execute("INSERT INTO user VALUES(?, ?, ?, ?)",
-                userDto.getUserName(),
-                userDto.getPassword(),
-                userDto.getEmail(),
-                userDto.getRole()
+                entity.getUserName(),
+                entity.getPassword(),
+                entity.getEmail(),
+                entity.getRole()
         );
     }
     @Override
@@ -169,11 +170,11 @@ public class UserDAOImpl implements UserDAO {
             String email = resultSet.getString(3);
             String roll = resultSet.getString(4);
 
-            var dto = new UserDTO(user_Name, pwd, email, roll);
+            var entity = new User(user_Name, pwd, email, roll);
 
-            System.out.println("dto :  "+dto);
+            System.out.println("dto :  "+entity);
 
-            if(dto.equals(null)){
+            if(entity.equals(null)){
                 return false;
             }
         }

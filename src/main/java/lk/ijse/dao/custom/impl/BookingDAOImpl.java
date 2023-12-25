@@ -6,6 +6,10 @@ import lk.ijse.dto.BookDTO;
 import lk.ijse.dto.BookingDetailDTO;
 import lk.ijse.dto.CompleteDTO;
 import lk.ijse.dto.PendingDTO;
+import lk.ijse.entity.Book;
+import lk.ijse.entity.BookingDetail;
+import lk.ijse.entity.Complete;
+import lk.ijse.entity.Pending;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -44,40 +48,40 @@ public class BookingDAOImpl implements BookingDAO {
 
 
     @Override
-    public boolean save(BookDTO bookDTO) throws SQLException {
+    public boolean save(Book entity) throws SQLException {
         return SQLUtil.execute( "INSERT INTO booking VALUES(?, ?, ?, ?, ?, ?)",
-                bookDTO.getBId(),
-                bookDTO.getPickUpDate(),
-                bookDTO.getDays(),
-                bookDTO.getStatus(),
-                bookDTO.getPayment(),
-                bookDTO.getCusId()
+                entity.getBId(),
+                entity.getPickUpDate(),
+                entity.getDays(),
+                entity.getStatus(),
+                entity.getPayment(),
+                entity.getCusId()
         );
     }
 
     @Override
-    public List<BookDTO> getAll() throws SQLException {
+    public List<Book> getAll() throws SQLException {
         return null;
     }
 
     @Override
-    public BookDTO search(String id) throws SQLException {
+    public Book search(String id) throws SQLException {
         return null;
     }
 
     @Override
-    public boolean update(BookDTO dto) throws SQLException {
+    public boolean update(Book entity) throws SQLException {
         return false;
     }
     @Override
-    public boolean UpdateBooking(BookingDetailDTO bookingDetailDTO) throws SQLException {
+    public boolean UpdateBooking(BookingDetail entity) throws SQLException {
         return SQLUtil.execute("UPDATE booking SET status = 'PAID' WHERE bId = ?",
-                bookingDetailDTO.getBId()
+                entity.getBId()
         );
     }
     @Override
-    public List<PendingDTO> getAllPendings() throws SQLException {
-        List<PendingDTO> dtoList = new ArrayList<>();
+    public List<Pending> getAllPendings() throws SQLException {
+        List<Pending> pendings = new ArrayList<>();
         ResultSet resultSet = SQLUtil.execute("select\n"+
                         "   b.bId,\n"+
                         "   b.cusId,\n"+
@@ -102,10 +106,10 @@ public class BookingDAOImpl implements BookingDAO {
             String dr_id = resultSet.getString(6);
             String car_no = resultSet.getString(7);
 
-            var dto = new PendingDTO(rent_id,cus_id,dr_id,car_no,pickUp_date,days,advance);
-            dtoList.add(dto);
+            var entity = new Pending(rent_id,cus_id,dr_id,car_no,pickUp_date,days,advance);
+            pendings.add(entity);
         }
-        return dtoList;
+        return pendings;
     }
 
     @Override
@@ -115,28 +119,28 @@ public class BookingDAOImpl implements BookingDAO {
         );
     }
     @Override
-    public boolean updatePendingBooking(PendingDTO dto) throws SQLException {
+    public boolean updatePendingBooking(Pending entity) throws SQLException {
         boolean isUpdate = SQLUtil.execute("UPDATE bookingdetail SET carNo = ?, drId = ? WHERE bId = ?",
-                dto.getCarNo(),
-                dto.getDrId(),
-                dto.getBId()
+                entity.getCarNo(),
+                entity.getDrId(),
+                entity.getBId()
         );
 
         if(isUpdate){
             return SQLUtil.execute("UPDATE booking SET pickUpDate = ?, days = ?, payment = ?, cusId = ? WHERE bId = ?",
-                    dto.getPickUpDate(),
-                    dto.getDays(),
-                    dto.getPayment(),
-                    dto.getCusId(),
-                    dto.getBId()
+                    entity.getPickUpDate(),
+                    entity.getDays(),
+                    entity.getPayment(),
+                    entity.getCusId(),
+                    entity.getBId()
             );
         }
 
         return false;
     }
     @Override
-   public List<CompleteDTO> getAllCompletes() throws SQLException {
-        List<CompleteDTO> dtoList = new ArrayList<>();
+   public List<Complete> getAllCompletes() throws SQLException {
+        List<Complete> completes = new ArrayList<>();
 
         ResultSet resultSet = SQLUtil.execute("select\n"+
                 "   b.bId,\n"+
@@ -158,10 +162,10 @@ public class BookingDAOImpl implements BookingDAO {
             int days = resultSet.getInt(4);
             double total = resultSet.getDouble(5);
 
-            var dto = new CompleteDTO(rent_id,cus_id,pickUp_date,days,total);
-            dtoList.add(dto);
+            var entity = new Complete(rent_id,cus_id,pickUp_date,days,total);
+            completes.add(entity);
         }
-        return dtoList;
+        return completes;
     }
     @Override
     public int getCountBooking() throws SQLException {

@@ -14,6 +14,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import lk.ijse.bo.custom.DriverBO;
+import lk.ijse.bo.custom.impl.DriverBOImpl;
 import lk.ijse.dao.custom.DriverDAO;
 import lk.ijse.dao.custom.UserDAO;
 import lk.ijse.dto.DriverDto;
@@ -69,9 +71,10 @@ public class DriverManageFormController {
 
     private final ObservableList<DriverTm> obList = FXCollections.observableArrayList();
 
-    DriverDAO driverDAO = new DriverDAOImpl();
+    //DriverDAO driverDAO = new DriverDAOImpl();
 
-    UserDAO userDAO = new UserDAOImpl();
+    //UserDAO userDAO = new UserDAOImpl();
+    DriverBO driverBO = new DriverBOImpl();
 
     public void initialize(){
         setCellValueFactory();
@@ -98,7 +101,7 @@ public class DriverManageFormController {
         //var model = new DriverDAOImpl();
 
         try {
-            List<DriverDto> dtoList = driverDAO.getAll();
+            List<DriverDto> dtoList = driverBO.getAllDrivers();
 
             for(DriverDto dto : dtoList){
                 Button updateButton = new Button("Update");
@@ -144,10 +147,10 @@ public class DriverManageFormController {
         //var model = new DriverDAOImpl();
 
         try {
-            boolean b = driverDAO.delete(userName);
+            boolean b = driverBO.deleteDriver(userName);
 
             if(b){
-                if(userDAO.delete(userName)) {
+                if(driverBO.deleteUser(userName)) {
                     loadAllDrivers();
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/Alert/Confirmation.fxml"));
 
@@ -174,7 +177,7 @@ public class DriverManageFormController {
         //var model = new UserDAOImpl();
 
         try {
-            String pwd = userDAO.getPassword(driverDto.getUserName());
+            String pwd = driverBO.getPassword(driverDto.getUserName());
 
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/DriverForm.fxml"));
 
@@ -210,7 +213,7 @@ public class DriverManageFormController {
         //var model = new DriverDAOImpl();
 
         try {
-            String drId = driverDAO.generateNextId();
+            String drId = driverBO.generateNextId();
 
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/DriverForm.fxml"));
 

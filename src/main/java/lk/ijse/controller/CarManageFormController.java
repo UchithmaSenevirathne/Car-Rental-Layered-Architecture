@@ -14,6 +14,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import lk.ijse.bo.custom.CarBO;
+import lk.ijse.bo.custom.impl.CarBOImpl;
 import lk.ijse.dao.custom.CarDAO;
 import lk.ijse.dto.CarDto;
 import lk.ijse.dto.tm.CarTm;
@@ -65,7 +67,8 @@ public class CarManageFormController {
 
     ObservableList<String> obList = FXCollections.observableArrayList();
 
-    CarDAO carDAO = new CarDAOImpl();
+    //CarDAO carDAO = new CarDAOImpl();
+    CarBO carBO = new CarBOImpl();
 
 
     public void initialize(){
@@ -91,7 +94,7 @@ public class CarManageFormController {
         //var model = new CarDAOImpl();
 
         try {
-            List<CarDto> dtoList = carDAO.getAll();
+            List<CarDto> dtoList = carBO.getAllCars();
 
             for (CarDto dto : dtoList){
                 Button updateButton = new Button("Update");
@@ -135,7 +138,7 @@ public class CarManageFormController {
         //var model = new CarDAOImpl();
 
         try {
-            boolean b = carDAO.delete(carNo);
+            boolean b = carBO.deleteCar(carNo);
 
             if(b){
                 loadAllCars();
@@ -216,7 +219,7 @@ public class CarManageFormController {
         //var model = new CarDAOImpl();
 
         try {
-            String carNo = carDAO.generateNextId();
+            String carNo = carBO.generateNextId();
 
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/CarForm.fxml"));
 

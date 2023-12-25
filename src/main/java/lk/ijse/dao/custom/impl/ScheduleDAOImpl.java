@@ -3,6 +3,7 @@ package lk.ijse.dao.custom.impl;
 import lk.ijse.dao.SQLUtil;
 import lk.ijse.dao.custom.ScheduleDAO;
 import lk.ijse.dto.ScheduleDTO;
+import lk.ijse.entity.Schedule;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,7 +12,7 @@ import java.util.List;
 
 public class ScheduleDAOImpl implements ScheduleDAO {
     @Override
-    public List<ScheduleDTO> getSchedule(String userName) throws SQLException {
+    public List<Schedule> getSchedule(String userName) throws SQLException {
         ResultSet resultSet1 = SQLUtil.execute("SELECT drId FROM driver WHERE userName = ?",
                 userName
         );
@@ -24,7 +25,7 @@ public class ScheduleDAOImpl implements ScheduleDAO {
         System.out.println(drId);
 
         if(!drId.equals(null)) {
-            List<ScheduleDTO> dtoList = new ArrayList<>();
+            List<Schedule> schedules = new ArrayList<>();
 
             ResultSet resultSet2 = SQLUtil.execute("select\n"+
                     "   bd.bId,\n"+
@@ -55,10 +56,10 @@ public class ScheduleDAOImpl implements ScheduleDAO {
                 String pickUpDate = resultSet2.getString(6);
                 Integer days = resultSet2.getInt(7);
 
-                var dto = new ScheduleDTO(b_id, cus_name, car_brand, cus_address, cus_contact, pickUpDate, days);
-                dtoList.add(dto);
+                var entity = new Schedule(b_id, cus_name, car_brand, cus_address, cus_contact, pickUpDate, days);
+                schedules.add(entity);
             }
-            return dtoList;
+            return schedules;
         }
         return null;
     }

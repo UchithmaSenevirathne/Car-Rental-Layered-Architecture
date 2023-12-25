@@ -3,6 +3,8 @@ package lk.ijse.dao.custom.impl;
 import lk.ijse.dao.SQLUtil;
 import lk.ijse.dao.custom.*;
 import lk.ijse.dto.*;
+import lk.ijse.entity.BookingDetail;
+import lk.ijse.entity.PaymentDetail;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -15,8 +17,8 @@ public class PaymentDAOImpl implements PaymentDAO{
     BookingDAO bookingDAO = new BookingDAOImpl();
     BookingDetailDAO bookingDetailDAO = new BookingDetailDAOImpl();
     @Override
-    public List<PaymentDetailDTO> searchPaymentDetail(String bId) throws SQLException {
-        List<PaymentDetailDTO> dtoList = new ArrayList<>();
+    public List<PaymentDetail> searchPaymentDetail(String bId) throws SQLException {
+        List<PaymentDetail> paymentDetails = new ArrayList<>();
 
         ResultSet resultSet = SQLUtil.execute("SELECT\n"+
                 "   b.bId,\n"+
@@ -45,14 +47,14 @@ public class PaymentDAOImpl implements PaymentDAO{
             String car_Id = resultSet.getString(7);
             String driverId = resultSet.getString(8);
 
-            var dto = new PaymentDetailDTO(b_Id,date,rent_days,rent_status,rent_pay,cus_Id,car_Id,driverId);
-            dtoList.add(dto);
+            var entity = new PaymentDetail(b_Id,date,rent_days,rent_status,rent_pay,cus_Id,car_Id,driverId);
+            paymentDetails.add(entity);
         }
 
-        return dtoList;
+        return paymentDetails;
     }
     @Override
-    public  boolean savePayment(String bId, double totalPayment, String pickUpDate, BookingDetailDTO bookingDetailDTO) throws SQLException {
+    public  boolean savePayment(String bId, double totalPayment, String pickUpDate, BookingDetail bookingDetail) throws SQLException {
         boolean isSaved = SQLUtil.execute("INSERT INTO payment VALUES(?, ?, ?)",
                 bId,
                 totalPayment,
@@ -60,10 +62,10 @@ public class PaymentDAOImpl implements PaymentDAO{
         );
 
         if(isSaved){
-            boolean isCarUpdated = carDAO.updateAvailableYes(bookingDetailDTO.getBId());
-            boolean isDriverUpdated = driverDAO.updateAvailableYes(bookingDetailDTO.getBId());
-            boolean isBookingDetailUpdate = bookingDetailDAO.update(bookingDetailDTO);
-            boolean isBookingUpdated = bookingDAO.UpdateBooking(bookingDetailDTO);
+            boolean isCarUpdated = carDAO.updateAvailableYes(bookingDetail.getBId());
+            boolean isDriverUpdated = driverDAO.updateAvailableYes(bookingDetail.getBId());
+            boolean isBookingDetailUpdate = bookingDetailDAO.update(bookingDetail);
+            boolean isBookingUpdated = bookingDAO.UpdateBooking(bookingDetail);
 
             if(isCarUpdated && isDriverUpdated && isBookingDetailUpdate && isBookingUpdated){
                 return true;

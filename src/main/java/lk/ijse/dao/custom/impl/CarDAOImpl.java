@@ -4,6 +4,8 @@ import lk.ijse.dao.SQLUtil;
 import lk.ijse.dao.custom.CarDAO;
 import lk.ijse.dto.CarDto;
 import lk.ijse.dto.CarOutDto;
+import lk.ijse.entity.Car;
+import lk.ijse.entity.CarOut;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -13,21 +15,21 @@ import java.util.List;
 public class CarDAOImpl implements CarDAO{
 
     @Override
-    public boolean save(CarDto dto) throws SQLException {
+    public boolean save(Car entity) throws SQLException {
         return SQLUtil.execute("INSERT INTO car VALUES(?, ?, ?, ?, ?, ?, ?)",
-                dto.getCarNo(),
-                dto.getBrand(),
-                dto.getAvailability(),
-                dto.getCurrentMileage(),
-                dto.getKmOneDay(),
-                dto.getPriceOneDay(),
-                dto.getPriceExtraKm()
+                entity.getCarNo(),
+                entity.getBrand(),
+                entity.getAvailability(),
+                entity.getCurrentMileage(),
+                entity.getKmOneDay(),
+                entity.getPriceOneDay(),
+                entity.getPriceExtraKm()
         );
     }
 
     @Override
-    public List<CarDto> getAll() throws SQLException {
-        List<CarDto> dtoList = new ArrayList<>();
+    public List<Car> getAll() throws SQLException {
+        List<Car> cars = new ArrayList<>();
 
         ResultSet resultSet = SQLUtil.execute("SELECT * FROM car");
 
@@ -40,30 +42,30 @@ public class CarDAOImpl implements CarDAO{
             double price_day = resultSet.getDouble(6);
             double price_extra = resultSet.getDouble(7);
 
-            var dto = new CarDto(car_number, car_brand, car_availability, car_mileage, km_day, price_day, price_extra);
-            dtoList.add(dto);
+            var entity = new Car(car_number, car_brand, car_availability, car_mileage, km_day, price_day, price_extra);
+            cars.add(entity);
         }
-        return dtoList;
+        return cars;
     }
     @Override
-    public boolean update(CarDto dto) throws SQLException {
+    public boolean update(Car entity) throws SQLException {
         return SQLUtil.execute("UPDATE car SET brand = ?, availability = ?, currentMileage = ?, kmOneDay = ?, priceOneDay = ?, priceExtraKm = ? WHERE carNo = ?",
-                dto.getBrand(),
-                dto.getAvailability(),
-                dto.getCurrentMileage(),
-                dto.getKmOneDay(),
-                dto.getPriceOneDay(),
-                dto.getPriceExtraKm(),
-                dto.getCarNo()
+                entity.getBrand(),
+                entity.getAvailability(),
+                entity.getCurrentMileage(),
+                entity.getKmOneDay(),
+                entity.getPriceOneDay(),
+                entity.getPriceExtraKm(),
+                entity.getCarNo()
         );
     }
     @Override
-    public CarDto search(String carNo) throws SQLException {
+    public Car search(String carNo) throws SQLException {
         ResultSet resultSet = SQLUtil.execute("SELECT * FROM car WHERE carNo = ?",
                 carNo
         );
 
-        CarDto dto = null;
+        Car entity = null;
 
         if(resultSet.next()) {
             String car_number = resultSet.getString(1);
@@ -74,10 +76,10 @@ public class CarDAOImpl implements CarDAO{
             double price_day = resultSet.getDouble(6);
             double price_extra = resultSet.getDouble(7);
 
-            dto = new CarDto(car_number, car_brand, car_availability, car_milage, km_day, price_day, price_extra);
+            entity = new Car(car_number, car_brand, car_availability, car_milage, km_day, price_day, price_extra);
         }
 
-        return dto;
+        return entity;
     }
     @Override
     public boolean delete(String carNo) throws SQLException {
@@ -126,8 +128,8 @@ public class CarDAOImpl implements CarDAO{
         return "CR001";
     }
     @Override
-    public List<CarOutDto> getCarOut() throws SQLException {
-        List<CarOutDto> dtoList = new ArrayList<>();
+    public List<CarOut> getCarOut() throws SQLException {
+        List<CarOut> carOuts = new ArrayList<>();
 
         ResultSet resultSet = SQLUtil.execute("SELECT\n"+
                 "   c.carNo,\n"+
@@ -147,9 +149,9 @@ public class CarDAOImpl implements CarDAO{
             String brand = resultSet.getString(2);
             String pickUp_date = resultSet.getString(3);
 
-            var dto = new CarOutDto(car_number,brand, pickUp_date);
-            dtoList.add(dto);
+            var entity = new CarOut(car_number,brand, pickUp_date);
+            carOuts.add(entity);
         }
-        return dtoList;
+        return carOuts;
     }
 }

@@ -4,6 +4,8 @@ import lk.ijse.dao.SQLUtil;
 import lk.ijse.dao.custom.DriverDAO;
 import lk.ijse.dto.DriverDto;
 import lk.ijse.dto.DriverInTimeDto;
+import lk.ijse.entity.Driver;
+import lk.ijse.entity.DriverInTime;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -12,21 +14,21 @@ import java.util.List;
 
 public class DriverDAOImpl implements DriverDAO {
     @Override
-    public boolean save(DriverDto dto) throws SQLException {
+    public boolean save(Driver entity) throws SQLException {
         return SQLUtil.execute("INSERT INTO driver VALUES(?, ?, ?, ?, ?, ?, ?, ?)",
-                dto.getId(),
-                dto.getName(),
-                dto.getAddress(),
-                dto.getEmail(),
-                dto.getContact(),
-                dto.getLicenseNo(),
-                dto.getUserName(),
-                dto.getAvailability()
+                entity.getId(),
+                entity.getName(),
+                entity.getAddress(),
+                entity.getEmail(),
+                entity.getContact(),
+                entity.getLicenseNo(),
+                entity.getUserName(),
+                entity.getAvailability()
         );
     }
     @Override
-    public List<DriverDto> getAll() throws SQLException {
-        List<DriverDto> dtoList = new ArrayList<>();
+    public List<Driver> getAll() throws SQLException {
+        List<Driver> drivers = new ArrayList<>();
 
         ResultSet resultSet = SQLUtil.execute("SELECT * FROM driver");
 
@@ -40,31 +42,31 @@ public class DriverDAOImpl implements DriverDAO {
             String dr_userName = resultSet.getString(7);
             String dr_availability = resultSet.getString(8);
 
-            var dto = new DriverDto(dr_id, dr_name, dr_address, dr_email, dr_contact, dr_licenseNo, dr_userName, dr_availability);
-            dtoList.add(dto);
+            var entity = new Driver(dr_id, dr_name, dr_address, dr_email, dr_contact, dr_licenseNo, dr_userName, dr_availability);
+            drivers.add(entity);
         }
-        return dtoList;
+        return drivers;
     }
     @Override
-    public boolean update(DriverDto driverDto) throws SQLException {
+    public boolean update(Driver entity) throws SQLException {
         return SQLUtil.execute("UPDATE driver SET name = ?, address = ?, email = ?, contact = ?, licenseNo = ?, userName = ?, availability = ? WHERE drId = ?",
-                driverDto.getName(),
-                driverDto.getAddress(),
-                driverDto.getEmail(),
-                driverDto.getContact(),
-                driverDto.getLicenseNo(),
-                driverDto.getUserName(),
-                driverDto.getAddress(),
-                driverDto.getId()
+                entity.getName(),
+                entity.getAddress(),
+                entity.getEmail(),
+                entity.getContact(),
+                entity.getLicenseNo(),
+                entity.getUserName(),
+                entity.getAddress(),
+                entity.getId()
         );
     }
     @Override
-    public DriverDto search(String id) throws SQLException {
+    public Driver search(String id) throws SQLException {
         ResultSet resultSet = SQLUtil.execute("SELECT * FROM driver WHERE drId = ?",
                 id
         );
 
-        DriverDto dto = null;
+        Driver entity = null;
 
         if (resultSet.next()) {
             String dr_id = resultSet.getString(1);
@@ -76,9 +78,9 @@ public class DriverDAOImpl implements DriverDAO {
             String dr_userName = resultSet.getString(7);
             String dr_availability = resultSet.getString(8);
 
-            dto = new DriverDto(dr_id, dr_name, dr_address, dr_email, dr_contact, dr_licenseNo, dr_userName, dr_availability);
+            entity = new Driver(dr_id, dr_name, dr_address, dr_email, dr_contact, dr_licenseNo, dr_userName, dr_availability);
         }
-        return dto;
+        return entity;
     }
     @Override
     public boolean delete(String userName) throws SQLException {
@@ -127,8 +129,8 @@ public class DriverDAOImpl implements DriverDAO {
         return "D001";
     }
     @Override
-    public List<DriverInTimeDto> gerDrInTime(String date) throws SQLException {
-        List<DriverInTimeDto> dtoList = new ArrayList<>();
+    public List<DriverInTime> gerDrInTime(String date) throws SQLException {
+        List<DriverInTime> driverInTimes = new ArrayList<>();
 
         ResultSet resultSet = SQLUtil.execute("SELECT\n"+
                 "   d.name,\n"+
@@ -147,14 +149,14 @@ public class DriverDAOImpl implements DriverDAO {
             String dr_name = resultSet.getString(1);
             String in_time = resultSet.getString(2);
 
-            var dto = new DriverInTimeDto(dr_name, in_time);
-            dtoList.add(dto);
+            var entity = new DriverInTime(dr_name, in_time);
+            driverInTimes.add(entity);
         }
-        return dtoList;
+        return driverInTimes;
     }
     @Override
-    public List<DriverDto> getAllDrivers(String search) throws SQLException {
-        List<DriverDto> driverList = new ArrayList<>();
+    public List<Driver> getAllDrivers(String search) throws SQLException {
+        List<Driver> drivers = new ArrayList<>();
 
         try {
             ResultSet resultSet = SQLUtil.execute("SELECT * FROM driver WHERE drId OR name LIKE ?",
@@ -162,7 +164,7 @@ public class DriverDAOImpl implements DriverDAO {
             );
 
             while (resultSet.next()) {
-                DriverDto driver = new DriverDto(
+                Driver driver = new Driver(
                         resultSet.getString("drId"),
                         resultSet.getString("name"),
                         resultSet.getString("address"),
@@ -174,12 +176,12 @@ public class DriverDAOImpl implements DriverDAO {
 
                 );
 
-                driverList.add(driver);
+                drivers.add(driver);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        return driverList;
+        return drivers;
     }
 }
