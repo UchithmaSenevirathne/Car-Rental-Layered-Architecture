@@ -14,6 +14,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import lk.ijse.bo.BOFactory;
 import lk.ijse.bo.custom.BookingBO;
 import lk.ijse.bo.custom.impl.BookingBOImpl;
 import lk.ijse.dao.custom.BookingDAO;
@@ -91,9 +92,7 @@ public class ViewBookingController {
 
     public final ObservableList<CompleteTm> obListComp = FXCollections.observableArrayList();
 
-    //BookingDAO bookingDAO = new BookingDAOImpl();
-    //BookingDetailDAO bookingDetailDAO = new BookingDetailDAOImpl();
-    BookingBO bookingBO = new BookingBOImpl();
+    BookingBO bookingBO = (BookingBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.BOOKING);
 
     public void initialize(){
         setCellValueFactoryPending();

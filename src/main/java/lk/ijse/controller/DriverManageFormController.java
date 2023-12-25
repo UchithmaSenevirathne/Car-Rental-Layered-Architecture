@@ -14,6 +14,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import lk.ijse.bo.BOFactory;
 import lk.ijse.bo.custom.DriverBO;
 import lk.ijse.bo.custom.impl.DriverBOImpl;
 import lk.ijse.dao.custom.DriverDAO;
@@ -71,10 +72,7 @@ public class DriverManageFormController {
 
     private final ObservableList<DriverTm> obList = FXCollections.observableArrayList();
 
-    //DriverDAO driverDAO = new DriverDAOImpl();
-
-    //UserDAO userDAO = new UserDAOImpl();
-    DriverBO driverBO = new DriverBOImpl();
+    DriverBO driverBO = (DriverBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.DRIVER);
 
     public void initialize(){
         setCellValueFactory();

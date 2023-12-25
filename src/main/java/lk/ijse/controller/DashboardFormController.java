@@ -14,6 +14,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import lk.ijse.bo.BOFactory;
 import lk.ijse.bo.custom.CarBO;
 import lk.ijse.bo.custom.CustomerBO;
 import lk.ijse.bo.custom.DriverBO;
@@ -77,12 +78,9 @@ public class DashboardFormController implements Initializable{
 
     public final ObservableList<DriverInTimeTM> obListDrLog = FXCollections.observableArrayList();
 
-    //DriverDAO driverDAO = new DriverDAOImpl();
-    DriverBO driverBO = new DriverBOImpl();
-    //CustomerDAO customerDAO = new CustomerDAOImpl();
-    CustomerBO customerBO = new CustomerBOImpl();
-    //CarDAO carDAO = new CarDAOImpl();
-    CarBO carBO = new CarBOImpl();
+    DriverBO driverBO = (DriverBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.DRIVER);
+    CustomerBO customerBO = (CustomerBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.CUSTOMER);
+    CarBO carBO = (CarBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.CAR);
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

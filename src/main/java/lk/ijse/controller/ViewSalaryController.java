@@ -11,6 +11,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
+import lk.ijse.bo.BOFactory;
 import lk.ijse.bo.custom.SalaryBO;
 import lk.ijse.bo.custom.impl.SalaryBOImpl;
 import lk.ijse.dao.custom.SalaryDAO;
@@ -43,8 +44,7 @@ public class ViewSalaryController {
 
     @FXML
     private TextField txtSearch;
-    //SalaryDAO salaryDAO = new SalaryDAOImpl();
-    SalaryBO salaryBO = new SalaryBOImpl();
+    SalaryBO salaryBO = (SalaryBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.SALARY);
 
     public void initialize(){
         setCellValueFactory();

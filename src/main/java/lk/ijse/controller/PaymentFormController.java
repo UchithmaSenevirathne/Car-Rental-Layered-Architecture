@@ -14,6 +14,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import lk.ijse.bo.BOFactory;
 import lk.ijse.bo.custom.PaymentBO;
 import lk.ijse.bo.custom.impl.PaymentBOImpl;
 import lk.ijse.dao.custom.*;
@@ -110,13 +111,7 @@ public class PaymentFormController {
 
     private double totalPay = 0;
 
-    //CarDAO carDAO = new CarDAOImpl();
-    //DriverDAO driverDAO = new DriverDAOImpl();
-    //CustomerDAO customerDAO = new CustomerDAOImpl();
-    //BookingDetailDAO bookingDetailDAO = new BookingDetailDAOImpl();
-    //PaymentDAO paymentDAO = new PaymentDAOImpl();
-    //OneCarPayDAO oneCarPayDAO = new OneCarPayDAOImpl();
-    PaymentBO paymentBO = new PaymentBOImpl();
+    PaymentBO paymentBO = (PaymentBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.PAYMENT);
 
     public void initialize() {
 

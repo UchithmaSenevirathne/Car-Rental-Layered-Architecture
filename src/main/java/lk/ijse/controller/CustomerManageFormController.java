@@ -14,6 +14,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import lk.ijse.bo.BOFactory;
 import lk.ijse.bo.custom.CustomerBO;
 import lk.ijse.bo.custom.impl.CustomerBOImpl;
 import lk.ijse.dao.custom.CustomerDAO;
@@ -60,8 +61,7 @@ public class CustomerManageFormController {
 
     private final ObservableList<CustomerTm> obList = FXCollections.observableArrayList();
 
-    //CustomerDAO customerDAO = new CustomerDAOImpl();
-    CustomerBO customerBO = new CustomerBOImpl();
+    CustomerBO customerBO = (CustomerBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.CUSTOMER);
 
     public void initialize(){
         setCellValueFactory();

@@ -14,6 +14,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import lk.ijse.bo.BOFactory;
 import lk.ijse.bo.custom.CarBO;
 import lk.ijse.bo.custom.impl.CarBOImpl;
 import lk.ijse.dao.custom.CarDAO;
@@ -67,8 +68,7 @@ public class CarManageFormController {
 
     ObservableList<String> obList = FXCollections.observableArrayList();
 
-    //CarDAO carDAO = new CarDAOImpl();
-    CarBO carBO = new CarBOImpl();
+    CarBO carBO = (CarBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.CAR);
 
 
     public void initialize(){

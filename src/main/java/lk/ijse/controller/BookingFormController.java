@@ -13,6 +13,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import lk.ijse.bo.BOFactory;
 import lk.ijse.bo.custom.BookingBO;
 import lk.ijse.bo.custom.impl.BookingBOImpl;
 import lk.ijse.dao.custom.*;
@@ -26,15 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BookingFormController {
-
-    //private final CustomerDAOImpl customerModel = new CustomerDAOImpl();
-
-    //private final DriverDAOImpl driverModel = new DriverDAOImpl();
-
-    //private final CarDAOImpl carModel = new CarDAOImpl();
-
-    //private final BookingDAOImpl bookingModel = new BookingDAOImpl();
-    BookingBO bookingBO = new BookingBOImpl();
+    BookingBO bookingBO = (BookingBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.BOOKING);
 
     private final ObservableList<BookTm> obList3 = FXCollections.observableArrayList();
 
@@ -103,14 +96,6 @@ public class BookingFormController {
 
     @FXML
     private Pane subAnchorPane;
-
-    //private final MakeBookingDAOImpl makeBookingModel = new MakeBookingDAOImpl();
-   // MakeBookingDAO makeBookingDAO = new MakeBookingDAOImpl();
-
-    //DriverDAO driverDAO = new DriverDAOImpl();
-    //CarDAO carDAO = new CarDAOImpl();
-    //CustomerDAO customerDAO = new CustomerDAOImpl();
-    //BookingDAO bookingDAO = new BookingDAOImpl();
 
     public void initialize() {
         setCellValueFactory();

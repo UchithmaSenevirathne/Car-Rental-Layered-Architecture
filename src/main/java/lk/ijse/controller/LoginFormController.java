@@ -11,6 +11,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import lk.ijse.bo.BOFactory;
 import lk.ijse.bo.custom.UserBO;
 import lk.ijse.bo.custom.impl.UserBOImpl;
 import lk.ijse.dao.custom.ScheduleDAO;
@@ -36,9 +37,7 @@ public class LoginFormController {
     @FXML
     private TextField txtUserName;
 
-    //UserDAO userDAO = new UserDAOImpl();
-    //ScheduleDAO scheduleDAO = new ScheduleDAOImpl();
-    UserBO userBO = new UserBOImpl();
+    UserBO userBO = (UserBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.USER);
 
     @FXML
     void btnSignInOnAction(ActionEvent event){

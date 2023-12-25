@@ -12,6 +12,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import lk.ijse.bo.BOFactory;
 import lk.ijse.bo.custom.SalaryBO;
 import lk.ijse.bo.custom.impl.SalaryBOImpl;
 import lk.ijse.dao.custom.DriverDAO;
@@ -60,9 +61,7 @@ public class SalaryFormController {
     private Integer index;
 
     private final ObservableList<SalDriverTm> obList = FXCollections.observableArrayList();
-
-    //DriverDAO driverDAO = new DriverDAOImpl();
-    SalaryBO salaryBO = new SalaryBOImpl();
+    SalaryBO salaryBO = (SalaryBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.SALARY);
 
     public void initialize(){
         setCellValueFactory();

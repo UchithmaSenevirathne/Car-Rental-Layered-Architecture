@@ -9,6 +9,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.PasswordField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import lk.ijse.bo.BOFactory;
 import lk.ijse.bo.custom.UserBO;
 import lk.ijse.bo.custom.impl.UserBOImpl;
 import lk.ijse.dao.custom.UserDAO;
@@ -25,8 +26,7 @@ public class VerifySuperAdminController {
 
     @FXML
     private AnchorPane subAnchorPane;
-    //UserDAO userDAO = new UserDAOImpl();
-    UserBO userBO = new UserBOImpl();
+    UserBO userBO = (UserBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.USER);
 
     @FXML
     void superAdVerifyOnAction(ActionEvent event) {

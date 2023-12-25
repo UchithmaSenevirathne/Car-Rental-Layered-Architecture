@@ -11,6 +11,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import lk.ijse.bo.BOFactory;
 import lk.ijse.bo.custom.BookingBO;
 import lk.ijse.bo.custom.impl.BookingBOImpl;
 import lk.ijse.dao.custom.BookingDAO;
@@ -45,9 +46,7 @@ public class UpdateBookingFormController {
     private TextField txtxDays;
 
     Stage stage;
-
-    //BookingDAO bookingDAO = new BookingDAOImpl();
-    BookingBO bookingBO = new BookingBOImpl();
+    BookingBO bookingBO = (BookingBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.BOOKING);
 
     @FXML
     void btnCancelOnAction(ActionEvent event) {

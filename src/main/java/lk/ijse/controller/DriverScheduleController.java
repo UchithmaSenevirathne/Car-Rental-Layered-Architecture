@@ -13,6 +13,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import lk.ijse.bo.BOFactory;
 import lk.ijse.bo.custom.ScheduleBO;
 import lk.ijse.bo.custom.impl.ScheduleBOImpl;
 import lk.ijse.dao.custom.ScheduleDAO;
@@ -56,8 +57,7 @@ public class DriverScheduleController {
 
     private final ObservableList<ScheduleTm> obList = FXCollections.observableArrayList();
 
-    //ScheduleDAO scheduleDAO = new ScheduleDAOImpl();
-    ScheduleBO scheduleBO = new ScheduleBOImpl();
+    ScheduleBO scheduleBO = (ScheduleBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.SCHEDULE);
 
     public void initialize(){
         setCellValueFactory();

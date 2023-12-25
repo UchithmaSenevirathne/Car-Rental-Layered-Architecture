@@ -10,6 +10,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import lk.ijse.Validation.Validate;
+import lk.ijse.bo.BOFactory;
 import lk.ijse.bo.custom.UserBO;
 import lk.ijse.bo.custom.impl.UserBOImpl;
 import lk.ijse.dao.custom.UserDAO;
@@ -27,8 +28,7 @@ public class ResetPasswordController {
 
     String userName;
 
-    //UserDAO userDAO = new UserDAOImpl();
-    UserBO userBO = new UserBOImpl();
+    UserBO userBO = (UserBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.USER);
 
     @FXML
     void btnResetPwdOnAction(ActionEvent event) {

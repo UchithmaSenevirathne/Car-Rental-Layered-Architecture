@@ -12,6 +12,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import lk.ijse.Validation.Validate;
+import lk.ijse.bo.BOFactory;
 import lk.ijse.bo.custom.DriverBO;
 import lk.ijse.bo.custom.impl.DriverBOImpl;
 import lk.ijse.dao.custom.DriverDAO;
@@ -56,10 +57,7 @@ public class DriverFormController {
 
     Stage stage;
 
-    //DriverDAO driverDAO = new DriverDAOImpl();
-    DriverBO driverBO = new DriverBOImpl();
-
-    //UserDAO userDAO = new UserDAOImpl();
+    DriverBO driverBO = (DriverBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.DRIVER);
 
     @FXML
     void btnCancelDrOnAction(ActionEvent event) {
