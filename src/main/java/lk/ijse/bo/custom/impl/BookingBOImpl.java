@@ -1,6 +1,7 @@
 package lk.ijse.bo.custom.impl;
 
 import lk.ijse.bo.custom.BookingBO;
+import lk.ijse.dao.DAOFactory;
 import lk.ijse.dao.custom.*;
 import lk.ijse.dao.custom.impl.*;
 import lk.ijse.db.DbConnection;
@@ -14,11 +15,11 @@ import java.util.List;
 
 public class BookingBOImpl implements BookingBO {
 
-    BookingDAO bookingDAO = new BookingDAOImpl();
-    CarDAO carDAO = new CarDAOImpl();
-    DriverDAO driverDAO = new DriverDAOImpl();
-    BookingDetailDAO bookingDetailDAO = new BookingDetailDAOImpl();
-    CustomerDAO customerDAO = new CustomerDAOImpl();
+    BookingDAO bookingDAO = (BookingDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.BOOKING);
+    CarDAO carDAO = (CarDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.CAR);
+    DriverDAO driverDAO = (DriverDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.DRIVER);
+    BookingDetailDAO bookingDetailDAO = (BookingDetailDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.BOOKING_DETAIL);
+    CustomerDAO customerDAO = (CustomerDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.CUSTOMER);
 
     @Override
     public String generateNextBookingId() throws SQLException {

@@ -1,6 +1,7 @@
 package lk.ijse.bo.custom.impl;
 
 import lk.ijse.bo.custom.CarBO;
+import lk.ijse.dao.DAOFactory;
 import lk.ijse.dao.custom.CarDAO;
 import lk.ijse.dao.custom.impl.CarDAOImpl;
 import lk.ijse.dto.CarDto;
@@ -13,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CarBOImpl implements CarBO {
-    CarDAO carDAO = new CarDAOImpl();
+    CarDAO carDAO = (CarDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.CAR);
 
     @Override
     public boolean updateCar(CarDto dto) throws SQLException {

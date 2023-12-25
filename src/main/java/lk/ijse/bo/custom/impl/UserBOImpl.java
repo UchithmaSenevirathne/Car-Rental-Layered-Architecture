@@ -1,6 +1,7 @@
 package lk.ijse.bo.custom.impl;
 
 import lk.ijse.bo.custom.UserBO;
+import lk.ijse.dao.DAOFactory;
 import lk.ijse.dao.custom.ScheduleDAO;
 import lk.ijse.dao.custom.UserDAO;
 import lk.ijse.dao.custom.impl.ScheduleDAOImpl;
@@ -15,8 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserBOImpl implements UserBO {
-    UserDAO userDAO = new UserDAOImpl();
-    ScheduleDAO scheduleDAO = new ScheduleDAOImpl();
+    UserDAO userDAO = (UserDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.USER);
+    ScheduleDAO scheduleDAO = (ScheduleDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.SCHEDULE);
     @Override
     public boolean updateAdmin(UserDTO dto) throws SQLException {
         return userDAO.update(new User(dto.getUserName(),dto.getPassword(), dto.getEmail(), dto.getRole()));

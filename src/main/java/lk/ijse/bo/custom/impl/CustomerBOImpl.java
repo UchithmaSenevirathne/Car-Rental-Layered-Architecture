@@ -1,6 +1,7 @@
 package lk.ijse.bo.custom.impl;
 
 import lk.ijse.bo.custom.CustomerBO;
+import lk.ijse.dao.DAOFactory;
 import lk.ijse.dao.custom.CustomerDAO;
 import lk.ijse.dao.custom.impl.CustomerDAOImpl;
 import lk.ijse.dto.CustomerDto;
@@ -11,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CustomerBOImpl implements CustomerBO {
-    CustomerDAO customerDAO = new CustomerDAOImpl();
+    CustomerDAO customerDAO = (CustomerDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.CUSTOMER);
 
     @Override
     public boolean updateCustomer(CustomerDto dto) throws SQLException {

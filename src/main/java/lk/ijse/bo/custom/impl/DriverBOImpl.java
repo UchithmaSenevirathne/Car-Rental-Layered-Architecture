@@ -1,6 +1,7 @@
 package lk.ijse.bo.custom.impl;
 
 import lk.ijse.bo.custom.DriverBO;
+import lk.ijse.dao.DAOFactory;
 import lk.ijse.dao.custom.DriverDAO;
 import lk.ijse.dao.custom.UserDAO;
 import lk.ijse.dao.custom.impl.DriverDAOImpl;
@@ -17,8 +18,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DriverBOImpl implements DriverBO {
-    DriverDAO driverDAO = new DriverDAOImpl();
-    UserDAO userDAO = new UserDAOImpl();
+    DriverDAO driverDAO = (DriverDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.DRIVER);
+    UserDAO userDAO = (UserDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.USER);
     @Override
     public List<DriverInTimeDto> gerDrInTime(String date) throws SQLException {
         List<DriverInTime> driverInTimes = driverDAO.gerDrInTime(date);

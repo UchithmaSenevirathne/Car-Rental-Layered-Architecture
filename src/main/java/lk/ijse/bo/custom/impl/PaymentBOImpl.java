@@ -1,6 +1,7 @@
 package lk.ijse.bo.custom.impl;
 
 import lk.ijse.bo.custom.PaymentBO;
+import lk.ijse.dao.DAOFactory;
 import lk.ijse.dao.custom.*;
 import lk.ijse.dao.custom.impl.*;
 import lk.ijse.dto.*;
@@ -11,12 +12,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PaymentBOImpl implements PaymentBO {
-    CarDAO carDAO = new CarDAOImpl();
-    DriverDAO driverDAO = new DriverDAOImpl();
-    CustomerDAO customerDAO = new CustomerDAOImpl();
-    BookingDetailDAO bookingDetailDAO = new BookingDetailDAOImpl();
-    PaymentDAO paymentDAO = new PaymentDAOImpl();
-    OneCarPayDAO oneCarPayDAO = new OneCarPayDAOImpl();
+    CarDAO carDAO = (CarDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.CAR);
+    DriverDAO driverDAO = (DriverDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.DRIVER);
+    CustomerDAO customerDAO = (CustomerDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.CUSTOMER);
+    BookingDetailDAO bookingDetailDAO = (BookingDetailDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.BOOKING_DETAIL);
+    PaymentDAO paymentDAO = (PaymentDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.PAYMENT);
+    OneCarPayDAO oneCarPayDAO = (OneCarPayDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.ONE_CAR_PAYMENT);
     @Override
     public CarDto searchCar(String carNo) throws SQLException {
         Car car = carDAO.search(carNo);
