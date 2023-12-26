@@ -13,12 +13,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import lk.ijse.bo.BOFactory;
 import lk.ijse.bo.custom.SalaryBO;
-import lk.ijse.bo.custom.impl.SalaryBOImpl;
-import lk.ijse.dao.custom.SalaryDAO;
 import lk.ijse.dto.SalaryDTO;
 import lk.ijse.dto.tm.SalaryTm;
-import lk.ijse.dao.custom.impl.SalaryDAOImpl;
-
 import java.util.List;
 
 public class ViewSalaryController {
@@ -33,9 +29,6 @@ public class ViewSalaryController {
 
     @FXML
     private TableColumn<?, ?> colSalId;
-
-    @FXML
-    private AnchorPane rootNode;
 
     @FXML
     private TableView<SalaryTm> tableView;
@@ -60,8 +53,6 @@ public class ViewSalaryController {
 
     private void loadAllSalary() {
         obListSal.clear();
-
-        //var model = new SalaryDAOImpl();
 
         try {
             List<SalaryDTO> dtoList = salaryBO.getAllSalary();

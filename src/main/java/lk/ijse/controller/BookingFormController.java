@@ -15,12 +15,8 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import lk.ijse.bo.BOFactory;
 import lk.ijse.bo.custom.BookingBO;
-import lk.ijse.bo.custom.impl.BookingBOImpl;
-import lk.ijse.dao.custom.*;
-import lk.ijse.dao.custom.impl.*;
 import lk.ijse.dto.*;
 import lk.ijse.dto.tm.BookTm;
-
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -100,7 +96,6 @@ public class BookingFormController {
     public void initialize() {
         setCellValueFactory();
         generateNextBookingId();
-        //setDate();
         loadCustomerIds();
         loadDriverIds();
         loadCarNo();
@@ -153,9 +148,6 @@ public class BookingFormController {
             throw new RuntimeException(e);
         }
     }
-
-    //private void setDate() {
-    //}
 
     private void loadDriverIds() {
         ObservableList<String> obList = FXCollections.observableArrayList();

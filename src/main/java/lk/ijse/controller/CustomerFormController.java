@@ -14,11 +14,7 @@ import javafx.stage.StageStyle;
 import lk.ijse.Validation.Validate;
 import lk.ijse.bo.BOFactory;
 import lk.ijse.bo.custom.CustomerBO;
-import lk.ijse.bo.custom.impl.CustomerBOImpl;
-import lk.ijse.dao.custom.CustomerDAO;
 import lk.ijse.dto.CustomerDto;
-import lk.ijse.dao.custom.impl.CustomerDAOImpl;
-
 import java.sql.SQLException;
 
 public class CustomerFormController {
@@ -63,8 +59,6 @@ public class CustomerFormController {
         String contact = txtcusContact.getText();
 
         var dto = new CustomerDto(id, name, address, email, contact);
-
-        //var model = new CustomerDAOImpl();
 
         try {
             if(validateCustomer(id, name, address, email, contact)) {

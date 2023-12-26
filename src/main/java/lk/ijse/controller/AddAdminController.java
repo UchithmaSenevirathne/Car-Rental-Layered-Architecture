@@ -8,23 +8,16 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import lk.ijse.Validation.Validate;
 import lk.ijse.bo.BOFactory;
 import lk.ijse.bo.custom.UserBO;
-import lk.ijse.bo.custom.impl.UserBOImpl;
-import lk.ijse.dao.custom.UserDAO;
 import lk.ijse.dto.UserDTO;
-import lk.ijse.dao.custom.impl.UserDAOImpl;
 
 public class AddAdminController {
     @FXML
     public Button btnAdminFormBtn;
-
-    @FXML
-    private AnchorPane rootNode;
 
     @FXML
     private TextField txtEmail;
@@ -44,8 +37,6 @@ public class AddAdminController {
         String password = txtPwd.getText();
 
         var userDto = new UserDTO(userName, password, email, "ADM");
-
-        //var model = new UserDAOImpl();
 
         try {
             if(ValidateAdmin(userName,email,password)) {

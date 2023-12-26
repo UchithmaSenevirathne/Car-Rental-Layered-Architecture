@@ -13,11 +13,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import lk.ijse.bo.BOFactory;
 import lk.ijse.bo.custom.BookingBO;
-import lk.ijse.bo.custom.impl.BookingBOImpl;
-import lk.ijse.dao.custom.BookingDAO;
 import lk.ijse.dto.PendingDTO;
-import lk.ijse.dao.custom.impl.BookingDAOImpl;
-
 import java.time.LocalDate;
 
 public class UpdateBookingFormController {
@@ -46,6 +42,7 @@ public class UpdateBookingFormController {
     private TextField txtxDays;
 
     Stage stage;
+
     BookingBO bookingBO = (BookingBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.BOOKING);
 
     @FXML
@@ -65,8 +62,6 @@ public class UpdateBookingFormController {
         double payment = Double.parseDouble(txtAdvance.getText());
 
         var dto = new PendingDTO(bId,cusId,drId,carNo,date,days,payment);
-
-        //var model = new BookingDAOImpl();
 
         try{
             boolean isUpdated = bookingBO.updatePendingBooking(dto);

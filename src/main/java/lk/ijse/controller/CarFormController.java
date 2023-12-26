@@ -13,10 +13,7 @@ import javafx.stage.StageStyle;
 import lk.ijse.Validation.Validate;
 import lk.ijse.bo.BOFactory;
 import lk.ijse.bo.custom.CarBO;
-import lk.ijse.bo.custom.impl.CarBOImpl;
-import lk.ijse.dao.custom.CarDAO;
 import lk.ijse.dto.CarDto;
-import lk.ijse.dao.custom.impl.CarDAOImpl;
 
 public class CarFormController {
     @FXML
@@ -66,8 +63,6 @@ public class CarFormController {
         double priceExtraKm = Double.parseDouble(txtPriceExtraKm.getText());
 
         var dto = new CarDto(carNo, brand, availa, currentMileage, kmOneDay, priceOneDay, priceExtraKm);
-
-        //var model = new CarDAOImpl();
 
         try{
             if(validateCar(carNo)) {

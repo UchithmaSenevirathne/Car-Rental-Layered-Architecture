@@ -12,13 +12,8 @@ import javafx.stage.StageStyle;
 import lk.ijse.Validation.Validate;
 import lk.ijse.bo.BOFactory;
 import lk.ijse.bo.custom.UserBO;
-import lk.ijse.bo.custom.impl.UserBOImpl;
-import lk.ijse.dao.custom.UserDAO;
-import lk.ijse.dao.custom.impl.UserDAOImpl;
 
 public class ResetPasswordController {
-    @FXML
-    private AnchorPane subAnchorPane;
 
     @FXML
     private TextField txtConfirmNewPwd;
@@ -34,8 +29,6 @@ public class ResetPasswordController {
     void btnResetPwdOnAction(ActionEvent event) {
         String newPwd = txtNewPassword.getText();
         String confirmPwd = txtConfirmNewPwd.getText();
-
-        //var model = new UserDAOImpl();
 
         try{
             if(ValidateAdminPw(newPwd)) {
@@ -58,7 +51,6 @@ public class ResetPasswordController {
                         stage.initStyle(StageStyle.UNDECORATED);
                         stage.centerOnScreen();
                         stage.show();
-                        //new Alert(Alert.AlertType.CONFIRMATION, "password changed successfully!").show();
                         clearFields();
                     }
                 } else {

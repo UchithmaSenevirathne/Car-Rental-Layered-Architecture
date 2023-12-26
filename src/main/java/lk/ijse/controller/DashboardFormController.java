@@ -18,21 +18,11 @@ import lk.ijse.bo.BOFactory;
 import lk.ijse.bo.custom.CarBO;
 import lk.ijse.bo.custom.CustomerBO;
 import lk.ijse.bo.custom.DriverBO;
-import lk.ijse.bo.custom.impl.CarBOImpl;
-import lk.ijse.bo.custom.impl.CustomerBOImpl;
-import lk.ijse.bo.custom.impl.DriverBOImpl;
-import lk.ijse.dao.custom.CarDAO;
-import lk.ijse.dao.custom.CustomerDAO;
-import lk.ijse.dao.custom.DriverDAO;
 import lk.ijse.dto.CarOutDto;
 import lk.ijse.dto.DriverInTimeDto;
 import lk.ijse.dto.tm.CarOutTM;
 import lk.ijse.dto.tm.DriverInTimeTM;
 import lk.ijse.dao.custom.impl.BookingDAOImpl;
-import lk.ijse.dao.custom.impl.CarDAOImpl;
-import lk.ijse.dao.custom.impl.CustomerDAOImpl;
-import lk.ijse.dao.custom.impl.DriverDAOImpl;
-
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
@@ -94,8 +84,6 @@ public class DashboardFormController implements Initializable{
     private void loadAllDrIn() {
         obListDrLog.clear();
 
-        //var model = new DriverDAOImpl();
-
         try {
             String date = String.valueOf(LocalDate.now());
 
@@ -122,7 +110,6 @@ public class DashboardFormController implements Initializable{
 
     private void setValuesLables() {
         var modelBook = new BookingDAOImpl();
-        //var modelCus = new CustomerDAOImpl();
 
         try{
             int countBooking = modelBook.getCountBooking();
@@ -141,8 +128,6 @@ public class DashboardFormController implements Initializable{
 
     private void loadAllCars() {
         obListCar.clear();
-
-        //var model = new CarDAOImpl();
 
         try {
             List<CarOutDto> dtoList = carBO.getCarOut();

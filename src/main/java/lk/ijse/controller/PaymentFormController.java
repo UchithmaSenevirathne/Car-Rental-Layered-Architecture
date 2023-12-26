@@ -16,9 +16,6 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import lk.ijse.bo.BOFactory;
 import lk.ijse.bo.custom.PaymentBO;
-import lk.ijse.bo.custom.impl.PaymentBOImpl;
-import lk.ijse.dao.custom.*;
-import lk.ijse.dao.custom.impl.*;
 import lk.ijse.db.DbConnection;
 import lk.ijse.dto.*;
 import lk.ijse.dto.tm.BookTm;
@@ -27,7 +24,6 @@ import net.sf.jasperreports.engine.design.JRDesignQuery;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.xml.JRXmlLoader;
 import net.sf.jasperreports.swing.JRViewer;
-
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
@@ -36,7 +32,6 @@ import java.util.List;
 
 public class PaymentFormController {
     private final ObservableList<BookTm> obList = FXCollections.observableArrayList();
-    //ObservableList<BookTm> obList = FXCollections.observableArrayList();
 
     @FXML
     private AnchorPane rootNode;
@@ -165,23 +160,17 @@ public class PaymentFormController {
 
     @FXML
     void btnAddPaymentOnAction(ActionEvent event) throws SQLException {
-        //clearTxt();
-
         double priceOneDay = Double.parseDouble(txtPriceOneDay.getText());
 
-        //
         int index = tableView.getSelectionModel().getSelectedIndex();
 
         int days = Integer.parseInt(colDays.getCellData(index).toString());
         System.out.println("days....." + days);
-        //
 
         double extraKm = Integer.parseInt(txtExtraKm.getText());
 
-        //
         CarDto dto = paymentBO.searchCar(txtCarId.getText());
         double priceExtraKm = dto.getPriceExtraKm();
-        //
 
         double driverCost = Double.parseDouble(txtDrCost.getText());
 

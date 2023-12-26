@@ -14,12 +14,8 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import lk.ijse.bo.BOFactory;
 import lk.ijse.bo.custom.UserBO;
-import lk.ijse.bo.custom.impl.UserBOImpl;
-import lk.ijse.dao.custom.UserDAO;
 import lk.ijse.dto.UserDTO;
 import lk.ijse.dto.tm.AdminTm;
-import lk.ijse.dao.custom.impl.UserDAOImpl;
-
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
@@ -56,8 +52,6 @@ public class AdminManageController {
 
     @FXML
     void SetData(MouseEvent event) {
-        //var model = new UserDAOImpl();
-
         index = tableView.getSelectionModel().getSelectedIndex();
 
         if(index <= -1){
@@ -99,8 +93,6 @@ public class AdminManageController {
     private void loadAllAdmins(){
         obList.clear();
 
-        //var model = new UserDAOImpl();
-
         try {
             List<UserDTO> dtoList = userBO.getAllAdmins();
 
@@ -118,7 +110,7 @@ public class AdminManageController {
                     if(type.orElse(no) == yes) {
                         deleteAdmin(dto.getUserName());
                     }
-                }); //*********** getId()
+                });
                 obList.add(
                         new AdminTm(
                                 dto.getUserName(),
@@ -135,8 +127,6 @@ public class AdminManageController {
     }
 
     private void deleteAdmin(String userName) {
-        //var model = new UserDAOImpl();
-
         try {
             boolean b = userBO.deleteAdmin(userName);
 

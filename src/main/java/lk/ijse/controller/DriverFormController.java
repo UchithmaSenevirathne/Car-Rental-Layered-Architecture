@@ -14,14 +14,8 @@ import javafx.stage.StageStyle;
 import lk.ijse.Validation.Validate;
 import lk.ijse.bo.BOFactory;
 import lk.ijse.bo.custom.DriverBO;
-import lk.ijse.bo.custom.impl.DriverBOImpl;
-import lk.ijse.dao.custom.DriverDAO;
-import lk.ijse.dao.custom.UserDAO;
-import lk.ijse.dao.custom.impl.UserDAOImpl;
 import lk.ijse.dto.DriverDto;
 import lk.ijse.dto.UserDTO;
-import lk.ijse.dao.custom.impl.DriverDAOImpl;
-
 import java.sql.SQLException;
 
 public class DriverFormController {
@@ -79,8 +73,6 @@ public class DriverFormController {
 
         var driverDto = new DriverDto(id, name, address, email, contact, licenseNo, userName, availability);
         var userDto = new UserDTO(userName, pwd, email, "DRI");
-
-        //var model = new DriverDAOImpl();
 
         try {
             if(validateDriver(id, name, address, email, contact, licenseNo, userName, pwd)) {

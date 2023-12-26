@@ -16,14 +16,8 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import lk.ijse.bo.BOFactory;
 import lk.ijse.bo.custom.DriverBO;
-import lk.ijse.bo.custom.impl.DriverBOImpl;
-import lk.ijse.dao.custom.DriverDAO;
-import lk.ijse.dao.custom.UserDAO;
 import lk.ijse.dto.DriverDto;
 import lk.ijse.dto.tm.DriverTm;
-import lk.ijse.dao.custom.impl.DriverDAOImpl;
-import lk.ijse.dao.custom.impl.UserDAOImpl;
-
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
@@ -68,8 +62,6 @@ public class DriverManageFormController {
     @FXML
     private TableView<DriverTm> tableView;
 
-    private Integer index;
-
     private final ObservableList<DriverTm> obList = FXCollections.observableArrayList();
 
     DriverBO driverBO = (DriverBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.DRIVER);
@@ -96,8 +88,6 @@ public class DriverManageFormController {
 
         obList.clear();
 
-        //var model = new DriverDAOImpl();
-
         try {
             List<DriverDto> dtoList = driverBO.getAllDrivers();
 
@@ -118,7 +108,7 @@ public class DriverManageFormController {
                     if(type.orElse(no) == yes) {
                         deleteDriver(dto.getUserName());
                     }
-                }); //*********** getId()
+                });
                 obList.add(
                         new DriverTm(
                                 dto.getId(),
@@ -142,8 +132,6 @@ public class DriverManageFormController {
     }
 
     private void deleteDriver(String userName) {
-        //var model = new DriverDAOImpl();
-
         try {
             boolean b = driverBO.deleteDriver(userName);
 
@@ -172,8 +160,6 @@ public class DriverManageFormController {
     }
 
     private void openDriverPopup(DriverDto driverDto){
-        //var model = new UserDAOImpl();
-
         try {
             String pwd = driverBO.getPassword(driverDto.getUserName());
 
@@ -207,9 +193,7 @@ public class DriverManageFormController {
         }
     }
     @FXML
-    void btnADDDrOnAction(ActionEvent event) throws IOException {
-        //var model = new DriverDAOImpl();
-
+    void btnADDDrOnAction(ActionEvent event){
         try {
             String drId = driverBO.generateNextId();
 

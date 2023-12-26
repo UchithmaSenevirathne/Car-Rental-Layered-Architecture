@@ -10,11 +10,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import lk.ijse.bo.BOFactory;
 import lk.ijse.bo.custom.UserBO;
-import lk.ijse.bo.custom.impl.UserBOImpl;
-import lk.ijse.dao.custom.UserDAO;
-import lk.ijse.dao.custom.impl.UserDAOImpl;
 import lk.ijse.util.SendMail;
-
 import java.io.IOException;
 import java.util.Random;
 
@@ -29,14 +25,15 @@ public class ForgetPasswordController {
     private TextField txtUserName;
 
     int random;
+
     int OTP;
+
     UserBO userBO = (UserBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.USER);
 
     @FXML
     void btnSendOTPOnAction(ActionEvent event) {
         String userName = txtUserName.getText();
 
-        //var model = new UserDAOImpl();
         try {
             boolean isvalidUserName = userBO.checkUserName(userName);
 

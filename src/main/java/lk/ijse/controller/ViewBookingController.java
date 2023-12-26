@@ -16,16 +16,10 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import lk.ijse.bo.BOFactory;
 import lk.ijse.bo.custom.BookingBO;
-import lk.ijse.bo.custom.impl.BookingBOImpl;
-import lk.ijse.dao.custom.BookingDAO;
-import lk.ijse.dao.custom.BookingDetailDAO;
-import lk.ijse.dao.custom.impl.BookingDetailDAOImpl;
 import lk.ijse.dto.CompleteDTO;
 import lk.ijse.dto.PendingDTO;
 import lk.ijse.dto.tm.CompleteTm;
 import lk.ijse.dto.tm.PendingTm;
-import lk.ijse.dao.custom.impl.BookingDAOImpl;
-
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
@@ -57,9 +51,6 @@ public class ViewBookingController {
 
     @FXML
     private TableColumn<?, ?> colUpdatePending;
-
-    @FXML
-    private AnchorPane subAnchorPane;
 
     @FXML
     private TableView<PendingTm> tablePending;
@@ -124,8 +115,6 @@ public class ViewBookingController {
     public void loadAllPendingBookings() {
         obListPend.clear();
 
-        //var model = new BookingDAOImpl();
-
         try {
             List<PendingDTO> dtoList = bookingBO.getAllPendings();
 
@@ -168,8 +157,6 @@ public class ViewBookingController {
     }
 
     private void deleteBooking(String bId) {
-        //var model = new BookingDAOImpl();
-
         try {
             boolean b = bookingBO.deleteBookingDetail(bId);
 
@@ -231,8 +218,6 @@ public class ViewBookingController {
 
    private void loadAllCompletedBookings() {
         obListComp.clear();
-
-        //var model = new BookingDAOImpl();
 
         try {
             List<CompleteDTO> dtoList = bookingBO.getAllCompletes();

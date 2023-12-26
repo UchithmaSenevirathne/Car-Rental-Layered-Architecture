@@ -16,12 +16,8 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import lk.ijse.bo.BOFactory;
 import lk.ijse.bo.custom.CustomerBO;
-import lk.ijse.bo.custom.impl.CustomerBOImpl;
-import lk.ijse.dao.custom.CustomerDAO;
 import lk.ijse.dto.CustomerDto;
 import lk.ijse.dto.tm.CustomerTm;
-import lk.ijse.dao.custom.impl.CustomerDAOImpl;
-
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
@@ -81,10 +77,6 @@ public class CustomerManageFormController {
     public void loadAllCustomers(){
         obList.clear();
 
-        //var model = new CustomerDAOImpl();
-
-        //ObservableList<CustomerTm> obList = FXCollections.observableArrayList();
-
         try{
             List<CustomerDto> dtoList = customerBO.getAllCustomers();
 
@@ -126,7 +118,6 @@ public class CustomerManageFormController {
     }
 
     private void openCustomerPopup(CustomerDto customerDto){
-        //CustomerFormController cusForm = new CustomerFormController(this);
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/CustomerForm.fxml"));
 
@@ -156,8 +147,6 @@ public class CustomerManageFormController {
     }
 
     private void deleteCustomer(String id){
-        //var model = new CustomerDAOImpl();
-
         try {
             boolean b = customerBO.deleteCustomer(id);
 
@@ -207,8 +196,6 @@ public class CustomerManageFormController {
 
     @FXML
     void btnADDCusOnAction(ActionEvent event) throws IOException {
-        //var model = new CustomerDAOImpl();
-
         try {
             String cusId = customerBO.generateNextId();
 

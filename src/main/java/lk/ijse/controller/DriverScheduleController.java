@@ -15,12 +15,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import lk.ijse.bo.BOFactory;
 import lk.ijse.bo.custom.ScheduleBO;
-import lk.ijse.bo.custom.impl.ScheduleBOImpl;
-import lk.ijse.dao.custom.ScheduleDAO;
 import lk.ijse.dto.ScheduleDTO;
 import lk.ijse.dto.tm.ScheduleTm;
-import lk.ijse.dao.custom.impl.ScheduleDAOImpl;
-
 import java.io.IOException;
 import java.util.List;
 
@@ -61,7 +57,6 @@ public class DriverScheduleController {
 
     public void initialize(){
         setCellValueFactory();
-        //setScheduleData();
     }
 
     private void setCellValueFactory() {
@@ -87,7 +82,7 @@ public class DriverScheduleController {
 
     public void setScheduleData(List<ScheduleDTO> dtoList, String userName) {
         obList.clear();
-        //var model = new ScheduleDAOImpl();
+
         try {
             String name = scheduleBO.getDrName(userName);
 

@@ -12,10 +12,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import lk.ijse.bo.BOFactory;
 import lk.ijse.bo.custom.SalaryBO;
-import lk.ijse.bo.custom.impl.SalaryBOImpl;
-import lk.ijse.dao.custom.SalaryDAO;
 import lk.ijse.dto.SalaryDTO;
-import lk.ijse.dao.custom.impl.SalaryDAOImpl;
 
 public class AddSalaryFormController {
     @FXML
@@ -49,8 +46,6 @@ public class AddSalaryFormController {
         String month = txtMonth.getText();
 
         var dto = new SalaryDTO(drSalId, drId, amount, month);
-
-        //var model = new SalaryDAOImpl();
 
         try{
             boolean isSaved = salaryBO.saveSalary(dto);

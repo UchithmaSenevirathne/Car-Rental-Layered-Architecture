@@ -14,13 +14,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import lk.ijse.bo.BOFactory;
 import lk.ijse.bo.custom.SalaryBO;
-import lk.ijse.bo.custom.impl.SalaryBOImpl;
-import lk.ijse.dao.custom.DriverDAO;
-import lk.ijse.dao.custom.impl.DriverDAOImpl;
 import lk.ijse.dto.DriverDto;
 import lk.ijse.dto.tm.SalDriverTm;
-import lk.ijse.dao.custom.impl.SalaryDAOImpl;
-
 import java.io.IOException;
 import java.util.List;
 
@@ -65,7 +60,6 @@ public class SalaryFormController {
 
     public void initialize(){
         setCellValueFactory();
-        //loadAllDrivers();
         txtSearchDr.textProperty().addListener((observable, oldValue, newValue) -> {
            searchDrivers(newValue);
         });
@@ -115,8 +109,6 @@ public class SalaryFormController {
 
     private void searchDrivers(String search) {
         obList.clear();
-
-        //var model = new SalaryDAOImpl();
 
         try {
                 List<DriverDto> dtoList = salaryBO.getAllDrivers(search);

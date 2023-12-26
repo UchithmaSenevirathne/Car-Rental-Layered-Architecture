@@ -16,12 +16,8 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import lk.ijse.bo.BOFactory;
 import lk.ijse.bo.custom.CarBO;
-import lk.ijse.bo.custom.impl.CarBOImpl;
-import lk.ijse.dao.custom.CarDAO;
 import lk.ijse.dto.CarDto;
 import lk.ijse.dto.tm.CarTm;
-import lk.ijse.dao.custom.impl.CarDAOImpl;
-
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
@@ -91,8 +87,6 @@ public class CarManageFormController {
     public void loadAllCars(){
         obListCar.clear();
 
-        //var model = new CarDAOImpl();
-
         try {
             List<CarDto> dtoList = carBO.getAllCars();
 
@@ -135,8 +129,6 @@ public class CarManageFormController {
     }
 
     private void deleteCar(String carNo) {
-        //var model = new CarDAOImpl();
-
         try {
             boolean b = carBO.deleteCar(carNo);
 
@@ -215,8 +207,6 @@ public class CarManageFormController {
     @FXML
     void btnADDCarOnAction(ActionEvent event) throws IOException {
         obList.clear();
-
-        //var model = new CarDAOImpl();
 
         try {
             String carNo = carBO.generateNextId();

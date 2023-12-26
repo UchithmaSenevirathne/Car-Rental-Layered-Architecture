@@ -13,13 +13,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import lk.ijse.bo.BOFactory;
 import lk.ijse.bo.custom.UserBO;
-import lk.ijse.bo.custom.impl.UserBOImpl;
-import lk.ijse.dao.custom.ScheduleDAO;
-import lk.ijse.dao.custom.UserDAO;
 import lk.ijse.dto.ScheduleDTO;
-import lk.ijse.dao.custom.impl.ScheduleDAOImpl;
-import lk.ijse.dao.custom.impl.UserDAOImpl;
-
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -48,7 +42,6 @@ public class LoginFormController {
             boolean isIn = userBO.searchUser(userName, password);
             if (!isIn) {
                 new Alert(Alert.AlertType.WARNING, "Invalid UserName or Password").show();
-                return;
             } else {
                 isAdmin(userName, password);
             }
@@ -59,11 +52,7 @@ public class LoginFormController {
     }
 
     private void isAdmin(String userName, String password){
-        //var userModel = new UserDAOImpl();
-
         try {
-
-            //var schedModel = new ScheduleDAOImpl();
 
             boolean isAdmin = userBO.checkAdmin(userName,password);
 
