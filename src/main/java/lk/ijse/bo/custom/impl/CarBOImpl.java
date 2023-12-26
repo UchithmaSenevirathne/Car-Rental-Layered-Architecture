@@ -3,12 +3,10 @@ package lk.ijse.bo.custom.impl;
 import lk.ijse.bo.custom.CarBO;
 import lk.ijse.dao.DAOFactory;
 import lk.ijse.dao.custom.CarDAO;
-import lk.ijse.dao.custom.impl.CarDAOImpl;
 import lk.ijse.dto.CarDto;
 import lk.ijse.dto.CarOutDto;
 import lk.ijse.entity.Car;
 import lk.ijse.entity.CarOut;
-
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;

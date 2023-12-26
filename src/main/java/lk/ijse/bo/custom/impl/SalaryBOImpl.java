@@ -4,13 +4,10 @@ import lk.ijse.bo.custom.SalaryBO;
 import lk.ijse.dao.DAOFactory;
 import lk.ijse.dao.custom.DriverDAO;
 import lk.ijse.dao.custom.SalaryDAO;
-import lk.ijse.dao.custom.impl.DriverDAOImpl;
-import lk.ijse.dao.custom.impl.SalaryDAOImpl;
 import lk.ijse.dto.DriverDto;
 import lk.ijse.dto.SalaryDTO;
 import lk.ijse.entity.Driver;
 import lk.ijse.entity.Salary;
-
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +15,7 @@ import java.util.List;
 public class SalaryBOImpl implements SalaryBO {
     SalaryDAO salaryDAO = (SalaryDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.SALARY);
     DriverDAO driverDAO = (DriverDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.DRIVER);
+
     @Override
     public boolean saveSalary(SalaryDTO dto) throws SQLException {
         return salaryDAO.save(new Salary(dto.getDrSalId(), dto.getDrId(), dto.getAmount(), dto.getMonth()));
