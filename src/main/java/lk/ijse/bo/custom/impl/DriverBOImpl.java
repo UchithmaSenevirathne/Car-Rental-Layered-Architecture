@@ -24,29 +24,55 @@ public class DriverBOImpl implements DriverBO {
         List<DriverInTimeDto> dtoList = new ArrayList<>();
 
         for (DriverInTime driver : driverInTimes){
-            dtoList.add(new DriverInTimeDto(driver.getName(),driver.getTime()));
+            dtoList.add(new DriverInTimeDto(driver.getName(),
+                    driver.getTime())
+            );
         }
         return dtoList;
     }
 
     @Override
     public boolean updateUser(UserDTO dto) throws SQLException {
-        return userDAO.update(new User(dto.getUserName(), dto.getPassword(), dto.getEmail(), dto.getRole()));
+        return userDAO.update(new User(dto.getUserName(),
+                dto.getPassword(),
+                dto.getEmail(),
+                dto.getRole())
+        );
     }
 
     @Override
     public boolean updateDriver(DriverDto dto) throws SQLException {
-        return driverDAO.update(new Driver(dto.getId(), dto.getName(), dto.getAddress(), dto.getEmail(), dto.getContact(), dto.getLicenseNo(), dto.getUserName(), dto.getAvailability()));
+        return driverDAO.update(new Driver(dto.getId(),
+                dto.getName(),
+                dto.getAddress(),
+                dto.getEmail(),
+                dto.getContact(),
+                dto.getLicenseNo(),
+                dto.getUserName(),
+                dto.getAvailability())
+        );
     }
 
     @Override
     public boolean saveUser(UserDTO dto) throws SQLException {
-        return userDAO.save(new User(dto.getUserName(), dto.getPassword(), dto.getEmail(), dto.getRole()));
+        return userDAO.save(new User(dto.getUserName(),
+                dto.getPassword(),
+                dto.getEmail(),
+                dto.getRole())
+        );
     }
 
     @Override
     public boolean saveDriver(DriverDto dto) throws SQLException {
-        return driverDAO.save(new Driver(dto.getId(), dto.getName(), dto.getAddress(), dto.getEmail(), dto.getContact(), dto.getLicenseNo(), dto.getUserName(), dto.getAvailability()));
+        return driverDAO.save(new Driver(dto.getId(),
+                dto.getName(),
+                dto.getAddress(),
+                dto.getEmail(),
+                dto.getContact(),
+                dto.getLicenseNo(),
+                dto.getUserName(),
+                dto.getAvailability())
+        );
     }
 
     @Override
@@ -55,7 +81,15 @@ public class DriverBOImpl implements DriverBO {
         List<DriverDto> dtoList = new ArrayList<>();
 
         for (Driver driver : drivers){
-            dtoList.add(new DriverDto(driver.getId(), driver.getName(), driver.getAddress(), driver.getEmail(), driver.getContact(), driver.getLicenseNo(), driver.getUserName(), driver.getAvailability()));
+            dtoList.add(new DriverDto(driver.getId(),
+                    driver.getName(),
+                    driver.getAddress(),
+                    driver.getEmail(),
+                    driver.getContact(),
+                    driver.getLicenseNo(),
+                    driver.getUserName(),
+                    driver.getAvailability())
+            );
         }
         return dtoList;
     }

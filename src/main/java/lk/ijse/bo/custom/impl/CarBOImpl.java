@@ -16,12 +16,26 @@ public class CarBOImpl implements CarBO {
 
     @Override
     public boolean updateCar(CarDto dto) throws SQLException {
-        return carDAO.update(new Car(dto.getCarNo(), dto.getBrand(), dto.getAvailability(), dto.getCurrentMileage(),dto.getKmOneDay(),dto.getPriceOneDay(),dto.getPriceExtraKm()));
+        return carDAO.update(new Car(dto.getCarNo(),
+                dto.getBrand(),
+                dto.getAvailability(),
+                dto.getCurrentMileage(),
+                dto.getKmOneDay(),
+                dto.getPriceOneDay(),
+                dto.getPriceExtraKm())
+        );
     }
 
     @Override
     public boolean saveCar(CarDto dto) throws SQLException {
-        return carDAO.save(new Car(dto.getCarNo(), dto.getBrand(), dto.getAvailability(), dto.getCurrentMileage(),dto.getKmOneDay(),dto.getPriceOneDay(),dto.getPriceExtraKm()));
+        return carDAO.save(new Car(dto.getCarNo(),
+                dto.getBrand(),
+                dto.getAvailability(),
+                dto.getCurrentMileage(),
+                dto.getKmOneDay(),
+                dto.getPriceOneDay(),
+                dto.getPriceExtraKm())
+        );
     }
 
     @Override
@@ -30,7 +44,14 @@ public class CarBOImpl implements CarBO {
         List<CarDto> carDtos = new ArrayList<>();
 
         for (Car car : cars){
-            carDtos.add(new CarDto(car.getCarNo(), car.getBrand(), car.getAvailability(), car.getCurrentMileage(),car.getKmOneDay(),car.getPriceOneDay(),car.getPriceExtraKm()));
+            carDtos.add(new CarDto(car.getCarNo(),
+                    car.getBrand(),
+                    car.getAvailability(),
+                    car.getCurrentMileage(),
+                    car.getKmOneDay(),
+                    car.getPriceOneDay(),
+                    car.getPriceExtraKm())
+            );
         }
         return carDtos;
     }
@@ -51,7 +72,10 @@ public class CarBOImpl implements CarBO {
         List<CarOutDto> dtoList = new ArrayList<>();
 
         for (CarOut car : carOuts){
-            dtoList.add(new CarOutDto(car.getCarNo(), car.getBrand(), car.getPickUpDate()));
+            dtoList.add(new CarOutDto(car.getCarNo(),
+                    car.getBrand(),
+                    car.getPickUpDate())
+            );
         }
         return dtoList;
     }

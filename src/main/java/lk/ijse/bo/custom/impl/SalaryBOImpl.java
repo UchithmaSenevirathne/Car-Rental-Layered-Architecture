@@ -18,7 +18,11 @@ public class SalaryBOImpl implements SalaryBO {
 
     @Override
     public boolean saveSalary(SalaryDTO dto) throws SQLException {
-        return salaryDAO.save(new Salary(dto.getDrSalId(), dto.getDrId(), dto.getAmount(), dto.getMonth()));
+        return salaryDAO.save(new Salary(dto.getDrSalId(),
+                dto.getDrId(),
+                dto.getAmount(),
+                dto.getMonth())
+        );
     }
 
     @Override
@@ -27,7 +31,15 @@ public class SalaryBOImpl implements SalaryBO {
         List<DriverDto> dtoList = new ArrayList<>();
 
         for (Driver driver : drivers){
-            dtoList.add(new DriverDto(driver.getId(),driver.getName(),driver.getAddress(),driver.getEmail(), driver.getContact(), driver.getLicenseNo(), driver.getUserName(), driver.getAvailability()));
+            dtoList.add(new DriverDto(driver.getId(),
+                    driver.getName(),
+                    driver.getAddress(),
+                    driver.getEmail(),
+                    driver.getContact(),
+                    driver.getLicenseNo(),
+                    driver.getUserName(),
+                    driver.getAvailability())
+            );
         }
         return dtoList;
     }
@@ -38,7 +50,11 @@ public class SalaryBOImpl implements SalaryBO {
         List<SalaryDTO> salaryDTOS = new ArrayList<>();
 
         for (Salary salary : salaries){
-            salaryDTOS.add(new SalaryDTO(salary.getDrSalId(),salary.getDrId(),salary.getAmount(),salary.getMonth()));
+            salaryDTOS.add(new SalaryDTO(salary.getDrSalId(),
+                    salary.getDrId(),
+                    salary.getAmount(),
+                    salary.getMonth())
+            );
         }
         return salaryDTOS;
     }

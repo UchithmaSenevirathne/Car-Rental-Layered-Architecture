@@ -69,7 +69,14 @@ public class BookingBOImpl implements BookingBO {
         List<CarDto> carDtos = new ArrayList<>();
 
         for(Car car : cars){
-            carDtos.add(new CarDto(car.getCarNo(),car.getBrand(),car.getAvailability(),car.getCurrentMileage(),car.getKmOneDay(),car.getPriceOneDay(),car.getPriceExtraKm()));
+            carDtos.add(new CarDto(car.getCarNo(),
+                    car.getBrand(),
+                    car.getAvailability(),
+                    car.getCurrentMileage(),
+                    car.getKmOneDay(),
+                    car.getPriceOneDay(),
+                    car.getPriceExtraKm())
+            );
         }
         return carDtos;
     }
@@ -77,12 +84,26 @@ public class BookingBOImpl implements BookingBO {
     @Override
     public CarDto searchCars(String carNo) throws SQLException {
         Car car = carDAO.search(carNo);
-        return new CarDto(car.getCarNo(),car.getBrand(),car.getAvailability(),car.getCurrentMileage(),car.getKmOneDay(),car.getPriceOneDay(),car.getPriceExtraKm());
+        return new CarDto(car.getCarNo(),
+                car.getBrand(),
+                car.getAvailability(),
+                car.getCurrentMileage(),
+                car.getKmOneDay(),
+                car.getPriceOneDay(),
+                car.getPriceExtraKm()
+        );
     }
 
     @Override
     public boolean updatePendingBooking(PendingDTO dto) throws SQLException {
-        return bookingDAO.updatePendingBooking(new Pending(dto.getBId(),dto.getCusId(),dto.getDrId(),dto.getCarNo(),dto.getPickUpDate(),dto.getDays(),dto.getPayment()));
+        return bookingDAO.updatePendingBooking(new Pending(dto.getBId(),
+                dto.getCusId(),
+                dto.getDrId(),
+                dto.getCarNo(),
+                dto.getPickUpDate(),
+                dto.getDays(),
+                dto.getPayment())
+        );
     }
 
     @Override
@@ -91,7 +112,14 @@ public class BookingBOImpl implements BookingBO {
         List<PendingDTO> dtoList = new ArrayList<>();
 
         for (Pending pending : pendings){
-            dtoList.add(new PendingDTO(pending.getBId(), pending.getDrId(), pending.getCarNo(), pending.getCusId(), pending.getPickUpDate(), pending.getDays(), pending.getPayment()));
+            dtoList.add(new PendingDTO(pending.getBId(),
+                    pending.getDrId(),
+                    pending.getCarNo(),
+                    pending.getCusId(),
+                    pending.getPickUpDate(),
+                    pending.getDays(),
+                    pending.getPayment())
+            );
         }
         return dtoList;
     }
@@ -107,7 +135,12 @@ public class BookingBOImpl implements BookingBO {
         List<CompleteDTO> dtoList = new ArrayList<>();
 
         for (Complete complete : completes){
-            dtoList.add(new CompleteDTO(complete.getBId(), complete.getCusId(), complete.getPickUpDate(), complete.getDays(), complete.getTotalPayment()));
+            dtoList.add(new CompleteDTO(complete.getBId(),
+                    complete.getCusId(),
+                    complete.getPickUpDate(),
+                    complete.getDays(),
+                    complete.getTotalPayment())
+            );
         }
         return dtoList;
     }
@@ -123,7 +156,15 @@ public class BookingBOImpl implements BookingBO {
         List<DriverDto> dtoList = new ArrayList<>();
 
         for (Driver driver : drivers){
-            dtoList.add(new DriverDto(driver.getId(),driver.getName(),driver.getAddress(),driver.getEmail(),driver.getContact(),driver.getLicenseNo(),driver.getUserName(),driver.getAvailability()));
+            dtoList.add(new DriverDto(driver.getId(),
+                    driver.getName(),
+                    driver.getAddress(),
+                    driver.getEmail(),
+                    driver.getContact(),
+                    driver.getLicenseNo(),
+                    driver.getUserName(),
+                    driver.getAvailability())
+            );
         }
         return dtoList;
     }
@@ -131,7 +172,15 @@ public class BookingBOImpl implements BookingBO {
     @Override
     public DriverDto searchDriver(String id) throws SQLException {
         Driver driver = driverDAO.search(id);
-        return new DriverDto(driver.getId(),driver.getName(),driver.getAddress(),driver.getEmail(),driver.getContact(),driver.getLicenseNo(),driver.getUserName(),driver.getAvailability());
+        return new DriverDto(driver.getId(),
+                driver.getName(),
+                driver.getAddress(),
+                driver.getEmail(),
+                driver.getContact(),
+                driver.getLicenseNo(),
+                driver.getUserName(),
+                driver.getAvailability()
+        );
     }
 
     @Override
@@ -140,7 +189,12 @@ public class BookingBOImpl implements BookingBO {
        List<CustomerDto> dtoList = new ArrayList<>();
 
        for (Customer customer : customers){
-           dtoList.add(new CustomerDto(customer.getId(), customer.getName(), customer.getAddress(), customer.getEmail(), customer.getContact()));
+           dtoList.add(new CustomerDto(customer.getId(),
+                   customer.getName(),
+                   customer.getAddress(),
+                   customer.getEmail(),
+                   customer.getContact())
+           );
        }
        return dtoList;
     }
@@ -148,6 +202,11 @@ public class BookingBOImpl implements BookingBO {
     @Override
     public CustomerDto searchCustomer(String id) throws SQLException {
         Customer customer = customerDAO.search(id);
-        return new CustomerDto(customer.getId(), customer.getName(), customer.getAddress(), customer.getEmail(), customer.getContact());
+        return new CustomerDto(customer.getId(),
+                customer.getName(),
+                customer.getAddress(),
+                customer.getEmail(),
+                customer.getContact()
+        );
     }
 }

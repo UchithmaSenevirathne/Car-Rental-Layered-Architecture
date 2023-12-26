@@ -18,12 +18,20 @@ public class UserBOImpl implements UserBO {
 
     @Override
     public boolean updateAdmin(UserDTO dto) throws SQLException {
-        return userDAO.update(new User(dto.getUserName(),dto.getPassword(), dto.getEmail(), dto.getRole()));
+        return userDAO.update(new User(dto.getUserName(),
+                dto.getPassword(),
+                dto.getEmail(),
+                dto.getRole())
+        );
     }
 
     @Override
     public boolean saveAdmin(UserDTO dto) throws SQLException {
-        return userDAO.save(new User(dto.getUserName(), dto.getPassword(), dto.getEmail(), dto.getRole()));
+        return userDAO.save(new User(dto.getUserName(),
+                dto.getPassword(),
+                dto.getEmail(),
+                dto.getRole())
+        );
     }
 
     @Override
@@ -37,7 +45,11 @@ public class UserBOImpl implements UserBO {
         List<UserDTO> userDTOS = new ArrayList<>();
 
         for (User user : users){
-            userDTOS.add(new UserDTO(user.getUserName(), user.getPassword(), user.getEmail(), user.getRole()));
+            userDTOS.add(new UserDTO(user.getUserName(),
+                    user.getPassword(),
+                    user.getEmail(),
+                    user.getRole())
+            );
         }
         return userDTOS;
     }
@@ -93,7 +105,14 @@ public class UserBOImpl implements UserBO {
         List<ScheduleDTO> dtoList = new ArrayList<>();
 
         for (Schedule schedule : schedules){
-            dtoList.add(new ScheduleDTO(schedule.getBId(),schedule.getName(),schedule.getBrand(),schedule.getAddress(),schedule.getContact(),schedule.getPickUpDate(),schedule.getDays()));
+            dtoList.add(new ScheduleDTO(schedule.getBId(),
+                    schedule.getName(),
+                    schedule.getBrand(),
+                    schedule.getAddress(),
+                    schedule.getContact(),
+                    schedule.getPickUpDate(),
+                    schedule.getDays())
+            );
         }
         return dtoList;
     }

@@ -14,12 +14,22 @@ public class CustomerBOImpl implements CustomerBO {
 
     @Override
     public boolean updateCustomer(CustomerDto dto) throws SQLException {
-        return customerDAO.update(new Customer(dto.getId(), dto.getName(), dto.getAddress(), dto.getEmail(), dto.getContact()));
+        return customerDAO.update(new Customer(dto.getId(),
+                dto.getName(),
+                dto.getAddress(),
+                dto.getEmail(),
+                dto.getContact())
+        );
     }
 
     @Override
     public boolean saveCustomer(CustomerDto dto) throws SQLException {
-        return customerDAO.save(new Customer(dto.getId(), dto.getName(), dto.getAddress(), dto.getEmail(), dto.getContact()));
+        return customerDAO.save(new Customer(dto.getId(),
+                dto.getName(),
+                dto.getAddress(),
+                dto.getEmail(),
+                dto.getContact())
+        );
     }
 
     @Override
@@ -28,7 +38,12 @@ public class CustomerBOImpl implements CustomerBO {
         List<CustomerDto> customerDtos = new ArrayList<>();
 
         for (Customer customer : customers){
-            customerDtos.add(new CustomerDto(customer.getId(), customer.getName(), customer.getAddress(), customer.getEmail(), customer.getContact()));
+            customerDtos.add(new CustomerDto(customer.getId(),
+                    customer.getName(),
+                    customer.getAddress(),
+                    customer.getEmail(),
+                    customer.getContact())
+            );
         }
         return customerDtos;
     }
