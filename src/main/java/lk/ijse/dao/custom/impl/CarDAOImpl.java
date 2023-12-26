@@ -2,11 +2,8 @@ package lk.ijse.dao.custom.impl;
 
 import lk.ijse.dao.SQLUtil;
 import lk.ijse.dao.custom.CarDAO;
-import lk.ijse.dto.CarDto;
-import lk.ijse.dto.CarOutDto;
 import lk.ijse.entity.Car;
 import lk.ijse.entity.CarOut;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -42,7 +39,14 @@ public class CarDAOImpl implements CarDAO{
             double price_day = resultSet.getDouble(6);
             double price_extra = resultSet.getDouble(7);
 
-            var entity = new Car(car_number, car_brand, car_availability, car_mileage, km_day, price_day, price_extra);
+            var entity = new Car(car_number,
+                    car_brand,
+                    car_availability,
+                    car_mileage,
+                    km_day,
+                    price_day,
+                    price_extra);
+
             cars.add(entity);
         }
         return cars;
@@ -76,7 +80,13 @@ public class CarDAOImpl implements CarDAO{
             double price_day = resultSet.getDouble(6);
             double price_extra = resultSet.getDouble(7);
 
-            entity = new Car(car_number, car_brand, car_availability, car_milage, km_day, price_day, price_extra);
+            entity = new Car(car_number,
+                    car_brand,
+                    car_availability,
+                    car_milage,
+                    km_day,
+                    price_day,
+                    price_extra);
         }
 
         return entity;

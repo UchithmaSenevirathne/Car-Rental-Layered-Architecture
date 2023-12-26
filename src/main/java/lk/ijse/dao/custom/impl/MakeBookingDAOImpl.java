@@ -2,11 +2,8 @@ package lk.ijse.dao.custom.impl;
 
 import lk.ijse.dao.custom.*;
 import lk.ijse.db.DbConnection;
-import lk.ijse.dto.BookDTO;
-import lk.ijse.dto.BookingDetailDTO;
 import lk.ijse.entity.Book;
 import lk.ijse.entity.BookingDetail;
-
 import java.sql.Connection;
 import java.sql.SQLException;
 
@@ -15,6 +12,7 @@ public class MakeBookingDAOImpl implements MakeBookingDAO {
     CarDAO carDAO = new CarDAOImpl();
     DriverDAO driverDAO = new DriverDAOImpl();
     BookingDetailDAO bookingDetailDAO = new BookingDetailDAOImpl();
+
     @Override
     public boolean makeBooking(Book entity) throws SQLException {
         boolean result = false;

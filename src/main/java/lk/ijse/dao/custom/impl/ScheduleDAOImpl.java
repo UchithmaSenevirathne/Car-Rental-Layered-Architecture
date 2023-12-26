@@ -2,9 +2,7 @@ package lk.ijse.dao.custom.impl;
 
 import lk.ijse.dao.SQLUtil;
 import lk.ijse.dao.custom.ScheduleDAO;
-import lk.ijse.dto.ScheduleDTO;
 import lk.ijse.entity.Schedule;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -56,7 +54,14 @@ public class ScheduleDAOImpl implements ScheduleDAO {
                 String pickUpDate = resultSet2.getString(6);
                 Integer days = resultSet2.getInt(7);
 
-                var entity = new Schedule(b_id, cus_name, car_brand, cus_address, cus_contact, pickUpDate, days);
+                var entity = new Schedule(b_id,
+                        cus_name,
+                        car_brand,
+                        cus_address,
+                        cus_contact,
+                        pickUpDate,
+                        days);
+
                 schedules.add(entity);
             }
             return schedules;

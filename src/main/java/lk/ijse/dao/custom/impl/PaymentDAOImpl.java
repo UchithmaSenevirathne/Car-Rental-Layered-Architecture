@@ -2,10 +2,8 @@ package lk.ijse.dao.custom.impl;
 
 import lk.ijse.dao.SQLUtil;
 import lk.ijse.dao.custom.*;
-import lk.ijse.dto.*;
 import lk.ijse.entity.BookingDetail;
 import lk.ijse.entity.PaymentDetail;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -16,6 +14,7 @@ public class PaymentDAOImpl implements PaymentDAO{
     DriverDAO driverDAO = new DriverDAOImpl();
     BookingDAO bookingDAO = new BookingDAOImpl();
     BookingDetailDAO bookingDetailDAO = new BookingDetailDAOImpl();
+
     @Override
     public List<PaymentDetail> searchPaymentDetail(String bId) throws SQLException {
         List<PaymentDetail> paymentDetails = new ArrayList<>();
@@ -47,7 +46,15 @@ public class PaymentDAOImpl implements PaymentDAO{
             String car_Id = resultSet.getString(7);
             String driverId = resultSet.getString(8);
 
-            var entity = new PaymentDetail(b_Id,date,rent_days,rent_status,rent_pay,cus_Id,car_Id,driverId);
+            var entity = new PaymentDetail(b_Id,
+                    date,
+                    rent_days,
+                    rent_status,
+                    rent_pay,
+                    cus_Id,
+                    car_Id,
+                    driverId);
+
             paymentDetails.add(entity);
         }
 

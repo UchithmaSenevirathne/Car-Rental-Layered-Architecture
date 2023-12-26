@@ -2,9 +2,7 @@ package lk.ijse.dao.custom.impl;
 
 import lk.ijse.dao.SQLUtil;
 import lk.ijse.dao.custom.CustomerDAO;
-import lk.ijse.dto.CustomerDto;
 import lk.ijse.entity.Customer;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;

@@ -2,15 +2,10 @@ package lk.ijse.dao.custom.impl;
 
 import lk.ijse.dao.SQLUtil;
 import lk.ijse.dao.custom.BookingDAO;
-import lk.ijse.dto.BookDTO;
-import lk.ijse.dto.BookingDetailDTO;
-import lk.ijse.dto.CompleteDTO;
-import lk.ijse.dto.PendingDTO;
 import lk.ijse.entity.Book;
 import lk.ijse.entity.BookingDetail;
 import lk.ijse.entity.Complete;
 import lk.ijse.entity.Pending;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;

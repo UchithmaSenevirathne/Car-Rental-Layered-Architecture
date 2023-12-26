@@ -2,11 +2,8 @@ package lk.ijse.dao.custom.impl;
 
 import lk.ijse.dao.SQLUtil;
 import lk.ijse.dao.custom.DriverDAO;
-import lk.ijse.dto.DriverDto;
-import lk.ijse.dto.DriverInTimeDto;
 import lk.ijse.entity.Driver;
 import lk.ijse.entity.DriverInTime;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -42,7 +39,15 @@ public class DriverDAOImpl implements DriverDAO {
             String dr_userName = resultSet.getString(7);
             String dr_availability = resultSet.getString(8);
 
-            var entity = new Driver(dr_id, dr_name, dr_address, dr_email, dr_contact, dr_licenseNo, dr_userName, dr_availability);
+            var entity = new Driver(dr_id,
+                    dr_name,
+                    dr_address,
+                    dr_email,
+                    dr_contact,
+                    dr_licenseNo,
+                    dr_userName,
+                    dr_availability);
+
             drivers.add(entity);
         }
         return drivers;
@@ -78,7 +83,14 @@ public class DriverDAOImpl implements DriverDAO {
             String dr_userName = resultSet.getString(7);
             String dr_availability = resultSet.getString(8);
 
-            entity = new Driver(dr_id, dr_name, dr_address, dr_email, dr_contact, dr_licenseNo, dr_userName, dr_availability);
+            entity = new Driver(dr_id,
+                    dr_name,
+                    dr_address,
+                    dr_email,
+                    dr_contact,
+                    dr_licenseNo,
+                    dr_userName,
+                    dr_availability);
         }
         return entity;
     }

@@ -2,9 +2,7 @@ package lk.ijse.dao.custom.impl;
 
 import lk.ijse.dao.SQLUtil;
 import lk.ijse.dao.custom.SalaryDAO;
-import lk.ijse.dto.SalaryDTO;
 import lk.ijse.entity.Salary;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
