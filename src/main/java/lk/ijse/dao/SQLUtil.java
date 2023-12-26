@@ -1,7 +1,6 @@
 package lk.ijse.dao;
 
 import lk.ijse.db.DbConnection;
-
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 

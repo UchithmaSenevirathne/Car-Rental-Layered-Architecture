@@ -1,11 +1,8 @@
 package lk.ijse.dao.custom;
 
 import lk.ijse.dao.CrudDAO;
-import lk.ijse.dto.DriverDto;
-import lk.ijse.dto.DriverInTimeDto;
 import lk.ijse.entity.Driver;
 import lk.ijse.entity.DriverInTime;
-
 import java.sql.SQLException;
 import java.util.List;
 

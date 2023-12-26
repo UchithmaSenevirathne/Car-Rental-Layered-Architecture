@@ -1,11 +1,8 @@
 package lk.ijse.dao.custom;
 
 import lk.ijse.dao.SuperDAO;
-import lk.ijse.dto.BookingDetailDTO;
-import lk.ijse.dto.PaymentDetailDTO;
 import lk.ijse.entity.BookingDetail;
 import lk.ijse.entity.PaymentDetail;
-
 import java.sql.SQLException;
 import java.util.List;
 
