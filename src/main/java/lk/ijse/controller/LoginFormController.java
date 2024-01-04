@@ -104,8 +104,13 @@ public class LoginFormController {
     }
 
     @FXML
-    void forgotPasswordOnAction(MouseEvent event) throws IOException {
-        Parent rootNode = FXMLLoader.load(this.getClass().getResource("/view/forgetPassword.fxml"));
+    void forgotPasswordOnAction(MouseEvent event){
+        Parent rootNode = null;
+        try {
+            rootNode = FXMLLoader.load(this.getClass().getResource("/view/forgetPassword.fxml"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
         Scene scene = new Scene(rootNode);
         Stage stage = (Stage) this.rootNode.getScene().getWindow();

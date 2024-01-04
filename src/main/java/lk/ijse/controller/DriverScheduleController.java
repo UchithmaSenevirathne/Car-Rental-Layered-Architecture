@@ -70,8 +70,13 @@ public class DriverScheduleController {
     }
 
     @FXML
-    void btnLogoutOnAction(ActionEvent event) throws IOException {
-        Parent rootNode = FXMLLoader.load(getClass().getResource("/view/LoginForm.fxml"));
+    void btnLogoutOnAction(ActionEvent event){
+        Parent rootNode = null;
+        try {
+            rootNode = FXMLLoader.load(getClass().getResource("/view/LoginForm.fxml"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
         Scene scene = new Scene(rootNode);
         Stage stage = (Stage) this.rootNode.getScene().getWindow();

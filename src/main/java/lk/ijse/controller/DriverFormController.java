@@ -60,7 +60,7 @@ public class DriverFormController {
     }
 
     @FXML
-    void btnSaveOnAction(ActionEvent event) throws SQLException {
+    void btnSaveOnAction(ActionEvent event){
         String id = txtDrId.getText();
         String name = txtDrName.getText();
         String address = txtDrAddress.getText();

@@ -125,7 +125,7 @@ public class PaymentFormController {
     }
 
     @FXML
-    void setDetail(MouseEvent event) throws SQLException {
+    void setDetail(MouseEvent event){
         index = tableView.getSelectionModel().getSelectedIndex();
 
         if(index <= -1){
@@ -136,10 +136,20 @@ public class PaymentFormController {
         txtBrand.setText(colBrand.getCellData(index).toString());
         txtDrId.setText(colDrId.getCellData(index).toString());
 
-        CarDto dto = paymentBO.searchCar(txtCarId.getText());
+        CarDto dto = null;
+        try {
+            dto = paymentBO.searchCar(txtCarId.getText());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
         txtPriceOneDay.setText(String.valueOf(dto.getPriceOneDay()));
 
-        DriverDto dto1 = paymentBO.searchDriver(txtDrId.getText());
+        DriverDto dto1 = null;
+        try {
+            dto1 = paymentBO.searchDriver(txtDrId.getText());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
         txtDrName.setText(dto1.getName());
     }
 
@@ -159,7 +169,7 @@ public class PaymentFormController {
     }
 
     @FXML
-    void btnAddPaymentOnAction(ActionEvent event) throws SQLException {
+    void btnAddPaymentOnAction(ActionEvent event){
         double priceOneDay = Double.parseDouble(txtPriceOneDay.getText());
 
         int index = tableView.getSelectionModel().getSelectedIndex();
@@ -169,7 +179,12 @@ public class PaymentFormController {
 
         double extraKm = Integer.parseInt(txtExtraKm.getText());
 
-        CarDto dto = paymentBO.searchCar(txtCarId.getText());
+        CarDto dto = null;
+        try {
+            dto = paymentBO.searchCar(txtCarId.getText());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
         double priceExtraKm = dto.getPriceExtraKm();
 
         double driverCost = Double.parseDouble(txtDrCost.getText());
@@ -297,9 +312,14 @@ public class PaymentFormController {
         }
     }
 
-    private void addToTable(List<PaymentDetailDTO> dto) throws SQLException {
+    private void addToTable(List<PaymentDetailDTO> dto){
         for (PaymentDetailDTO dto1 : dto){
-            CarDto dtoCar = paymentBO.searchCar(dto1.getCarNo());
+            CarDto dtoCar = null;
+            try {
+                dtoCar = paymentBO.searchCar(dto1.getCarNo());
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
             String brand = dtoCar.getBrand();
             obList.add(new BookTm(
                     dto1.getBId(),
@@ -353,8 +373,13 @@ public class PaymentFormController {
     }
 
     @FXML
-    void btnBookingOnAction(ActionEvent event) throws IOException {
-        Parent rootNode = FXMLLoader.load(getClass().getResource("/view/BookingForm.fxml"));
+    void btnBookingOnAction(ActionEvent event){
+        Parent rootNode = null;
+        try {
+            rootNode = FXMLLoader.load(getClass().getResource("/view/BookingForm.fxml"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
         Scene scene = new Scene(rootNode);
         Stage stage = (Stage) this.rootNode.getScene().getWindow();
@@ -364,8 +389,13 @@ public class PaymentFormController {
     }
 
     @FXML
-    void btnCarOnAction(ActionEvent event) throws IOException {
-        Parent rootNode = FXMLLoader.load(getClass().getResource("/view/CarManageForm.fxml"));
+    void btnCarOnAction(ActionEvent event){
+        Parent rootNode = null;
+        try {
+            rootNode = FXMLLoader.load(getClass().getResource("/view/CarManageForm.fxml"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
         Scene scene = new Scene(rootNode);
         Stage stage = (Stage) this.rootNode.getScene().getWindow();
@@ -375,8 +405,13 @@ public class PaymentFormController {
     }
 
     @FXML
-    void btnCustomerOnAction(ActionEvent event) throws IOException {
-        Parent rootNode = FXMLLoader.load(getClass().getResource("/view/CustomerManageForm.fxml"));
+    void btnCustomerOnAction(ActionEvent event){
+        Parent rootNode = null;
+        try {
+            rootNode = FXMLLoader.load(getClass().getResource("/view/CustomerManageForm.fxml"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
         Scene scene = new Scene(rootNode);
         Stage stage = (Stage) this.rootNode.getScene().getWindow();
@@ -387,8 +422,13 @@ public class PaymentFormController {
     }
 
     @FXML
-    void btnDashboardOnAction(ActionEvent event) throws IOException {
-        Parent rootNode = FXMLLoader.load(getClass().getResource("/view/DashboardForm.fxml"));
+    void btnDashboardOnAction(ActionEvent event){
+        Parent rootNode = null;
+        try {
+            rootNode = FXMLLoader.load(getClass().getResource("/view/DashboardForm.fxml"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
         Scene scene = new Scene(rootNode);
         Stage stage = (Stage) this.rootNode.getScene().getWindow();
@@ -398,8 +438,13 @@ public class PaymentFormController {
     }
 
     @FXML
-    void btnDriverOnAction(ActionEvent event) throws IOException {
-        Parent rootNode = FXMLLoader.load(getClass().getResource("/view/DriverManageForm.fxml"));
+    void btnDriverOnAction(ActionEvent event) {
+        Parent rootNode = null;
+        try {
+            rootNode = FXMLLoader.load(getClass().getResource("/view/DriverManageForm.fxml"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
         Scene scene = new Scene(rootNode);
         Stage stage = (Stage) this.rootNode.getScene().getWindow();
@@ -409,8 +454,13 @@ public class PaymentFormController {
     }
 
     @FXML
-    void btnLogoutOnAction(ActionEvent event) throws IOException {
-        Parent rootNode = FXMLLoader.load(getClass().getResource("/view/LoginForm.fxml"));
+    void btnLogoutOnAction(ActionEvent event){
+        Parent rootNode = null;
+        try {
+            rootNode = FXMLLoader.load(getClass().getResource("/view/LoginForm.fxml"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
         Scene scene = new Scene(rootNode);
         Stage stage = (Stage) this.rootNode.getScene().getWindow();
@@ -420,8 +470,13 @@ public class PaymentFormController {
     }
 
     @FXML
-    void btnReportOnAction(ActionEvent event) throws IOException {
-        Parent rootNode = FXMLLoader.load(getClass().getResource("/view/ReportForm.fxml"));
+    void btnReportOnAction(ActionEvent event){
+        Parent rootNode = null;
+        try {
+            rootNode = FXMLLoader.load(getClass().getResource("/view/ReportForm.fxml"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
         Scene scene = new Scene(rootNode);
         Stage stage = (Stage) this.rootNode.getScene().getWindow();
@@ -431,8 +486,13 @@ public class PaymentFormController {
     }
 
     @FXML
-    void btnSalaryOnAction(ActionEvent event) throws IOException {
-        Parent rootNode = FXMLLoader.load(getClass().getResource("/view/SalaryForm.fxml"));
+    void btnSalaryOnAction(ActionEvent event){
+        Parent rootNode = null;
+        try {
+            rootNode = FXMLLoader.load(getClass().getResource("/view/SalaryForm.fxml"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
         Scene scene = new Scene(rootNode);
         Stage stage = (Stage) this.rootNode.getScene().getWindow();
@@ -442,8 +502,13 @@ public class PaymentFormController {
     }
 
     @FXML
-    void btnAdminOnAction(ActionEvent event) throws IOException {
-        Parent rootNode = FXMLLoader.load(getClass().getResource("/view/VerifySuperAdmin.fxml"));
+    void btnAdminOnAction(ActionEvent event){
+        Parent rootNode = null;
+        try {
+            rootNode = FXMLLoader.load(getClass().getResource("/view/VerifySuperAdmin.fxml"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
         Scene scene = new Scene(rootNode);
         Stage stage = (Stage) this.rootNode.getScene().getWindow();
