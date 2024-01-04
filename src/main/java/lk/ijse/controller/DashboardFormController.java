@@ -154,9 +154,14 @@ public class DashboardFormController implements Initializable{
     }
 
     @FXML
-    void btnCustomerOnAction(ActionEvent event) throws IOException {
+    void btnCustomerOnAction(ActionEvent event){
 
-        Parent rootNode = FXMLLoader.load(getClass().getResource("/view/CustomerManageForm.fxml"));
+        Parent rootNode = null;
+        try {
+            rootNode = FXMLLoader.load(getClass().getResource("/view/CustomerManageForm.fxml"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
         Scene scene = new Scene(rootNode);
         Stage stage = (Stage) this.rootNode.getScene().getWindow();
@@ -166,8 +171,13 @@ public class DashboardFormController implements Initializable{
     }
 
     @FXML
-    void btnDriverOnAction(ActionEvent event) throws IOException {
-        Parent rootNode = FXMLLoader.load(getClass().getResource("/view/DriverManageForm.fxml"));
+    void btnDriverOnAction(ActionEvent event) {
+        Parent rootNode = null;
+        try {
+            rootNode = FXMLLoader.load(getClass().getResource("/view/DriverManageForm.fxml"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
         Scene scene = new Scene(rootNode);
         Stage stage = (Stage) this.rootNode.getScene().getWindow();
@@ -177,8 +187,13 @@ public class DashboardFormController implements Initializable{
     }
 
     @FXML
-    void btnPaymentOnAction(ActionEvent event) throws IOException {
-        Parent rootNode = FXMLLoader.load(getClass().getResource("/view/PaymentForm.fxml"));
+    void btnPaymentOnAction(ActionEvent event) {
+        Parent rootNode = null;
+        try {
+            rootNode = FXMLLoader.load(getClass().getResource("/view/PaymentForm.fxml"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
         Scene scene = new Scene(rootNode);
         Stage stage = (Stage) this.rootNode.getScene().getWindow();
@@ -188,8 +203,13 @@ public class DashboardFormController implements Initializable{
     }
 
     @FXML
-    void btnReportOnAction(ActionEvent event) throws IOException {
-        Parent rootNode = FXMLLoader.load(getClass().getResource("/view/ReportForm.fxml"));
+    void btnReportOnAction(ActionEvent event) {
+        Parent rootNode = null;
+        try {
+            rootNode = FXMLLoader.load(getClass().getResource("/view/ReportForm.fxml"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
         Scene scene = new Scene(rootNode);
         Stage stage = (Stage) this.rootNode.getScene().getWindow();
@@ -199,8 +219,13 @@ public class DashboardFormController implements Initializable{
     }
 
     @FXML
-    void btnSalaryOnAction(ActionEvent event) throws IOException {
-        Parent rootNode = FXMLLoader.load(getClass().getResource("/view/SalaryForm.fxml"));
+    void btnSalaryOnAction(ActionEvent event){
+        Parent rootNode = null;
+        try {
+            rootNode = FXMLLoader.load(getClass().getResource("/view/SalaryForm.fxml"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
         Scene scene = new Scene(rootNode);
         Stage stage = (Stage) this.rootNode.getScene().getWindow();
@@ -210,8 +235,13 @@ public class DashboardFormController implements Initializable{
     }
 
     @FXML
-    void btnBookingOnAction(ActionEvent event) throws IOException {
-        Parent rootNode = FXMLLoader.load(getClass().getResource("/view/BookingForm.fxml"));
+    void btnBookingOnAction(ActionEvent event){
+        Parent rootNode = null;
+        try {
+            rootNode = FXMLLoader.load(getClass().getResource("/view/BookingForm.fxml"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
         Scene scene = new Scene(rootNode);
         Stage stage = (Stage) this.rootNode.getScene().getWindow();
@@ -221,8 +251,13 @@ public class DashboardFormController implements Initializable{
     }
 
     @FXML
-    void btnCarOnAction(ActionEvent event) throws IOException {
-        Parent rootNode = FXMLLoader.load(getClass().getResource("/view/CarManageForm.fxml"));
+    void btnCarOnAction(ActionEvent event){
+        Parent rootNode = null;
+        try {
+            rootNode = FXMLLoader.load(getClass().getResource("/view/CarManageForm.fxml"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
         Scene scene = new Scene(rootNode);
         Stage stage = (Stage) this.rootNode.getScene().getWindow();
@@ -232,8 +267,13 @@ public class DashboardFormController implements Initializable{
     }
 
     @FXML
-    void btnLogoutOnAction(ActionEvent event) throws IOException {
-        Parent rootNode = FXMLLoader.load(getClass().getResource("/view/LoginForm.fxml"));
+    void btnLogoutOnAction(ActionEvent event){
+        Parent rootNode = null;
+        try {
+            rootNode = FXMLLoader.load(getClass().getResource("/view/LoginForm.fxml"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
         Scene scene = new Scene(rootNode);
         Stage stage = (Stage) this.rootNode.getScene().getWindow();
@@ -243,8 +283,13 @@ public class DashboardFormController implements Initializable{
     }
 
     @FXML
-    void btnAdminOnAction(ActionEvent event) throws IOException {
-        Parent rootNode = FXMLLoader.load(getClass().getResource("/view/VerifySuperAdmin.fxml"));
+    void btnAdminOnAction(ActionEvent event){
+        Parent rootNode = null;
+        try {
+            rootNode = FXMLLoader.load(getClass().getResource("/view/VerifySuperAdmin.fxml"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
         Scene scene = new Scene(rootNode);
         Stage stage = (Stage) this.rootNode.getScene().getWindow();

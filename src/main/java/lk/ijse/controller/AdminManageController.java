@@ -153,8 +153,13 @@ public class AdminManageController {
     }
 
     @FXML
-    void btnADDAdminOnAction(ActionEvent event) throws IOException {
-        Parent rootNode = FXMLLoader.load(getClass().getResource("/view/addAdmin.fxml"));
+    void btnADDAdminOnAction(ActionEvent event){
+        Parent rootNode = null;
+        try {
+            rootNode = FXMLLoader.load(getClass().getResource("/view/addAdmin.fxml"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
         Scene scene = new Scene(rootNode);
         Stage stage = new Stage();

@@ -51,7 +51,7 @@ public class CustomerFormController {
     }
 
     @FXML
-    void btnSaveCusOnAction(ActionEvent event) throws SQLException {
+    void btnSaveCusOnAction(ActionEvent event){
         String id = txtcusId.getText();
         String name = txtcusName.getText();
         String address = txtcusAddress.getText();
